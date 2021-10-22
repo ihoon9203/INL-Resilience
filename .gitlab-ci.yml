@@ -1,0 +1,23 @@
+image: centos:7
+
+stages:
+  - test
+  - deploy
+
+format:
+  stage: test
+  script:
+    - echo "Checking code format ..."
+    - exit 0
+
+unit-test:
+  stage: test
+  script:
+    - echo "Running unit-tests in parrallel with format ..."
+    - exit 0
+
+deploy-to-stage:
+  stage: deploy
+  script:
+    - echo "Deploying to stage environment after test stage has passed ..."
+    - exit 0
