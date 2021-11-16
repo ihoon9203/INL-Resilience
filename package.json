@@ -1,0 +1,19 @@
+{
+  "name": "inl-resilience-indicator",
+  "version": "1.0.0",
+  "description": "An application to help a user understand and improve their resiliency in various categories.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "build": "cd client && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://capstone-cs.eng.utah.edu/inl-resilience/inl-resilience-indicator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
