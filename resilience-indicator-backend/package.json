@@ -4,7 +4,7 @@
   "description": "An application to help a user understand and improve their resiliency in various categories.",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "npx nodemon --exec babel-node src/server.js",
     "build": "cd client && npm install && npm run build"
   },
   "repository": {
@@ -15,5 +15,11 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "nodemon": "^2.0.15"
   }
 }
