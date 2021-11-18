@@ -66,3 +66,10 @@ nav a:hover {
   padding-bottom: 32px;
   border-bottom: 2px solid black;
 }
+
+.take-survey-button {
+  text-decoration: none;
+  color: blue;
+  padding: 16px 0 0 0;
+  font-weight: bold;
+}
