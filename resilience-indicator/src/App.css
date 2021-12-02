@@ -49,10 +49,12 @@ nav a {
   font-weight: bold;
   padding: 16px 32px;
 }
-
-nav a:hover {
-  background: black;
-  color: white;
+.NavComp{
+  padding: 10%;
+}
+.NavComp:hover {
+  text-decoration: underline;
+  color: black;
 }
 
 #page-body {
@@ -90,4 +92,71 @@ nav a:hover {
   color: blue;
   padding: 16px 0 0 0;
   font-weight: bold;
+}
+.centered-header {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.img-container {
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.panel-border{
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 2;
+}
+.points-text{
+  font-size: 80px;
+  font-weight: bold;
+  position: absolute;
+  opacity: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 4;
+}
+.points-view{
+  opacity: 0;
+  align-self: center;
+  width: 100%;
+  height:auto;
+}
+.wrapper{
+  position: relative;
+}
+
+.wrapper .panel-border{
+  width: 100%;
+  height: 100%;
+  vertical-align: middle;
+  z-index: 1;
+}
+.small-wrapper{
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+.progress{
+  top: 130%;
+  position: relative;
+}
+.footer{
+  margin-bottom: 15px;
+}
+.footer-center{
+  text-align: center;
+}
+.panel-row{
+  flex-grow: 2;
+  padding-bottom: 10%;
 }

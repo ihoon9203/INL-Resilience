@@ -11,10 +11,13 @@ import SurveyPage from "./pages/SurveyPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import TakeSurveyPage from "./pages/TakeSurveyPage";
 import ReviewSurveyPage from "./pages/ReviewSurveyPage"
-import NavBar from "./components/NabBar";
+import NavBar from "./components/NavBar";
 import "./App.css";
-
-
+import 'bootstrap/dist/css/bootstrap.min.css';
+import * as am4core from "@amcharts/amcharts4/core";
+import am4themes_animated from "@amcharts/amcharts4/themes/animated";
+import Footer from "./components/Footer";
+am4core.useTheme(am4themes_animated);
 class App extends Component {
   render() {
     return (
@@ -33,6 +36,7 @@ class App extends Component {
             </Routes>
           </div>
         </div>
+        <Footer />
       </Router>
     );
   }
