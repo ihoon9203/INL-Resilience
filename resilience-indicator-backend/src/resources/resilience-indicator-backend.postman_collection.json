@@ -26,10 +26,33 @@
 			},
 			"response": []
 		},
+
+		{
+			"name": "/api/survey-answers/:survey",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/survey-answers/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"survey-answers",
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+
 		{
 			"name": "/api/version",
 			"request": {
-				"method": "GET",
+				"method": "GETANS",
 				"header": [],
 				"url": {
 					"raw": "http://localhost:8000/api/version",

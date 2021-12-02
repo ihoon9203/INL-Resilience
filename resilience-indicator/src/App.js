@@ -9,7 +9,8 @@ import AboutPage from "./pages/AboutPage";
 import SurveyListPage from "./pages/SurveyListPage";
 import SurveyPage from "./pages/SurveyPage";
 import NotFoundPage from "./pages/NotFoundPage";
-import TakeSurveyPage from "./pages/TakeSurveyPage"
+import TakeSurveyPage from "./pages/TakeSurveyPage";
+import ReviewSurveyPage from "./pages/ReviewSurveyPage"
 import NavBar from "./components/NabBar";
 import "./App.css";
 
@@ -27,6 +28,7 @@ class App extends Component {
               <Route path="/survey-list" element={<SurveyListPage />} />
               <Route path="/survey/:name" element={<SurveyPage />} />
               <Route path="/take-survey/:name" element={<TakeSurveyPage />} />
+              <Route path="/review-survey/:name" element={<ReviewSurveyPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </div>
