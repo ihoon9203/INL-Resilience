@@ -27,7 +27,7 @@ const TakeSurveyPage = () => {
 
     return (
         <>
-            <h1>{survey.title} Survey</h1>
+            <h1>{survey.title} Survey TEST</h1>
             <QuestionList questions={surveyQuestions} />
         </>
     );
