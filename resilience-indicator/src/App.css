@@ -148,8 +148,10 @@ nav a {
   z-index: 3;
 }
 .progress{
-  top: 130%;
   position: relative;
+}
+.panel-progress{
+  top: 130%;
 }
 .footer{
   margin-bottom: 15px;
@@ -166,3 +168,21 @@ nav a {
   padding-top: 50px;
   padding-bottom: 5px;
 }
+<<<<<<< HEAD
+=======
+
+#description {
+  padding-top: 5px;
+
+}
+
+#description-title {
+  padding-bottom: 10px;
+  text-align: center;
+}
+
+#milestone-progress-title {
+  text-align: center;
+  margin-bottom: 10px;
+}
+>>>>>>> f5db1f7 (This is the prototype version of the initial description page for)

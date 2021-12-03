@@ -23,7 +23,7 @@ class SurveyPanel extends Component {
                             // survey not completed yet.
                             if (this.props.score === -1) {
                               return (
-                                <ProgressBar now={this.props.progress} variant={progressCondition} className ="progress"></ProgressBar>
+                                <ProgressBar now={this.props.progress} variant={progressCondition} className ="progress panel-progress"></ProgressBar>
                               )
                               // survey completed.
                             } else {

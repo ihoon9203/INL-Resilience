@@ -26,11 +26,24 @@ const useStyles = makeStyles( (theme) => ({
         display: 'flex',
         padding: 1
     },
+    progressbox: {
+        marginTop: '30px',
+        height: '50%',
+        border: "3px solid #3f51b5", 
+        padding: 5,
+        borderRadius: 8
+    },
     spreadBox: {
     justifyContent: "space-around",
     alignItems: "center"
     },
-
+    divider: {
+        height: '5%',
+        width: '100%',
+        border: "2px solid #3f51b5",
+        justifyContent: "space-around",
+        alignItems: "center"
+    },
 }));
 
 export default useStyles;
