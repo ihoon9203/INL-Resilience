@@ -24,17 +24,19 @@ const SurveyPage = () => {
             {survey.description.map((paragraph, key) => (
                 <p key={key} >{paragraph}</p>
             ))}
-            <button>
-                <Link className="take-survey-button" to={`/take-survey/${survey.name}`}>
+            <Link className="take-survey-button" to={`/take-survey/${survey.name}`}>
+                <button>
                     Take Survey
-                </Link>
-            </button>
-            <button>
-                <Link className="review-survey-button" to={`/review-survey/${survey.name}`}>
+                </button>
+            </Link>
+            <Link className="review-survey-button" to={`/review-survey/${survey.name}`}>
+                <button>
                     Review Survey
-                </Link>
-            </button>
-            <h3>Other Surveys:</h3>
+                </button>
+            </Link>
+            <hr />
+            <h3  >Other Surveys:</h3>
+            <hr />
             <SurveyList surveys={otherSurveys} />
         </>
     );

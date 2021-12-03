@@ -2,7 +2,7 @@ import React from 'react';
 
 const AboutPage = () => (
     <>
-        <h1>About me</h1>
+        <h1>About Us</h1>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit,
             sed do eiusmod tempor incididunt ut labore et dolore magna

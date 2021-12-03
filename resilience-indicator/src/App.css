@@ -93,6 +93,7 @@ nav a {
   padding: 16px 0 0 0;
   font-weight: bold;
 }
+
 .centered-header {
   position: absolute;
   left: 50%;
@@ -159,4 +160,9 @@ nav a {
 .panel-row{
   flex-grow: 2;
   padding-bottom: 10%;
+}
+
+#other-survey-list-heading {
+  padding-top: 50px;
+  padding-bottom: 5px;
 }

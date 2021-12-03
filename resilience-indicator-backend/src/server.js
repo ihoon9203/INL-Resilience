@@ -5,7 +5,7 @@ import path, { dirname } from 'path';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import surveyQuestions from './resources/survey-questions.js';
-import surveyAnswers from './resources/survey-answers';
+import surveyAnswers from './resources/survey-answers.js';
 import { createRequire } from 'module';
 
 const app = express();
@@ -93,11 +93,24 @@ app.get('/api/survey-questions/:survey', (req, res) => {
     return res.status(200).send(surveyQuestionList.questions);
 });
 
-// Pass all other requests to our client-side app
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/build/index.html'));
-});
-
+/**
+ * @openapi
+ * /api/survey-answers/{survey}:
+ *   get:
+ *     tags:
+ *     - Survey Answers
+ *     description: Get survey answers for specified survey.
+ *     parameters:
+ *     - name: survey
+ *       description: short-name for survey
+ *       in: path
+ *       required: true
+ *       type: string
+ *       enum: [health, cyber, finance, emergency]
+ *     responses:
+ *       200:
+ *         description: Returns list of survey answers.
+ */
 app.get('/api/survey-answers/:survey', (req, res) => {
     // TODO: hookup to DB when ready
     const surveyAnswerList = surveyAnswers[`${req.params.survey}`];
@@ -105,6 +118,11 @@ app.get('/api/survey-answers/:survey', (req, res) => {
     if (!surveyAnswerList) return res.status(404).send(`Survey \"${req.params.survey}\" Not Found`);
 
     return res.status(200).send(surveyAnswerList.answers);
+});
+
+// Pass all other requests to our client-side app
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/build/index.html'));
 });
 
 app.listen(8000, () => console.log('Listening on port 8000'));

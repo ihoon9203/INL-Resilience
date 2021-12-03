@@ -1,58 +1,33 @@
 {
 	"info": {
-		"_postman_id": "e87b237c-6bb2-454d-96ed-3ac249edfe0b",
+		"_postman_id": "d9b533d9-b8ab-4cd6-8b2e-3ad465b82204",
 		"name": "resilience-indicator",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "/api/survey-questions/:survey",
+			"name": "/api",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8000/api/survey-questions/health",
+					"raw": "http://localhost:8000/api",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
-						"api",
-						"survey-questions",
-						"health"
+						"api"
 					]
 				}
 			},
 			"response": []
 		},
-
-		{
-			"name": "/api/survey-answers/:survey",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/api/survey-answers/health",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"survey-answers",
-						"health"
-					]
-				}
-			},
-			"response": []
-		},
-
 		{
 			"name": "/api/version",
 			"request": {
-				"method": "GETANS",
+				"method": "GET",
 				"header": [],
 				"url": {
 					"raw": "http://localhost:8000/api/version",
@@ -70,19 +45,54 @@
 			"response": []
 		},
 		{
-			"name": "/api",
+			"name": "/api/survey-questions/:survey",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8000/api",
+					"raw": "http://localhost:8000/api/survey-questions/:survey",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8000",
 					"path": [
-						"api"
+						"api",
+						"survey-questions",
+						":survey"
+					],
+					"variable": [
+						{
+							"key": "survey",
+							"value": "health"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/api/survey-answers/:survey",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/api/survey-answers/:survey",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"survey-answers",
+						":survey"
+					],
+					"variable": [
+						{
+							"key": "survey",
+							"value": "health"
+						}
 					]
 				}
 			},
