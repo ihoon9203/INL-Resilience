@@ -1,11 +1,11 @@
 {
   "name": "inl-resilience-indicator",
-  "type": "module",
   "version": "0.1.0",
   "description": "An application to help a user understand and improve their resiliency in various categories.",
   "main": "index.js",
   "scripts": {
     "start": "npx nodemon --exec babel-node src/server.js",
+    "debug": "node inspect src/server.js",
     "run-prod": "node src/server.js"
   },
   "repository": {
@@ -17,7 +17,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.12.0-alpha.1",
     "swagger-jsdoc": "^6.1.0",
     "swagger-ui-express": "^4.1.6"
   },
@@ -26,6 +27,7 @@
     "@babel/core": "^7.16.0",
     "@babel/node": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.15"
   }
 }

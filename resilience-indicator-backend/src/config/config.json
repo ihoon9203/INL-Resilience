@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "root",
+    "password": "pass",
+    "database": "inl_db",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "pass",
+    "database": "inl_db",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "logging": false
+  },
+  "production": {
+    "username": "admin",
+    "password": "INL_res_cap5t0n3_21-22",
+    "database": "inl_db",
+    "host": "inl-database.cjkaigkjtd80.us-east-2.rds.amazonaws.com",
+    "dialect": "mysql"
+  }
+}

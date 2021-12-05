@@ -3,54 +3,24 @@
 */
 
 // Connect to database using MySQL
-const mysql = require('mysql');
-
-// Wrapper class to promisify the database.
-class Database {
-  constructor(config) {
-    this.connection = mysql.createConnection(config);
-  }
-  query(sql, args) {
-    return new Promise((resolve, reject) => {
-      this.connection.query(sql, args, (err, rows) => {
-        if (err)
-          return reject(err);
-        resolve(rows);
-      });
-    });
-  }
-  close() {
-    return new Promise((resolve, reject) => {
-      this.connection.end(err => {
-        if (err)
-          return reject(err);
-        resolve();
-      });
-    });
-  }
-}
-
-//TODO: Remove password
-let config = {
-  host: "inl-database.cjkaigkjtd80.us-east-2.rds.amazonaws.com",
-  user: "admin",
-  password: "INL_res_cap5t0n3_21-22"
-};
+const mysql = require('mysql2');
+const Database = require('../resources/database');
+const config = require('../resources/config');
 
 // Connect to AWS RDS
 const connection = mysql.createConnection(config);
 
 // Create database
-connection.connect(function(err) {
-    if (err) throw err;
-    console.log("Connected!");
-    connection.query("CREATE DATABASE IF NOT EXISTS inl_db", function (err, result) {
-      if (err)  {
-        console.log(err.message);
-      }
-      console.log("Database created");
-    });
-    connection.end()
+connection.connect(function (err) {
+  if (err) throw err;
+  console.log("Connected!");
+  connection.query("CREATE DATABASE IF NOT EXISTS inl_db", function (err, result) {
+    if (err) {
+      console.log(err.message);
+    }
+    console.log("Database created");
+  });
+  connection.end()
 });
 
 // Now that the database is created, we can connect to it and add tables
@@ -110,7 +80,7 @@ let createSubquestions = `CREATE TABLE IF NOT EXISTS Subquestions(
   SubquestionId INT PRIMARY KEY AUTO_INCREMENT,
   QuestionId INT NOT NULL,
   Weight INT NOT NULL,
-  Question VARCHAR(500) NOT NULL,
+  Subquestion VARCHAR(500) NOT NULL,
   CONSTRAINT FK_QuestionId FOREIGN KEY (QuestionId)
   REFERENCES Questions(QuestionId)
   )`;
@@ -140,7 +110,7 @@ let createCorrectAnswers = `CREATE TABLE IF NOT EXISTS CorrectAnswers(
   CorrectAnswerId INT PRIMARY KEY AUTO_INCREMENT,
   QuestionId INT DEFAULT NULL,
   SubquestionId INT DEFAULT NULL,
-  Answer VARCHAR(20) NOT NULL,
+  CorrectAnswer VARCHAR(20) NOT NULL,
   CONSTRAINT FK_Questions FOREIGN KEY (QuestionId)
   REFERENCES Questions(QuestionId),
   CONSTRAINT FK_Subquestions FOREIGN KEY (SubquestionId)
@@ -265,10 +235,10 @@ function seedUsers() {
 function seedSurvey() {
   var seedSurveys = "INSERT INTO Surveys (SurveyCategory) VALUES ?";
   var surveys = [
-    ['Financial'],
-    ['Emergency'],
-    ['Public Health'],
-    ['Cyber']
+    ['finance'],
+    ['emergency'],
+    ['health'],
+    ['cyber']
   ];
   con.query(seedSurveys, [surveys], function (err, result) {
     if (err)
@@ -360,7 +330,7 @@ function seedQuestions() {
 
 // Seed Subquestions table if empty
 function seedSubquestions() {
-  var seedSubquestions = "INSERT INTO Subquestions (QuestionId, Weight, Question) VALUES ?";
+  var seedSubquestions = "INSERT INTO Subquestions (QuestionId, Weight, Subquestion) VALUES ?";
   var subquestions = [
     [1, 1, 'Do you believe that you maintain a healthy lifestyle that includes a balance of recommended physical activity and nutritious food choices?'],
     [4, 1, 'Do you feel that you have a comfortable social network that includes neighbors, friends and family that would come to your aid in an emergency?'],
@@ -420,7 +390,7 @@ function seedSubquestions() {
       console.log(err.message);
   });
 }
-// Seed answers table if empty
+// Seed Answers table if empty
 function seedAnswers() {
   var seedAnswers = "INSERT INTO Answers (UserId, QuestionId, SubquestionId, Answer) VALUES ?";
   var answers = [
@@ -531,7 +501,7 @@ function seedAnswers() {
 }
 // Seed Correct Answers table if empty
 function seedCorrectAnswers() {
-  var seedCorrectAnswers = "INSERT INTO CorrectAnswers (QuestionId, SubquestionId, Answer) VALUES ?";
+  var seedCorrectAnswers = "INSERT INTO CorrectAnswers (QuestionId, SubquestionId, CorrectAnswer) VALUES ?";
   var correctAnswers = [
     [1, , 'Yes'],
     [2, , 'Yes'],
@@ -639,6 +609,7 @@ function seedCorrectAnswers() {
   });
 }
 
-
-
-
+module.exports = {
+  db: Database,
+  config: config,
+};

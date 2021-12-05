@@ -4,7 +4,19 @@ VERSION ?= v$(shell cat ./resilience-indicator-backend/package.json | jq -r '.ve
 version:
 	@echo $(VERSION)
 
-build: version
+build: version # create frontend build and move to backend
 	@cd ./resilience-indicator/ \
 		&& npm run build \
 		&& cp -r ./build ../resilience-indicator-backend/src/
+
+local-db: # create a local mysql docker db server and seed it
+	@docker run --rm --name=resilience --env MYSQL_ROOT_PASSWORD=pass --detach --publish 3306:3306 mysql:5.7.24 \
+	 && sleep 10
+	@(cd resilience-indicator-backend/src/ && sequelize db:create)
+	@DB_ENV=development node ./resilience-indicator-backend/src/seeders/dbseed.js
+
+destroy-local-db: # destroy the local mysql docker db server
+	@docker kill resilience
+
+seed-production-db: # seed the production db
+	@DB_ENV=production node ./resilience-indicator-backend/src/dbseed.js

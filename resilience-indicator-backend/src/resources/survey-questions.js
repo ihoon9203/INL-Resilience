@@ -1,4 +1,4 @@
-const categoryQuestions = {
+const surveyQuestions = {
     'health': {
         questions: [
             {
@@ -484,4 +484,4 @@ const categoryQuestions = {
     },
 }
 
-export default categoryQuestions;
+module.exports = surveyQuestions;

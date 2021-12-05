@@ -26,15 +26,10 @@ The primary forum for technical and architectural discussion is GitLab issues an
 
 #### Setup local db
 
-Here are some useful commands to get a mysql server started localhost if using a macOS.
-```
-brew install mysql  # install mysql locally
-mysql.server start  # start server
-mysql -u root       # note that the root will have blank password
-mysql.server stop   # stop server
-```
-
-...
+1. Ensure you have docker installed on your system.
+2. Run `make local-db` to create and run the docker mysql server and seed it with some data.
+3. You can delete the docker mysql server with `make destroy-local-db`
+4. You can connect to the server directly if you have mysql client avaiable with `mysql -uroot -ppass -h localhost -P 3306 --protocol=tcp`
 
 ## Release management
 

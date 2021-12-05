@@ -14,8 +14,8 @@ const Question = ({ question }) => (
             {question.text}
             <ButtonSet></ButtonSet>
             <li style={sublistStyle}>
-            {question.sub_questions &&
-                <QuestionList style={sublistStyle} questions={question.sub_questions} />
+            {question.subquestions &&
+                <QuestionList style={sublistStyle} questions={question.subquestions} />
             }
             </li>
         </li>
