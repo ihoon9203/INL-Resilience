@@ -2,10 +2,11 @@ import React from 'react';
 import { Col, Container, Row} from 'react-bootstrap';
 import Gauge from '../components/Gauge';
 import SurveyPanel from '../components/SurveyPanel';
+import { Link } from "react-router-dom";
 const HomePage = () => (
     <>
         <h1 className="centered-header">Your Overall Resilience Score</h1>
-        <Gauge score={60}></Gauge>
+        <Gauge score={60} style={{width: "100%", height: "500px" }} ></Gauge>
         <h1>Welcome to the Resilience Indicator!</h1>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -30,18 +31,26 @@ const HomePage = () => (
         <Container>
         <Row className="panel-row">
         <Col>
-        <SurveyPanel category = {"Financial"} score = {80} progress = {100}/>
+        <Link className="survey-list-item" to={`/description/finance`}>    
+            <SurveyPanel category = {"Financial"} score = {80} progress = {100}/>
+        </Link>
         </Col>
         <Col>
-        <SurveyPanel category = {"Emergency"} score = {-1} progress = {30}/>
+        <Link className="survey-list-item" to={`/description/emergency`}> 
+            <SurveyPanel category = {"Emergency"} score = {-1} progress = {30}/>
+        </Link>
         </Col>
         </Row>
         <Row className="panel-row">
         <Col>
+        <Link className="survey-list-item" to={`/description/health`}> 
         <SurveyPanel category = {"Health"} score = {-1} progress = {70}/>
+        </Link>
         </Col>
         <Col>
+        <Link className="survey-list-item" to={`/description/cyber`}> 
         <SurveyPanel category = {"Cyber"} score = {50} progress = {100}/>
+        </Link>
         </Col>
         </Row>
         </Container>

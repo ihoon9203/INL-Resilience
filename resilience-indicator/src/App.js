@@ -10,7 +10,8 @@ import SurveyListPage from "./pages/SurveyListPage";
 import SurveyPage from "./pages/SurveyPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import TakeSurveyPage from "./pages/TakeSurveyPage";
-import ReviewSurveyPage from "./pages/ReviewSurveyPage"
+import ReviewSurveyPage from "./pages/ReviewSurveyPage";
+import DescriptionPage from "./pages/DescriptionPage";
 import NavBar from "./components/NavBar";
 import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -32,6 +33,7 @@ class App extends Component {
               <Route path="/survey/:name" element={<SurveyPage />} />
               <Route path="/take-survey/:name" element={<TakeSurveyPage />} />
               <Route path="/review-survey/:name" element={<ReviewSurveyPage />} />
+              <Route path="/description/:name" element={<DescriptionPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </div>
