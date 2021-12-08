@@ -1,7 +1,7 @@
 import React from "react";
 import Answer from "./Answer";
 import Question from "./Question";
-import { Typography, Button, Box, List, ListItem } from '@material-ui/core';
+import { List } from '@material-ui/core';
 
 const AnswerList = ({ answers }) => (
     <>

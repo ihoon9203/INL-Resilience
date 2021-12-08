@@ -4,7 +4,7 @@ import NotFoundPage from './NotFoundPage';
 import AnswerList from '../components/AnswerList';
 import surveyDescriptions from '../resources/survey-descriptions';
 import useStyles from '../styles';
-import { Typography, Button, Divider, CssBaseline} from '@material-ui/core';
+import { Button, Box, CssBaseline, Grid, Typography} from '@material-ui/core';
 
 
 const ReviewSurveyPage = () => {
@@ -37,20 +37,23 @@ const ReviewSurveyPage = () => {
         <CssBaseline />
 
             <Typography variant="h4" align="center" color="primary" style={{width: '100%', height:'90%'}}>{survey.title} Review Survey</Typography>
-            <Divider/>
+            <Box className={classes.divider}></Box>
             
             <container>
                 <AnswerList answers={surveyAnswers} />
 
-                <box component="span" m={1} className={classes.spreadbox,classes.box}>
-                    <Button className={classes.button} variant="contained" color="testsecondary" style={{marginLeft: 150}}>
-                        <Link className="retake-survey-button" to={`/take-survey/${survey.name}`}>
-                            Retake Survey
-                        </Link>
-                    </Button>
+                <Grid container justifyContent="center" alignItems="center">
+                    
+                    <Grid item xs={4} md={5}>
+                        <Button className={classes.button} variant="contained" color="testsecondary" >Retake Survey</Button>
+                    </Grid>
 
-                    <Button className={classes.button} variant="contained" color="primary" style={{ marginLeft: 50}}> Update Survey </Button>
-                </box>
+                    <Grid item xs={4} md={4}>
+                        <Button className={classes.button} variant="contained" color="primary" > Update Survey </Button>
+                    </Grid>
+
+                </Grid>
+
             </container>
             
 
