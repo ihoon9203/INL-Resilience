@@ -1,10 +1,10 @@
 import React from 'react'
-import {Col, Row, Container} from 'react-bootstrap'
+import { Col, Row, Container } from 'react-bootstrap'
 function Footer() {
-    return(
-        <section >
+    return (
+        <section className="footer">
             <hr />
-            <Container className="footer">
+            <Container >
                 <Row>
                     <Col className="footer-center">
                         © Copyright of University of Utah
