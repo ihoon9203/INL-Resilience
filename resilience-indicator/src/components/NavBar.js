@@ -13,7 +13,6 @@ const NavBar = () => (
             <Nav className="me-auto">
                 <Link className="NavComp" to="/">Home</Link>
                 <Link className="NavComp" to="/about">About</Link>
-                <Link className="NavComp" to="/survey-list">Surveys</Link>
             </Nav>
             <Nav className="me-4">
                 <Link className="NavComp" to="/login">Login</Link>

@@ -6,8 +6,6 @@ import {
 } from 'react-router-dom';
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
-import SurveyListPage from "./pages/SurveyListPage";
-import SurveyPage from "./pages/SurveyPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import TakeSurveyPage from "./pages/TakeSurveyPage";
 import ReviewSurveyPage from "./pages/ReviewSurveyPage";
@@ -28,8 +26,6 @@ const DefaultContainer = () => (
       <Routes>
         <Route path="/" element={<HomePage />} exact />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/survey-list" element={<SurveyListPage />} />
-        <Route path="/survey/:name" element={<SurveyPage />} />
         <Route path="/take-survey/:name" element={<TakeSurveyPage />} />
         <Route path="/review-survey/:name" element={<ReviewSurveyPage />} />
         <Route path="/description/:name" element={<DescriptionPage />} />

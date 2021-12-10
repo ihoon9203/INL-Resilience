@@ -35,7 +35,6 @@ const Answer = ({ answer }) => (
 
         </CardContent>
     </Card>
-
 );
 
 export default Answer;
