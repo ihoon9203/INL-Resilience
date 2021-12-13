@@ -20,7 +20,7 @@ import Footer from "./components/Footer";
 am4core.useTheme(am4themes_animated);
 
 const DefaultContainer = () => (
-  <>
+  <><></>
     <NavBar />
     <div id="page-body">
       <Routes>
