@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 const HomePage = () => (
     <>
         <h1 className="centered-header">Your Overall Resilience Score</h1>
-        <Gauge score={60} style={{width: "100%", height: "500px" }} ></Gauge>
+        <Gauge score={60} style={{width: "100%", height: "500px" }} size = {60} ></Gauge>
         <h1>Welcome to the Resilience Indicator!</h1>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit,

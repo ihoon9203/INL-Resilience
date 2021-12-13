@@ -11,9 +11,9 @@ build: version # create frontend build and move to backend
 
 local-db: # create a local mysql docker db server and seed it
 	@docker run --rm --name=resilience --env MYSQL_ROOT_PASSWORD=pass --detach --publish 3306:3306 mysql:5.7.24 \
-	 && sleep 10
+	 && ping -n 10 127.0.0.1 >nul
 	@(cd resilience-indicator-backend/src/ && sequelize db:create)
-	@DB_ENV=development node ./resilience-indicator-backend/src/seeders/dbseed.js
+	@set DB_ENV=development & node C:/INL/inl-resilience-indicator/resilience-indicator-backend/src/seeders/dbseed.js
 
 destroy-local-db: # destroy the local mysql docker db server
 	@docker kill resilience

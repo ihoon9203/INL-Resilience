@@ -10,6 +10,7 @@ class Gauge extends Component{
         let chart = am4core.create("chartdiv", am4charts.GaugeChart);
         let axis = chart.xAxes.push(new am4charts.ValueAxis()); 
         let userScore = this.props.score;
+        let fontsize = parseInt(this.props.size);
         axis.min = 0;
         axis.max = 100;
         axis.strictMinMax = true;
@@ -39,6 +40,15 @@ class Gauge extends Component{
         let hand = chart.hands.push(new am4charts.ClockHand());
         hand.value = 0;
         
+        var label = chart.radarContainer.createChild(am4core.Label);
+        label.isMeasured = false;
+        label.y = 10;
+        label.horizontalCenter = "middle";
+        label.verticalCenter = "top";
+        label.text = "Overall Score: "+userScore;
+        label.fontSize = fontsize;
+        label.fontFamily = 'Roboto';
+
 
         setInterval(() => {
             var animation = new am4core.Animation(hand, {
