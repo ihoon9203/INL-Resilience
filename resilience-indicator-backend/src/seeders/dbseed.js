@@ -11,45 +11,45 @@ const config = require('../resources/config');
 const connection = mysql.createConnection(config);
 
 // Create database
-connection.connect(function (err) {
+connection.connect((err) => {
   if (err) throw err;
-  console.log("Connected!");
-  connection.query("CREATE DATABASE IF NOT EXISTS inl_db", function (err, result) {
-    if (err) {
-      console.log(err.message);
+  console.log('Connected!');
+  connection.query('CREATE DATABASE IF NOT EXISTS inl_db', (e) => {
+    if (e) {
+      console.log(e.message);
     }
-    console.log("Database created");
+    console.log('Database created');
   });
-  connection.end()
+  connection.end();
 });
 
 // Now that the database is created, we can connect to it and add tables
-config["database"] = "inl_db";
-let con = new Database(config);
+config.database = 'inl_db';
+const con = new Database(config);
 
 /*
 * All the query strings written below
 *
 ********************************************************************************* */
 // Create User table
-let createUsers = `CREATE TABLE IF NOT EXISTS Users(
+const createUsers = `CREATE TABLE IF NOT EXISTS Users(
     UserId INT PRIMARY KEY AUTO_INCREMENT,
     Email VARCHAR(255) NOT NULL)`;
 
-// Check if Users table has been seeded already 
-//TOFIX: should be able to just select UserId, getting error for some reason
-let checkUsersTable = 'SELECT * FROM Users LIMIT 1;';
+// Check if Users table has been seeded already
+// TOFIX: should be able to just select UserId, getting error for some reason
+const checkUsersTable = 'SELECT * FROM Users LIMIT 1;';
 
-// Create Survey Table 
-let createSurveys = `CREATE TABLE IF NOT EXISTS Surveys(
+// Create Survey Table
+const createSurveys = `CREATE TABLE IF NOT EXISTS Surveys(
       SurveyId INT PRIMARY KEY AUTO_INCREMENT,
       SurveyCategory VARCHAR(255) NOT NULL
       )`;
-// Check if Surveys table has been seeded already 
-let checkSurveysTable = 'SELECT SurveyId FROM Surveys LIMIT 1';
+// Check if Surveys table has been seeded already
+const checkSurveysTable = 'SELECT SurveyId FROM Surveys LIMIT 1';
 
 // Create Scores table
-let createScores = `CREATE TABLE IF NOT EXISTS Scores(
+const createScores = `CREATE TABLE IF NOT EXISTS Scores(
   ScoreId INT PRIMARY KEY AUTO_INCREMENT,
   Score INT NOT NULL, 
   UserId INT NOT NULL,
@@ -60,11 +60,11 @@ let createScores = `CREATE TABLE IF NOT EXISTS Scores(
   REFERENCES Surveys(SurveyId)
   )`;
 
-// Check if Scores table has been seeded already 
-let checkScoresTable = 'SELECT ScoreId FROM Scores LIMIT 1;';
+// Check if Scores table has been seeded already
+const checkScoresTable = 'SELECT ScoreId FROM Scores LIMIT 1;';
 
-// Create Questions table 
-let createQuestions = `CREATE TABLE IF NOT EXISTS Questions(
+// Create Questions table
+const createQuestions = `CREATE TABLE IF NOT EXISTS Questions(
     QuestionId INT PRIMARY KEY AUTO_INCREMENT,
     SurveyId INT NOT NULL,
     Weight INT NOT NULL,
@@ -72,11 +72,11 @@ let createQuestions = `CREATE TABLE IF NOT EXISTS Questions(
     CONSTRAINT FK_SurveyId FOREIGN KEY (SurveyId)
     REFERENCES Surveys(SurveyId)
     )`;
-// Check if Questions table has been seeded already 
-let checkQuestionsTable = 'SELECT QuestionId FROM Questions LIMIT 1';
+// Check if Questions table has been seeded already
+const checkQuestionsTable = 'SELECT QuestionId FROM Questions LIMIT 1';
 
 // Create Subquestions table
-let createSubquestions = `CREATE TABLE IF NOT EXISTS Subquestions(
+const createSubquestions = `CREATE TABLE IF NOT EXISTS Subquestions(
   SubquestionId INT PRIMARY KEY AUTO_INCREMENT,
   QuestionId INT NOT NULL,
   Weight INT NOT NULL,
@@ -86,10 +86,10 @@ let createSubquestions = `CREATE TABLE IF NOT EXISTS Subquestions(
   )`;
 
 // Check if Subquestions table has been seeded already
-let checkSubquestionsTable = 'SELECT SubquestionId FROM Subquestions LIMIT 1';
+const checkSubquestionsTable = 'SELECT SubquestionId FROM Subquestions LIMIT 1';
 
 // Create Answers table
-let createAnswers = `CREATE TABLE IF NOT EXISTS Answers(
+const createAnswers = `CREATE TABLE IF NOT EXISTS Answers(
   AnswerId INT PRIMARY KEY AUTO_INCREMENT,
   UserId INT NOT NULL,
   QuestionId INT DEFAULT NULL,
@@ -103,10 +103,10 @@ let createAnswers = `CREATE TABLE IF NOT EXISTS Answers(
   REFERENCES Subquestions(SubquestionId)
   )`;
 // Check if Answers table has been seeded already
-let checkAnswersTable = 'SELECT AnswerId FROM Answers LIMIT 1';
+const checkAnswersTable = 'SELECT AnswerId FROM Answers LIMIT 1';
 
 // Create Correct Answers table
-let createCorrectAnswers = `CREATE TABLE IF NOT EXISTS CorrectAnswers(
+const createCorrectAnswers = `CREATE TABLE IF NOT EXISTS CorrectAnswers(
   CorrectAnswerId INT PRIMARY KEY AUTO_INCREMENT,
   QuestionId INT DEFAULT NULL,
   SubquestionId INT DEFAULT NULL,
@@ -117,90 +117,7 @@ let createCorrectAnswers = `CREATE TABLE IF NOT EXISTS CorrectAnswers(
   REFERENCES Subquestions(SubquestionId)
   )`;
 // Check if Correct Answers table has been seeded already
-let checkCorrectAnswersTable = 'SELECT CorrectAnswerId FROM CorrectAnswers LIMIT 1';
-
-/* ***************************************************************************** */
-
-con.query(createUsers)
-  .then(() => {
-    return con.query(checkUsersTable);
-  })
-  .then(rows => {
-    length = rows.length;
-    if (length == 0)
-      seedUsers();
-  })
-  .then(() =>
-    con.query(createSurveys)
-  )
-  .then(() => {
-    return con.query(checkSurveysTable);
-  })
-  .then(rows => {
-    length = rows.length;
-    if (length == 0)
-      seedSurvey();
-  })
-  .then(() =>
-    con.query(createScores)
-  )
-  .then(() => {
-    return con.query(checkScoresTable);
-  })
-  .then(rows => {
-    length = rows.length;
-    if (length == 0)
-      seedScores();
-  })
-  .then(() =>
-    con.query(createQuestions)
-  )
-  .then(() => {
-    return con.query(checkQuestionsTable);
-  })
-  .then(rows => {
-    length = rows.length;
-    if (length == 0)
-      seedQuestions();
-  })
-  .then(() =>
-    con.query(createSubquestions)
-  )
-  .then(() => {
-    return con.query(checkSubquestionsTable);
-  })
-  .then(rows => {
-    length = rows.length;
-    if (length == 0)
-      seedSubquestions();
-  })
-  .then(() =>
-    con.query(createAnswers)
-  )
-  .then(() => {
-    return con.query(checkAnswersTable);
-  })
-  .then(rows => {
-    length = rows.length;
-    if (length == 0)
-      seedAnswers();
-  })
-  .then(() =>
-    con.query(createCorrectAnswers)
-  )
-  .then(() => {
-    return con.query(checkCorrectAnswersTable);
-  })
-  .then(rows => {
-    length = rows.length;
-    if (length == 0)
-      seedCorrectAnswers();
-    return con.close();
-  })
-  .catch(err => {
-    console.log(err);
-    con.close();
-  });
+const checkCorrectAnswersTable = 'SELECT CorrectAnswerId FROM CorrectAnswers LIMIT 1';
 
 /*
 * Seeding functions below
@@ -208,8 +125,8 @@ con.query(createUsers)
 /* *************************************************************************************** */
 // Seed User table if empty
 function seedUsers() {
-  var seedUsers = "INSERT INTO Users (Email) VALUES ?";
-  var users = [
+  const seedUsersSmt = 'INSERT INTO Users (Email) VALUES ?';
+  const users = [
     ['John@gmail.com'],
     ['Peter@gmail.com'],
     ['Amy@gmail.com'],
@@ -223,33 +140,31 @@ function seedUsers() {
     ['Ben@gmail.com'],
     ['William@gmail.com'],
     ['Chuck@gmail.com'],
-    ['Viola@gmail.com']
+    ['Viola@gmail.com'],
   ];
-  con.query(seedUsers, [users], function (err, result) {
-    if (err)
-      console.log(err.message);
+  con.query(seedUsersSmt, [users], (err) => {
+    if (err) console.log(err.message);
   });
 }
 
 // Seed Survey table if empty
 function seedSurvey() {
-  var seedSurveys = "INSERT INTO Surveys (SurveyCategory) VALUES ?";
-  var surveys = [
+  const seedSurveys = 'INSERT INTO Surveys (SurveyCategory) VALUES ?';
+  const surveys = [
     ['finance'],
     ['emergency'],
     ['health'],
-    ['cyber']
+    ['cyber'],
   ];
-  con.query(seedSurveys, [surveys], function (err, result) {
-    if (err)
-      console.log(err.message);
+  con.query(seedSurveys, [surveys], (err) => {
+    if (err) console.log(err.message);
   });
 }
 
 // Seed Scores table if empty
 function seedScores() {
-  var seedScores = "INSERT INTO Scores (Score, UserId, SurveyId) VALUES ?";
-  var scores = [
+  const seedScoresSmt = 'INSERT INTO Scores (Score, UserId, SurveyId) VALUES ?';
+  const scores = [
     [50, 1, 1],
     [70, 1, 2],
     [80, 1, 3],
@@ -261,18 +176,17 @@ function seedScores() {
     [50, 3, 1],
     [0, 3, 2],
     [90, 3, 3],
-    [0, 3, 4]
+    [0, 3, 4],
   ];
-  con.query(seedScores, [scores], function (err, result) {
-    if (err)
-      console.log(err.message);
+  con.query(seedScoresSmt, [scores], (err) => {
+    if (err) console.log(err.message);
   });
 }
 
 // Seed questions table if empty
 function seedQuestions() {
-  var seedQuestions = "INSERT INTO Questions (SurveyId, Weight, Question) VALUES ?";
-  var questions = [
+  const seedQuestionsSmt = 'INSERT INTO Questions (SurveyId, Weight, Question) VALUES ?';
+  const questions = [
     [1, 1, 'Do you maintain an emergency fund of at least three month\'s expenses?'],
     [1, 1, 'Do you know the organizations that can help you immediately after a disaster for financial assistance?'],
     [1, 1, 'In the event of an evacuation, do you have an easily accessible inventory of your financial and banking information?'],
@@ -320,18 +234,17 @@ function seedQuestions() {
     [4, 1, 'Are you protecting your smart home user devices?'],
     [4, 1, 'Is your workstation, laptop, or mobile device clear of any high-level protected information?'],
     [4, 1, 'Do you review your banking and credit reports frequently?'],
-    [4, 1, 'Are you trained on how to identify internet and social media scams?']
+    [4, 1, 'Are you trained on how to identify internet and social media scams?'],
   ];
-  con.query(seedQuestions, [questions], function (err, result) {
-    if (err)
-      console.log(err.message);
+  con.query(seedQuestionsSmt, [questions], (err) => {
+    if (err) console.log(err.message);
   });
 }
 
 // Seed Subquestions table if empty
 function seedSubquestions() {
-  var seedSubquestions = "INSERT INTO Subquestions (QuestionId, Weight, Subquestion) VALUES ?";
-  var subquestions = [
+  const seedSubquestionsSmt = 'INSERT INTO Subquestions (QuestionId, Weight, Subquestion) VALUES ?';
+  const subquestions = [
     [1, 1, 'Do you believe that you maintain a healthy lifestyle that includes a balance of recommended physical activity and nutritious food choices?'],
     [4, 1, 'Do you feel that you have a comfortable social network that includes neighbors, friends and family that would come to your aid in an emergency?'],
     [4, 1, 'Do you have access to media sources (television, radio and/or internet) that would alert you of an emergency event that is occurring in your area?'],
@@ -383,233 +296,273 @@ function seedSubquestions() {
     [48, 1, 'Have you discussed online frauds and scams?'],
     [48, 1, 'Have you discussed the dangers of online predators?'],
     [48, 1, 'Have you discussed how to properly use social media?'],
-    [48, 1, 'Are you using internet filters?']
+    [48, 1, 'Are you using internet filters?'],
   ];
-  con.query(seedSubquestions, [subquestions], function (err, result) {
-    if (err)
-      console.log(err.message);
+  con.query(seedSubquestionsSmt, [subquestions], (err) => {
+    if (err) console.log(err.message);
   });
 }
 // Seed Answers table if empty
 function seedAnswers() {
-  var seedAnswers = "INSERT INTO Answers (UserId, QuestionId, SubquestionId, Answer) VALUES ?";
-  var answers = [
-    [1, 1, , 'Yes'],
-    [1, 2, , 'Yes'],
-    [1, 3, , 'No'],
-    [1, 4, , 'No'],
-    [1, 5, , 'No'],
-    [1, 6, , 'Yes'],
-    [1, 7, , 'Yes'],
-    [1, 8, , 'No'],
-    [1, 9, , 'Yes'],
-    [1, 10, , 'Yes'],
-    [1, 11, , 'Yes'],
-    [1, 12, , 'No'],
-    [1, 13, , 'Yes'],
-    [1, 14, , 'Yes'],
-    [1, 15, , 'No'],
-    [1, 16, , 'No'],
-    [1, 17, , 'Yes'],
-    [1, 19, , 'No'],
-    [1, 20, , 'Yes'],
-    [1, 21, , 'No'],
-    [1, 22, , 'Yes'],
-    [1, 23, , 'No'],
-    [1, 24, , 'Yes'],
-    [1, 25, , 'Yes'],
-    [1, 26, , 'Yes'],
-    [1, 27, , 'Yes'],
-    [1, 28, , 'No'],
-    [1, 29, , 'No'],
-    [1, 30, , 'Yes'],
-    [1, 31, , 'No'],
-    [1, 32, , 'Yes'],
-    [1, 33, , 'No'],
-    [1, 34, , 'No'],
-    [1, 35, , 'Yes'],
-    [1, 36, , 'Yes'],
-    [1, 37, , 'No'],
-    [1, 38, , 'No'],
-    [1, 39, , 'No'],
-    [1, 40, , 'No'],
-    [1, 41, , 'No'],
-    [1, 42, , 'Yes'],
-    [1, 43, , 'Yes'],
-    [1, 44, , 'No'],
-    [1, 45, , 'No'],
-    [1, 46, , 'Yes'],
-    [1, 47, , 'Yes'],
-    [1, 48, , 'No'],
-    [1, , 1, 'No'],
-    [1, , 2, 'No'],
-    [1, , 3, 'No'],
-    [1, , 4, 'No'],
-    [1, , 5, 'Yes'],
-    [1, , 6, 'Yes'],
-    [1, , 7, 'Yes'],
-    [1, , 8, 'Yes'],
-    [1, , 9, 'No'],
-    [1, , 10, 'Yes'],
-    [1, , 11, 'Yes'],
-    [1, , 12, 'Yes'],
-    [1, , 13, 'No'],
-    [1, , 14, 'No'],
-    [1, , 15, 'Yes'],
-    [1, , 16, 'Yes'],
-    [1, , 17, 'No'],
-    [1, , 18, 'Yes'],
-    [1, , 19, 'Yes'],
-    [1, , 20, 'No'],
-    [1, , 21, 'Yes'],
-    [1, , 22, 'No'],
-    [1, , 23, 'Yes'],
-    [1, , 24, 'Yes'],
-    [1, , 25, 'No'],
-    [1, , 26, 'No'],
-    [1, , 27, 'Yes'],
-    [1, , 28, 'Yes'],
-    [1, , 29, 'Yes'],
-    [1, , 30, 'Yes'],
-    [1, , 31, 'Yes'],
-    [1, , 32, 'Yes'],
-    [1, , 33, 'Yes'],
-    [1, , 34, 'Yes'],
-    [1, , 35, 'No'],
-    [1, , 36, 'No'],
-    [1, , 37, 'Yes'],
-    [1, , 38, 'No'],
-    [1, , 39, 'Yes'],
-    [1, , 40, 'Yes'],
-    [1, , 41, 'No'],
-    [1, , 42, 'Yes'],
-    [1, , 43, 'Yes'],
-    [1, , 44, 'Yes'],
-    [1, , 45, 'No'],
-    [1, , 46, 'Yes'],
-    [1, , 47, 'No'],
-    [1, , 48, 'No'],
-    [1, , 49, 'Yes'],
-    [1, , 50, 'Yes'],
-    [1, , 51, 'Yes'],
-    [1, , 52, 'Yes']
+  const seedAnswersSmt = 'INSERT INTO Answers (UserId, QuestionId, SubquestionId, Answer) VALUES ?';
+  const answers = [
+    [1, 1, null, 'Yes'],
+    [1, 2, null, 'Yes'],
+    [1, 3, null, 'No'],
+    [1, 4, null, 'No'],
+    [1, 5, null, 'No'],
+    [1, 6, null, 'Yes'],
+    [1, 7, null, 'Yes'],
+    [1, 8, null, 'No'],
+    [1, 9, null, 'Yes'],
+    [1, 10, null, 'Yes'],
+    [1, 11, null, 'Yes'],
+    [1, 12, null, 'No'],
+    [1, 13, null, 'Yes'],
+    [1, 14, null, 'Yes'],
+    [1, 15, null, 'No'],
+    [1, 16, null, 'No'],
+    [1, 17, null, 'Yes'],
+    [1, 19, null, 'No'],
+    [1, 20, null, 'Yes'],
+    [1, 21, null, 'No'],
+    [1, 22, null, 'Yes'],
+    [1, 23, null, 'No'],
+    [1, 24, null, 'Yes'],
+    [1, 25, null, 'Yes'],
+    [1, 26, null, 'Yes'],
+    [1, 27, null, 'Yes'],
+    [1, 28, null, 'No'],
+    [1, 29, null, 'No'],
+    [1, 30, null, 'Yes'],
+    [1, 31, null, 'No'],
+    [1, 32, null, 'Yes'],
+    [1, 33, null, 'No'],
+    [1, 34, null, 'No'],
+    [1, 35, null, 'Yes'],
+    [1, 36, null, 'Yes'],
+    [1, 37, null, 'No'],
+    [1, 38, null, 'No'],
+    [1, 39, null, 'No'],
+    [1, 40, null, 'No'],
+    [1, 41, null, 'No'],
+    [1, 42, null, 'Yes'],
+    [1, 43, null, 'Yes'],
+    [1, 44, null, 'No'],
+    [1, 45, null, 'No'],
+    [1, 46, null, 'Yes'],
+    [1, 47, null, 'Yes'],
+    [1, 48, null, 'No'],
+    [1, null, 1, 'No'],
+    [1, null, 2, 'No'],
+    [1, null, 3, 'No'],
+    [1, null, 4, 'No'],
+    [1, null, 5, 'Yes'],
+    [1, null, 6, 'Yes'],
+    [1, null, 7, 'Yes'],
+    [1, null, 8, 'Yes'],
+    [1, null, 9, 'No'],
+    [1, null, 10, 'Yes'],
+    [1, null, 11, 'Yes'],
+    [1, null, 12, 'Yes'],
+    [1, null, 13, 'No'],
+    [1, null, 14, 'No'],
+    [1, null, 15, 'Yes'],
+    [1, null, 16, 'Yes'],
+    [1, null, 17, 'No'],
+    [1, null, 18, 'Yes'],
+    [1, null, 19, 'Yes'],
+    [1, null, 20, 'No'],
+    [1, null, 21, 'Yes'],
+    [1, null, 22, 'No'],
+    [1, null, 23, 'Yes'],
+    [1, null, 24, 'Yes'],
+    [1, null, 25, 'No'],
+    [1, null, 26, 'No'],
+    [1, null, 27, 'Yes'],
+    [1, null, 28, 'Yes'],
+    [1, null, 29, 'Yes'],
+    [1, null, 30, 'Yes'],
+    [1, null, 31, 'Yes'],
+    [1, null, 32, 'Yes'],
+    [1, null, 33, 'Yes'],
+    [1, null, 34, 'Yes'],
+    [1, null, 35, 'No'],
+    [1, null, 36, 'No'],
+    [1, null, 37, 'Yes'],
+    [1, null, 38, 'No'],
+    [1, null, 39, 'Yes'],
+    [1, null, 40, 'Yes'],
+    [1, null, 41, 'No'],
+    [1, null, 42, 'Yes'],
+    [1, null, 43, 'Yes'],
+    [1, null, 44, 'Yes'],
+    [1, null, 45, 'No'],
+    [1, null, 46, 'Yes'],
+    [1, null, 47, 'No'],
+    [1, null, 48, 'No'],
+    [1, null, 49, 'Yes'],
+    [1, null, 50, 'Yes'],
+    [1, null, 51, 'Yes'],
+    [1, null, 52, 'Yes'],
   ];
-  con.query(seedAnswers, [answers], function (err, result) {
-    if (err)
-      console.log(err.message);
+  con.query(seedAnswersSmt, [answers], (err) => {
+    if (err) console.log(err.message);
   });
 }
 // Seed Correct Answers table if empty
 function seedCorrectAnswers() {
-  var seedCorrectAnswers = "INSERT INTO CorrectAnswers (QuestionId, SubquestionId, CorrectAnswer) VALUES ?";
-  var correctAnswers = [
-    [1, , 'Yes'],
-    [2, , 'Yes'],
-    [3, , 'Yes'],
-    [4, , 'Yes'],
-    [5, , 'Yes'],
-    [6, , 'Yes'],
-    [7, , 'Yes'],
-    [8, , 'Yes'],
-    [9, , 'Yes'],
-    [10, , 'Yes'],
-    [11, , 'Yes'],
-    [12, , 'No'],
-    [13, , 'Yes'],
-    [14, , 'Yes'],
-    [15, , 'Yes'],
-    [16, , 'No'],
-    [17, , 'Yes'],
-    [19, , 'Yes'],
-    [20, , 'Yes'],
-    [21, , 'Yes'],
-    [22, , 'Yes'],
-    [23, , 'No'],
-    [24, , 'Yes'],
-    [25, , 'Yes'],
-    [26, , 'Yes'],
-    [27, , 'Yes'],
-    [28, , 'Yes'],
-    [29, , 'Yes'],
-    [30, , 'Yes'],
-    [31, , 'No'],
-    [32, , 'Yes'],
-    [33, , 'Yes'],
-    [34, , 'Yes'],
-    [35, , 'Yes'],
-    [36, , 'Yes'],
-    [37, , 'No'],
-    [38, , 'Yes'],
-    [39, , 'Yes'],
-    [40, , 'Yes'],
-    [41, , 'No'],
-    [42, , 'Yes'],
-    [43, , 'Yes'],
-    [44, , 'Yes'],
-    [45, , 'Yes'],
-    [46, , 'Yes'],
-    [47, , 'Yes'],
-    [48, , 'Yes'],
-    [, 1, 'Yes'],
-    [, 2, 'Yes'],
-    [, 3, 'Yes'],
-    [, 4, 'No'],
-    [, 5, 'Yes'],
-    [, 6, 'Yes'],
-    [, 7, 'Yes'],
-    [, 8, 'Yes'],
-    [, 9, 'No'],
-    [, 10, 'Yes'],
-    [, 11, 'Yes'],
-    [, 12, 'Yes'],
-    [, 13, 'No'],
-    [, 14, 'No'],
-    [, 15, 'Yes'],
-    [, 16, 'Yes'],
-    [, 17, 'Yes'],
-    [, 18, 'Yes'],
-    [, 19, 'Yes'],
-    [, 20, 'Yes'],
-    [, 21, 'Yes'],
-    [, 22, 'Yes'],
-    [, 23, 'Yes'],
-    [, 24, 'Yes'],
-    [, 25, 'Yes'],
-    [, 26, 'Yes'],
-    [, 27, 'Yes'],
-    [, 28, 'Yes'],
-    [, 29, 'Yes'],
-    [, 30, 'Yes'],
-    [, 31, 'Yes'],
-    [, 32, 'Yes'],
-    [, 33, 'Yes'],
-    [, 34, 'Yes'],
-    [, 35, 'Yes'],
-    [, 36, 'Yes'],
-    [, 37, 'Yes'],
-    [, 38, 'Yes'],
-    [, 39, 'Yes'],
-    [, 40, 'Yes'],
-    [, 41, 'Yes'],
-    [, 42, 'Yes'],
-    [, 43, 'Yes'],
-    [, 44, 'Yes'],
-    [, 45, 'Yes'],
-    [, 46, 'Yes'],
-    [, 47, 'Yes'],
-    [, 48, 'Yes'],
-    [, 49, 'Yes'],
-    [, 50, 'Yes'],
-    [, 51, 'Yes'],
-    [, 52, 'Yes']
+  const seedCorrectAnswersSmt = 'INSERT INTO CorrectAnswers (QuestionId, SubquestionId, CorrectAnswer) VALUES ?';
+  const correctAnswers = [
+    [1, null, 'Yes'],
+    [2, null, 'Yes'],
+    [3, null, 'Yes'],
+    [4, null, 'Yes'],
+    [5, null, 'Yes'],
+    [6, null, 'Yes'],
+    [7, null, 'Yes'],
+    [8, null, 'Yes'],
+    [9, null, 'Yes'],
+    [10, null, 'Yes'],
+    [11, null, 'Yes'],
+    [12, null, 'No'],
+    [13, null, 'Yes'],
+    [14, null, 'Yes'],
+    [15, null, 'Yes'],
+    [16, null, 'No'],
+    [17, null, 'Yes'],
+    [19, null, 'Yes'],
+    [20, null, 'Yes'],
+    [21, null, 'Yes'],
+    [22, null, 'Yes'],
+    [23, null, 'No'],
+    [24, null, 'Yes'],
+    [25, null, 'Yes'],
+    [26, null, 'Yes'],
+    [27, null, 'Yes'],
+    [28, null, 'Yes'],
+    [29, null, 'Yes'],
+    [30, null, 'Yes'],
+    [31, null, 'No'],
+    [32, null, 'Yes'],
+    [33, null, 'Yes'],
+    [34, null, 'Yes'],
+    [35, null, 'Yes'],
+    [36, null, 'Yes'],
+    [37, null, 'No'],
+    [38, null, 'Yes'],
+    [39, null, 'Yes'],
+    [40, null, 'Yes'],
+    [41, null, 'No'],
+    [42, null, 'Yes'],
+    [43, null, 'Yes'],
+    [44, null, 'Yes'],
+    [45, null, 'Yes'],
+    [46, null, 'Yes'],
+    [47, null, 'Yes'],
+    [48, null, 'Yes'],
+    [null, 1, 'Yes'],
+    [null, 2, 'Yes'],
+    [null, 3, 'Yes'],
+    [null, 4, 'No'],
+    [null, 5, 'Yes'],
+    [null, 6, 'Yes'],
+    [null, 7, 'Yes'],
+    [null, 8, 'Yes'],
+    [null, 9, 'No'],
+    [null, 10, 'Yes'],
+    [null, 11, 'Yes'],
+    [null, 12, 'Yes'],
+    [null, 13, 'No'],
+    [null, 14, 'No'],
+    [null, 15, 'Yes'],
+    [null, 16, 'Yes'],
+    [null, 17, 'Yes'],
+    [null, 18, 'Yes'],
+    [null, 19, 'Yes'],
+    [null, 20, 'Yes'],
+    [null, 21, 'Yes'],
+    [null, 22, 'Yes'],
+    [null, 23, 'Yes'],
+    [null, 24, 'Yes'],
+    [null, 25, 'Yes'],
+    [null, 26, 'Yes'],
+    [null, 27, 'Yes'],
+    [null, 28, 'Yes'],
+    [null, 29, 'Yes'],
+    [null, 30, 'Yes'],
+    [null, 31, 'Yes'],
+    [null, 32, 'Yes'],
+    [null, 33, 'Yes'],
+    [null, 34, 'Yes'],
+    [null, 35, 'Yes'],
+    [null, 36, 'Yes'],
+    [null, 37, 'Yes'],
+    [null, 38, 'Yes'],
+    [null, 39, 'Yes'],
+    [null, 40, 'Yes'],
+    [null, 41, 'Yes'],
+    [null, 42, 'Yes'],
+    [null, 43, 'Yes'],
+    [null, 44, 'Yes'],
+    [null, 45, 'Yes'],
+    [null, 46, 'Yes'],
+    [null, 47, 'Yes'],
+    [null, 48, 'Yes'],
+    [null, 49, 'Yes'],
+    [null, 50, 'Yes'],
+    [null, 51, 'Yes'],
+    [null, 52, 'Yes'],
   ];
-  con.query(seedCorrectAnswers, [correctAnswers], function (err, result) {
-    if (err)
-      console.log(err.message);
+  con.query(seedCorrectAnswersSmt, [correctAnswers], (err) => {
+    if (err) console.log(err.message);
   });
 }
 
+/* ***************************************************************************** */
+
+con.query(createUsers)
+  .then(() => con.query(checkUsersTable))
+  .then((rows) => {
+    if (rows.length === 0) seedUsers();
+  })
+  .then(() => con.query(createSurveys))
+  .then(() => con.query(checkSurveysTable))
+  .then((rows) => {
+    if (rows.length === 0) seedSurvey();
+  })
+  .then(() => con.query(createScores))
+  .then(() => con.query(checkScoresTable))
+  .then((rows) => {
+    if (rows.length === 0) seedScores();
+  })
+  .then(() => con.query(createQuestions))
+  .then(() => con.query(checkQuestionsTable))
+  .then((rows) => {
+    if (rows.length === 0) seedQuestions();
+  })
+  .then(() => con.query(createSubquestions))
+  .then(() => con.query(checkSubquestionsTable))
+  .then((rows) => {
+    if (rows.length === 0) seedSubquestions();
+  })
+  .then(() => con.query(createAnswers))
+  .then(() => con.query(checkAnswersTable))
+  .then((rows) => {
+    if (rows.length === 0) seedAnswers();
+  })
+  .then(() => con.query(createCorrectAnswers))
+  .then(() => con.query(checkCorrectAnswersTable))
+  .then((rows) => {
+    if (rows.length === 0) seedCorrectAnswers();
+    return con.close();
+  })
+  .catch((err) => {
+    console.log(err);
+    con.close();
+  });
+
 module.exports = {
   db: Database,
-  config: config,
+  config,
 };

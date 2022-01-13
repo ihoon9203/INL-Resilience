@@ -1,20 +1,32 @@
-image: centos:7
+image: node
 
 stages:
   - test
   - deploy
 
-format:
+lint:
   stage: test
   script:
-    - echo "Checking code format ..."
-    - exit 0
+    - cd resilience-indicator-backend && npm_config_loglevel=silent npm i eslint
+    - node_modules/eslint/bin/eslint.js .
+    - cd ../resilience-indicator && npm_config_loglevel=silent npm i eslint
+    - node_modules/eslint/bin/eslint.js .
 
 unit-test:
   stage: test
+  services:
+    - mysql:5.7.24
+  variables:
+    # Configure mysql environment variables (https://hub.docker.com/_/mysql/)
+    # MYSQL_DATABASE: $MYSQL_DATABASE
+    # MYSQL_ROOT_PASSWORD: $MYSQL_ROOT_PASSWORD
+    MYSQL_DATABASE: "inl_db"
+    MYSQL_ROOT_PASSWORD: "pass"
   script:
-    - echo "Running unit-tests in parrallel with format ..."
-    - exit 0
+    - cd resilience-indicator-backend && npm_config_loglevel=silent npm i mysql2
+    - DB_ENV=ci node ./src/seeders/dbseed.js
+    - npm_config_loglevel=silent npm i jest
+    - node_modules/jest/bin/jest.js .
 
 deploy-to-stage:
   stage: deploy
