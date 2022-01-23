@@ -23,8 +23,10 @@ unit-test:
     MYSQL_DATABASE: "inl_db"
     MYSQL_ROOT_PASSWORD: "pass"
   script:
-    - cd resilience-indicator-backend && npm_config_loglevel=silent npm i mysql2
-    - DB_ENV=ci node ./src/seeders/dbseed.js
+    - cd resilience-indicator-backend
+    - npm_config_loglevel=silent npm i -g sequelize-cli
+    - npm_config_loglevel=silent npm i sequelize
+    - (cd src/ && sequelize db:create --env test && sequelize db:migrate --env test && sequelize db:seed:all --env test)
     - npm_config_loglevel=silent npm i jest
     - node_modules/jest/bin/jest.js .
 

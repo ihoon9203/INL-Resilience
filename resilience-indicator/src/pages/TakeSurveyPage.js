@@ -19,7 +19,7 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
     const fetchData = async () => {
       const result = await fetch(`/api/survey-questions/${name}`);
       const body = await result.json();
-      setSurveyQuestions(body);
+      setSurveyQuestions(body.Questions);
     };
     // eslint-disable-next-line no-console
     fetchData().catch((err) => console.log(err));

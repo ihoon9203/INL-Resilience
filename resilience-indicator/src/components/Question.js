@@ -39,7 +39,7 @@ class Question extends React.Component {
               {this.question.id}
             </Grid>
             <Grid item xs={10}>
-              <Typography>{this.question.text}</Typography>
+              <Typography>{this.question.question || this.question.subquestion}</Typography>
               <RadioButtonSet
                 myChangeHandler={this.myChangeHandler}
                 answerVal={answerVal}
@@ -47,8 +47,8 @@ class Question extends React.Component {
             </Grid>
           </Grid>
           <li>
-            {this.question.subquestions && answerVal === 'Yes' && (
-              <QuestionList questions={this.question.subquestions} />
+            {this.question.Subquestions && answerVal === 'Yes' && (
+              <QuestionList questions={this.question.Subquestions} />
             )}
           </li>
         </CardContent>

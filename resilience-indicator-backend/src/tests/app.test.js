@@ -1,8 +1,14 @@
 const request = require('supertest');
 const app = require('../app');
 const pjson = require('../../package.json');
+const sequelize = require('../models');
 
 describe('Test API endpoints', () => {
+  afterAll((done) => {
+    sequelize.close();
+    done();
+  });
+
   test('GET welcome message', () => request(app)
     .get('/api/')
     .then((response) => {
@@ -21,7 +27,7 @@ describe('Test API endpoints', () => {
     .get('/api/survey-questions/health')
     .then((response) => {
       expect(response.statusCode).toBe(200);
-      expect(response.body.length).toBeGreaterThan(0);
+      expect(response.body.Questions.length).toBeGreaterThan(0);
     }));
 
   test('GET survey-questions for non-existing category', () => request(app)
@@ -32,14 +38,14 @@ describe('Test API endpoints', () => {
     }));
 
   test('GET survey-answers for existing category', () => request(app)
-    .get('/api/survey-questions/health')
+    .get('/api/survey-answers/health')
     .then((response) => {
       expect(response.statusCode).toBe(200);
       expect(response.body.length).toBeGreaterThan(0);
     }));
 
   test('GET survey-answers for non-existing category', () => request(app)
-    .get('/api/survey-questions/test')
+    .get('/api/survey-answers/test')
     .then((response) => {
       expect(response.statusCode).toBe(404);
       expect(response.body).toEqual({}); // ensure empty response

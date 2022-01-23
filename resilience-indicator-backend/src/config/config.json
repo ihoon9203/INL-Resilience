@@ -4,13 +4,14 @@
     "password": "pass",
     "database": "inl_db",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   },
   "test": {
     "username": "root",
     "password": "pass",
     "database": "inl_db",
-    "host": "127.0.0.1",
+    "host": "mysql",
     "dialect": "mysql",
     "logging": false
   },
@@ -19,6 +20,7 @@
     "password": "INL_res_cap5t0n3_21-22",
     "database": "inl_db",
     "host": "inl-database.cjkaigkjtd80.us-east-2.rds.amazonaws.com",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   }
 }

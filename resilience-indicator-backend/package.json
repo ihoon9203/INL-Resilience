@@ -4,12 +4,12 @@
   "description": "An application to help a user understand and improve their resiliency in various categories.",
   "main": "index.js",
   "scripts": {
-    "start": "npx nodemon --exec babel-node src/server.js",
+    "start": "DB_ENV=development npx nodemon --exec babel-node src/server.js",
     "debug": "node inspect src/server.js",
     "run-prod": "node src/server.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
-    "test": "jest"
+    "test": "DB_ENV=development jest"
   },
   "repository": {
     "type": "git",
