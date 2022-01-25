@@ -9,9 +9,9 @@ if (process.env.DB_ENV === 'production') {
     dialect: 'mysql',
     logging: false,
   };
-} else if (process.env.DB_ENV === 'development') {
+} else if (process.env.DB_ENV === 'ci') {
   config = {
-    host: 'localhost',
+    host: 'mysql',
     user: 'root',
     password: 'pass',
     database: 'inl_db',
@@ -20,7 +20,7 @@ if (process.env.DB_ENV === 'production') {
   };
 } else { // for CI
   config = {
-    host: 'mysql',
+    host: 'localhost',
     user: 'root',
     password: 'pass',
     database: 'inl_db',

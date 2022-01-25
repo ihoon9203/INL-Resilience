@@ -22,6 +22,7 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    'linebreak-style': 0,
     indent: ['error', 2],
   },
 };

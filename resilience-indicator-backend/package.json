@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "DB_ENV=development npx nodemon --exec babel-node src/server.js",
+    "start-windows": "set DB_ENV=development & npx nodemon --exec babel-node src/server.js",
     "debug": "node inspect src/server.js",
     "run-prod": "node src/server.js",
     "lint": "eslint .",
