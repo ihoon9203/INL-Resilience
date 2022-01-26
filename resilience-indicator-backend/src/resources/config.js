@@ -20,7 +20,7 @@ if (process.env.DB_ENV === 'production') {
   };
 } else { // for CI
   config = {
-    host: 'mysql',
+    host: 'localhost',
     user: 'root',
     password: 'pass',
     database: 'inl_db',

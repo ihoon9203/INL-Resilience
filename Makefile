@@ -12,10 +12,10 @@ build: version # create frontend build and move to backend
 lint:
 	@echo "Checking frontend code..." \
 	  && cd ./resilience-indicator/ \
-		&& node_modules/eslint/bin/eslint.js .
+		&& node node_modules/eslint/bin/eslint.js .
 	@echo "Checking backend code..." \
 	  && cd ./resilience-indicator-backend/ \
-		&& node_modules/eslint/bin/eslint.js .
+		&& node node_modules/eslint/bin/eslint.js .
 	@echo "No linting errors!"
 
 local-db-darwin: # create a local mysql docker db server and seed it
@@ -26,7 +26,7 @@ local-db-darwin: # create a local mysql docker db server and seed it
 local-db-windows: # create a local mysql docker db server and seed it
 	@docker run --rm --name=resilience --env MYSQL_ROOT_PASSWORD=pass --detach --publish 3306:3306 mysql:5.7.24 \
 	 && timeout 10
-	@(cd resilience-indicator-backend/src/ && npx sequelize-cli db:create && sequelize db:migrate && sequelize db:seed:all)
+	@(cd resilience-indicator-backend/src/ && npx sequelize-cli db:create && npx sequelize-cli db:migrate && sequelize-cli db:seed:all)
 
 destroy-local-db: # destroy the local mysql docker db server
 	@docker kill resilience

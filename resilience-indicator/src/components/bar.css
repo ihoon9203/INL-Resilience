@@ -1,0 +1,36 @@
+#category span {
+    top: -40px;
+    left: 2%;
+    position: relative;
+    font-size: 1.4em;
+    font-weight: bolder;
+    font-family: monospace;
+    color: rgb(10, 0, 102); 
+}
+
+progress {
+    background-color: #f3f3f3;
+    border-radius: 18px;
+    border: 0;
+    height: 2.5em;
+    width: 100%;
+}
+progress:hover{
+    box-shadow: 0 0 0 15px rgba(197, 197, 255, 0.2);
+    transition: 0.1s;
+}
+progress::-webkit-progress-bar {
+    background-color: #e0eaf0;
+    border-radius: 18px;
+}
+
+progress::-webkit-progress-value {
+    background-color: #ffffff;
+    box-shadow: inset 0 0 35px #329ad1;
+    border-radius: 18px;
+}
+
+progress::-moz-progress-bar {
+    background-color: #329ad1;
+    border-radius: 18px;
+}

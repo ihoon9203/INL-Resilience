@@ -1,14 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Gauge from '../components/Gauge';
 import SurveyPanel from '../components/SurveyPanel';
+import BarGraph from '../components/BarGraph';
 
 const HomePage = function HomePageFunc() {
+  useEffect(() => {
+    if (window.innerWidth < 371) {
+      const image = document.querySelector('.inl-logo');
+      console.log(image);
+      image.style.height = '35px';
+    }
+    if (window.innerWidth < 300) {
+      const image = document.querySelector('.inl-logo');
+      console.log(image);
+      image.style.height = '30px';
+    }
+  });
   return (
     <>
-      <h1 className="centered-header">Your Overall Resilience Score</h1>
-      <Gauge score={60} style={{ width: '100%', height: '500px' }} size={60} />
+      <section className="columns">
+        <div className="column">
+          <div className="text-center"><h1>Your Overall Resilience Score</h1></div>
+          <Gauge score={60} style={{ width: '100%', height: '500px' }} size={60} />
+        </div>
+        <div className="column">
+          <Container className="bar-container">
+            <h3 className="bargraph-title">Improve your Resiliency Now!</h3>
+            <BarGraph category="Health" score={0} />
+            <BarGraph category="Emergency" score={80} />
+            <BarGraph category="Cyber Security" score={40} />
+            <BarGraph category="Finance" score={60} />
+          </Container>
+        </div>
+      </section>
       <h1>Welcome to the Resilience Indicator!</h1>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor

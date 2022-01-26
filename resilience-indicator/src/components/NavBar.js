@@ -1,29 +1,22 @@
 import React from 'react';
+import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
 import { Link } from 'react-router-dom';
+import './Component.css';
 
 const NavBar = function NavBarFunc() {
   return (
-    <Navbar bg="light" expand="lg">
-      <Container>
-        <Navbar.Brand>
-          <Link to="/">INL Resilience Indicator</Link>
-        </Navbar.Brand>
-        <Nav className="me-auto">
-          <Link className="NavComp" to="/">
-            Home
-          </Link>
-          <Link className="NavComp" to="/about">
-            About
-          </Link>
-        </Nav>
-        <Nav className="me-4">
-          <Link className="NavComp" to="/login">
-            Login
-          </Link>
-        </Nav>
+    <Navbar sticky="top" className="navbar-main" collapseOnSelect expand="lg" bg="light" variant="light">
+      <Container fluid>
+        <Navbar.Brand><Link to="./"><img id="inl" className="inl-logo" src="./assets/INLlogo_long.png" alt="" /></Link></Navbar.Brand>
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="ms-auto">
+            <Link className="nav-tab" to="./about">About</Link>
+            <Link className="nav-tab" to="./login">Login</Link>
+          </Nav>
+        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

@@ -7,16 +7,16 @@ am4core.useTheme(am4ThemesAnimated);
 
 class Gauge extends Component {
   componentDidMount() {
-    const { score, size } = this.props || {};
+    const { score } = this.props || {};
     const chart = am4core.create('chartdiv', am4charts.GaugeChart);
     const axis = chart.xAxes.push(new am4charts.ValueAxis());
     const userScore = score;
-    const fontsize = parseInt(size);
     axis.min = 0;
     axis.max = 100;
     axis.strictMinMax = true;
-    chart.innerRadius = -50;
-
+    chart.innerRadius = -40;
+    chart.startAngle = 160;
+    chart.endAngle = 380;
     const rangeBad = axis.axisRanges.create();
     const rangeOkay = axis.axisRanges.create();
     const rangeGood = axis.axisRanges.create();
@@ -39,15 +39,21 @@ class Gauge extends Component {
     rangeGood.axisFill.fill = am4core.color('#88AB75');
     rangeGood.axisFill.zIndex = -1;
     const hand = chart.hands.push(new am4charts.ClockHand());
+    hand.pin.radius = 30;
+    hand.fill = am4core.color('#07519E');
+    hand.stroke = am4core.color('#07519E');
+    hand.startWidth = 30;
     hand.value = 0;
 
     const label = chart.radarContainer.createChild(am4core.Label);
     label.isMeasured = false;
-    label.y = 10;
+    label.fill = am4core.color('#ffffff');
+    label.x = am4core.percent(50);
+    label.y = -20;
     label.horizontalCenter = 'middle';
-    label.verticalCenter = 'top';
-    label.text = `Overall Score: ${userScore}`;
-    label.fontSize = fontsize;
+    label.textAlign = 'center';
+    label.text = userScore;
+    label.fontSize = '2em';
     label.fontFamily = 'Roboto';
 
     setInterval(() => {
