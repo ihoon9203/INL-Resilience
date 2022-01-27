@@ -26,6 +26,7 @@ unit-test:
     - cd resilience-indicator-backend
     - npm_config_loglevel=silent npm i -g sequelize-cli
     - npm_config_loglevel=silent npm i sequelize
+    - export DB_ENV=ci
     - (cd src/ && sequelize db:create --env test && sequelize db:migrate --env test && sequelize db:seed:all --env test)
     - npm_config_loglevel=silent npm i jest
     - node_modules/jest/bin/jest.js .

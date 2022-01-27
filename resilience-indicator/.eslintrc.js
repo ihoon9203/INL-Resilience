@@ -24,7 +24,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/destructuring-assignment': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
-    'linebreak-style': 'off',
+    'linebreak-style': 0,
     indent: ['error', 2],
   },
 };

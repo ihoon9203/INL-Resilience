@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
   }
   Score.init({
     score: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
   }, {

@@ -21,12 +21,12 @@ lint:
 local-db-darwin: # create a local mysql docker db server and seed it
 	@docker run --rm --name=resilience --env MYSQL_ROOT_PASSWORD=pass --detach --publish 3306:3306 mysql:5.7.24 \
 	 && sleep 10
-	@(cd resilience-indicator-backend/src/ && sequelize db:create && sequelize db:migrate && sequelize db:seed:all)
+	@(cd resilience-indicator-backend/src/ && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all)
 
 local-db-windows: # create a local mysql docker db server and seed it
 	@docker run --rm --name=resilience --env MYSQL_ROOT_PASSWORD=pass --detach --publish 3306:3306 mysql:5.7.24 \
 	 && timeout 10
-	@(cd resilience-indicator-backend/src/ && npx sequelize-cli db:create && npx sequelize-cli db:migrate && sequelize-cli db:seed:all)
+	@(cd resilience-indicator-backend/src/ && npx sequelize-cli db:create && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:all)
 
 destroy-local-db: # destroy the local mysql docker db server
 	@docker kill resilience
