@@ -26,13 +26,16 @@ module.exports = (sequelize) => {
   }
   Subquestion.init({
     weight: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DOUBLE,
       allowNull: false,
     },
     subquestion: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT('long'),
       allowNull: false,
     },
+    information: {
+      type: DataTypes.TEXT('long'),
+    }
   }, {
     sequelize,
     modelName: 'Subquestion',

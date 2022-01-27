@@ -32,7 +32,7 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     goal: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT('long'),
       allowNull: false,
     },
     dueDate: DataTypes.DATEONLY,
