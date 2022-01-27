@@ -9,12 +9,10 @@ const HomePage = function HomePageFunc() {
   useEffect(() => {
     if (window.innerWidth < 371) {
       const image = document.querySelector('.inl-logo');
-      console.log(image);
       image.style.height = '35px';
     }
     if (window.innerWidth < 300) {
       const image = document.querySelector('.inl-logo');
-      console.log(image);
       image.style.height = '30px';
     }
   });
@@ -26,12 +24,12 @@ const HomePage = function HomePageFunc() {
           <Gauge score={60} style={{ width: '100%', height: '500px' }} size={60} />
         </div>
         <div className="column">
-          <Container className="bar-container">
+          <Container className="panel">
             <h3 className="bargraph-title">Improve your Resiliency Now!</h3>
-            <BarGraph category="Health" score={0} />
-            <BarGraph category="Emergency" score={80} />
-            <BarGraph category="Cyber Security" score={40} />
-            <BarGraph category="Finance" score={60} />
+            <Link to="/description/health"><BarGraph className="panel-item health" category="Health" score={0} /></Link>
+            <Link to="/description/emergency"><BarGraph className="panel-item emergency" category="Emergency" score={80} /></Link>
+            <Link to="/description/cyber"><BarGraph className="panel-item cyber" category="Cyber Security" score={40} /></Link>
+            <Link to="/description/finance"><BarGraph className="panel-item finance" category="Finance" score={60} /></Link>
           </Container>
         </div>
       </section>
