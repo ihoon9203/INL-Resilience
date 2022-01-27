@@ -24,7 +24,7 @@ module.exports = {
       [34, 1, 'Have you changed the default name of your router?', null],
       [34, 1, 'Have you changed the routers original password?', null],
       [34, 1, 'Do you regularly change your router’s password every three months?', null],
-      [34, 1, 'Do you regularly update your router’s firmware?'], null,
+      [34, 1, 'Do you regularly update your router’s firmware?', null],
       [34, 1, 'Have you installed a network firewall?', null],
       [34, 1, 'Do you have a guest network set up?', null],
       [34, 1, 'Do you use a third party ISP (internet service provider) rental modem for your home networking?', null],
