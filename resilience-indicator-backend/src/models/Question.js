@@ -34,7 +34,8 @@ module.exports = (sequelize) => {
       allowNull: false,
     },
     information: {
-      type: DataTypes.TEXT('long')
+      type: DataTypes.TEXT('long'),
+      defaultValue: null,
     }
   }, {
     sequelize,
