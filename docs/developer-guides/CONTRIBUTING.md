@@ -85,7 +85,7 @@ npx sequelize-cli db:seed:all
 1. Ensure you are on the main branch containing the latest changes of the upstream repository.
 2. Update the version in `resilience-indicator-backend/package.json` file following [semantic versioning guide](https://semver.org/). You can run `make version` to verify the version update.
 3. From the base directory run `make build` to build the frontend and store it in the backend directory. 
-4. Push changes to the `release branch`.
+4. Push changes to the `release` branch ensuring to include the `resilience-indicator-backend/src/build` directory (which is usually gitignored - hence the use of a release branch).
 5. Create a [new GitLab release](https://docs.gitlab.com/ee/user/project/releases/#create-a-release). Set the `Tag version` and `Release title` to be the same as the version label generated from running `make version` after you've updated the version in step 2. The content of the release should have the following format:
 ```
 # Changelog
@@ -107,10 +107,13 @@ Paste output of:
 - Install latest version of npm with `npm install -g npm@latest`
 - Git clone the repository, cd into backend directory, and run `npm install` to install node modules.
 - Install `forever` with `npm -g install forever`
-- Ensure you can run it with `npm run run-prod` (install any missing modules)
-- Then run `forever start -c "node src/server.js" .` to start the server and keep it running forever
+- Change directory to the `resilience-indicator-backend` directory.
+- Ensure you can run it with `npm run run-prod`. Install any missing modules. Then stop the process.
+- Then run `forever start -c "node src/server.js" .` to start the server and keep it running forever.
 - Then map port 80 to port 8000 so that we access our app at the default http port: `sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8000`
 - Ensure you add an inbound rule that allows http traffic to the new ec2 instance security group.
-
-7. Otherwise, ssh to the pre-existing ec2 instance, pull the new release changes with git, stop existing process and kick off the new one. 
+7. If using a pre-existing instance: ssh to the pre-existing ec2 instance, pull the new release changes with git from the `release` branch.
+- Stop the existing processes. You will need to stop the forever monitor process first and then kill the node process. You can discover the pids with `ps aux | grep node`. Then you can use `kill <pid_forever> <pid_node>`.
+- Ensure the iptables preroute is stil in tact with `sudo iptables -t nat -L -n -v`
+- Kick off the new process with the new release code using `forever start -c "node src/server.js" .` from the `resilience-indicator-backend` directory. 
 8. Don't forget to commit upstream to the main branch the version bumps that were made during the release. You can remove the build directory when pushing to main. **Do not forget to remove any secrets before committing**.
