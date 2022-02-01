@@ -4,15 +4,39 @@ const cors = require('cors');
 const path = require('path');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-const routes = require('./routes/v1');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const flash = require('connect-flash');
+const sessionStore = require('./auth/sessionStore');
+const routes = require('./routes');
 const pjson = require('../package.json');
+const passport = require('./auth/passport');
 
 // Set up express app
 const app = express();
 
 app.use(express.static(path.join(__dirname, '/build')));
 app.use(cors());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(session({
+  name: 'session',
+  resave: false,
+  saveUninitialized: false,
+  store: sessionStore,
+  secret: 'awesomesecret', // TODO: fix me
+  cookie: {
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 2, // two hours
+    sameSite: true,
+    secure: false, // enable this with HTTPS
+  },
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(passport.authenticate('session'));
+app.use(flash());
 
 // Log requests to the console
 app.use(logger('dev'));

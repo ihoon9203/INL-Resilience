@@ -6,97 +6,280 @@
 	},
 	"item": [
 		{
-			"name": "/api",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/api",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/version",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/api/version",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"version"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "/api/survey-questions/:survey",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/api/survey-questions/:survey",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"survey-questions",
-						":survey"
-					],
-					"variable": [
-						{
-							"key": "survey",
-							"value": "health"
+			"name": "Info",
+			"item": [
+				{
+					"name": "/api",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "/api/version",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/version",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"version"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "/api/survey-answers/:survey",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8000/api/survey-answers/:survey",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8000",
-					"path": [
-						"api",
-						"survey-answers",
-						":survey"
-					],
-					"variable": [
-						{
-							"key": "survey",
-							"value": "health"
+			"name": "Survey",
+			"item": [
+				{
+					"name": "/api/survey-questions/:survey",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/survey-questions/:survey",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"survey-questions",
+								":survey"
+							],
+							"variable": [
+								{
+									"key": "survey",
+									"value": "cyber"
+								}
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "/api/survey-answers/:survey",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/survey-answers/:survey",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"survey-answers",
+								":survey"
+							],
+							"variable": [
+								{
+									"key": "survey",
+									"value": "cyber"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "/api/register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "bob@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "pass",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "withCredentials",
+								"value": "true",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "bob@mail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "pass",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/api/logout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/score/:survey",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token>",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Cookie",
+								"value": "session=s%3AE2aIc-20LHtuP1_3jMtk_GiCMHhDy-9q.%2BoXKnkSPJfBDVVRTzi%2FRLo%2B1tVrzZ6%2F5dKssd3XlSME",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/score/:survey",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"score",
+								":survey"
+							],
+							"variable": [
+								{
+									"key": "survey",
+									"value": "health"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/logged_in",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer <token>",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Cookie",
+								"value": "session=s%3AE2aIc-20LHtuP1_3jMtk_GiCMHhDy-9q.%2BoXKnkSPJfBDVVRTzi%2FRLo%2B1tVrzZ6%2F5dKssd3XlSME",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/logged_in",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"logged_in"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }

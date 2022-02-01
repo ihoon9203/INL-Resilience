@@ -1,13 +1,11 @@
-'use strict';
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.addColumn(
       'Questions',
       'information',
       {
-        type: Sequelize.TEXT('long')
-      }
+        type: Sequelize.TEXT('long'),
+      },
     );
 
     await queryInterface.addColumn(
@@ -15,7 +13,7 @@ module.exports = {
       'information',
       {
         type: Sequelize.TEXT('long'),
-      }
+      },
     );
 
     await queryInterface.changeColumn(
@@ -45,7 +43,7 @@ module.exports = {
       {
         type: Sequelize.STRING,
         allowNull: false,
-      }
+      },
     );
-  }
+  },
 };

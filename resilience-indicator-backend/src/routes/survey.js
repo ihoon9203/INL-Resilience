@@ -1,6 +1,5 @@
 const express = require('express');
 const surveyAnswers = require('../resources/survey-answers');
-const pjson = require('../../package.json');
 const sequelize = require('../models/index');
 
 const { Survey, Question, Subquestion } = sequelize.models;
@@ -8,45 +7,13 @@ const router = express.Router();
 
 /**
  * @openapi
- * /api:
- *   get:
- *     tags:
- *     - Info
- *     description: Welcome to the Resilience Indicator API!
- *     responses:
- *       200:
- *         description: Returns a welcome message.
- */
-router.get('/', (req, res) => {
-  res.json({
-    message: 'Welcome to the Resilience Indicator API!',
-  });
-});
-
-/**
- * @openapi
- * /api/version:
- *   get:
- *     tags:
- *     - Info
- *     description: Get the API version.
- *     responses:
- *       200:
- *         description: Returns the API version.
- */
-router.get('/version', (req, res) => {
-  res.json({
-    version: pjson.version,
-  });
-});
-
-/**
- * @openapi
  * /api/survey-questions/{survey}:
  *   get:
+ *     security:
+ *       bearerAuth: []
  *     tags:
- *     - Survey Questions
- *     description: Get survey questions for specified survey.
+ *     - Survey
+ *     summary: Get survey questions for specified survey
  *     parameters:
  *     - name: survey
  *       description: short-name for survey
@@ -58,22 +25,25 @@ router.get('/version', (req, res) => {
  *       200:
  *         description: Returns list of survey questions.
  */
-router.get('/survey-questions/:survey', async (req, res) => {
-  const results = await Survey.findOne({
-    where: { category: req.params.survey },
-    include: [{ model: Question, include: [{ model: Subquestion }] }],
-  });
-  if (!results) return res.status(404).send(`Survey "${req.params.survey}" Not Found`);
-  return res.status(200).json(results);
-});
+router.get(
+  '/survey-questions/:survey',
+  async (req, res) => {
+    const results = await Survey.findOne({
+      where: { category: req.params.survey },
+      include: [{ model: Question, include: [{ model: Subquestion }] }],
+    });
+    if (!results) return res.status(404).send(`Survey "${req.params.survey}" Not Found`);
+    return res.status(200).json(results);
+  },
+);
 
 /**
  * @openapi
  * /api/survey-answers/{survey}:
  *   get:
  *     tags:
- *     - Survey Answers
- *     description: Get survey answers for specified survey.
+ *     - Survey
+ *     summary: Get survey answers for specified survey
  *     parameters:
  *     - name: survey
  *       description: short-name for survey

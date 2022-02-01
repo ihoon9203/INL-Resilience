@@ -12,11 +12,16 @@ build: version # create frontend build and move to backend
 lint:
 	@echo "Checking frontend code..." \
 	  && cd ./resilience-indicator/ \
-		&& node node_modules/eslint/bin/eslint.js .
+		&& node node_modules/eslint/bin/eslint.js . --fix
 	@echo "Checking backend code..." \
 	  && cd ./resilience-indicator-backend/ \
-		&& node node_modules/eslint/bin/eslint.js .
+		&& node node_modules/eslint/bin/eslint.js . --fix
 	@echo "No linting errors!"
+
+unit-tests:
+	@echo "Running backend unit tests..." \
+	 && cd ./resilience-indicator-backend/ \
+	 && node node_modules/jest/bin/jest.js .
 
 local-db-darwin: # create a local mysql docker db server and seed it
 	@docker run --rm --name=resilience --env MYSQL_ROOT_PASSWORD=pass --detach --publish 3306:3306 mysql:5.7.24 \
@@ -30,6 +35,3 @@ local-db-windows: # create a local mysql docker db server and seed it
 
 destroy-local-db: # destroy the local mysql docker db server
 	@docker kill resilience
-
-seed-production-db: # seed the production db
-	@DB_ENV=production node ./resilience-indicator-backend/src/dbseed.js

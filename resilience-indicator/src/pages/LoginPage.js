@@ -6,8 +6,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
@@ -15,6 +13,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Axios from 'axios';
 
 const Copyright = function CopyrightFunc(props) {
   return (
@@ -35,12 +34,29 @@ const theme = createTheme();
 const LoginPage = function LoginPageFunc() {
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    const creds = {
+      username: event.currentTarget.email.value,
+      password: event.currentTarget.password.value,
+    };
+    Axios({
+      method: 'POST',
+      data: creds,
+      withCredentials: true,
+      url: '/api/login',
+    })
+      .then((res) => {
+        // redirect to home page upon success
+        if (res.status === 200) {
+          window.location = res.request.responseURL;
+        }
+      })
+      // TODO: improve design
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.log(err);
+        // eslint-disable-next-line no-alert
+        window.alert('Incorrect username or password!');
+      });
   };
 
   return (
@@ -98,10 +114,6 @@ const LoginPage = function LoginPageFunc() {
                 id="password"
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <Button
                 type="submit"
                 fullWidth
@@ -123,12 +135,13 @@ const LoginPage = function LoginPageFunc() {
               </Link>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  {/* TODO: Add this back */}
+                  {/* <Link href="#" variant="body2">
                     Forgot password?
-                  </Link>
+                  </Link> */}
                 </Grid>
                 <Grid item>
-                  <Link href="#" variant="body2">
+                  <Link href="/register" variant="body2">
                     Do not have an account? Sign Up
                   </Link>
                 </Grid>

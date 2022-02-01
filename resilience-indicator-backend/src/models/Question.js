@@ -36,7 +36,7 @@ module.exports = (sequelize) => {
     information: {
       type: DataTypes.TEXT('long'),
       defaultValue: null,
-    }
+    },
   }, {
     sequelize,
     modelName: 'Question',

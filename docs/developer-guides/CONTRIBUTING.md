@@ -31,6 +31,13 @@ The primary forum for technical and architectural discussion is GitLab issues an
 3. You can delete the docker mysql server with `make destroy-local-db`
 4. You can connect to the server directly if you have mysql client avaiable with `mysql -uroot -ppass -h localhost -P 3306 --protocol=tcp`
 
+#### Setup production db
+
+1. Configure correct credentials in `resilience-indicator-backend/src/config/config.json` for `production`.
+2. Run `npx sequelize db:create --env production` to create the `inl_db` database.
+3. Run `npx sequelize db:migrate --env production` to run migrations.
+4. Run `npx sequelize db:seed:all --env production` to run seeders.
+
 ## Release management
 
 ### How to release

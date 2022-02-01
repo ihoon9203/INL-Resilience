@@ -8,6 +8,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import TakeSurveyPage from './pages/TakeSurveyPage';
 import ReviewSurveyPage from './pages/ReviewSurveyPage';
 import DescriptionPage from './pages/DescriptionPage';
+import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import NavBar from './components/NavBar';
 import './App.css';
@@ -40,6 +41,7 @@ const App = function AppFunc() {
       <div className="App">
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
           <Route path="*" element={<DefaultContainer />} />
         </Routes>
       </div>
