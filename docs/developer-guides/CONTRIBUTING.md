@@ -37,6 +37,45 @@ The primary forum for technical and architectural discussion is GitLab issues an
 2. Run `npx sequelize db:create --env production` to create the `inl_db` database.
 3. Run `npx sequelize db:migrate --env production` to run migrations.
 4. Run `npx sequelize db:seed:all --env production` to run seeders.
+## Database changes
+
+### How to create a migration
+
+Migrations are used to version control changes to the database.
+
+1. Create a new migration and name it appropriately.
+
+```
+npx sequelize-cli migration:generate --name <name_the_change>
+```
+
+2. Edit the migration file generated to suit the need. The file will include an `up` and `down` function. The `up` function should make the change. The `down` function should reverse the change. That way you can rollback changes if needed.
+
+3. Next upate the model files to match the changes (add new fields, modify types, etc).
+
+4. Run the migration to see the changes reflected.
+
+```
+npx sequelize-cli db:migrate
+```
+
+### How to create a seed file
+
+Seed files are used to populate database tables with sample or test data.
+
+1. Create a new seed and name it appropriately.
+
+```
+npx sequelize-cli seed:generate --name <name_the_seed>
+```
+
+2. Edit the seed file generated to suit the need. The file will include an `up` and `down` function. These functions follow the same semantics as the migration files.
+
+3. Run the seeding files to populate the table(s).
+
+```
+npx sequelize-cli db:seed:all
+```
 
 ## Release management
 
