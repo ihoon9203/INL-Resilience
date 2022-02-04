@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import { Typography } from '@material-ui/core';
 import Gauge from '../components/Gauge';
 import SurveyPanel from '../components/SurveyPanel';
 import BarGraph from '../components/BarGraph';
@@ -33,23 +35,22 @@ const HomePage = function HomePageFunc() {
           </Container>
         </div>
       </section>
-      <h1>Welcome to the Resilience Indicator!</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-        deserunt mollit anim id est laborum.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-        deserunt mollit anim id est laborum.
-      </p>
+      <Box mt={2} ml={2} mb={3} sx={{ width: '80%' }}>
+        <Typography color="primary" variant="h3" id="about-us-title">
+          Welcome to the Resilience Indicator!
+        </Typography>
+        <Typography variant="p">
+          This is your personal resiliency dashboard! Here you can take surveys and see your scores.
+          Set goals and get personally curated improvement plans based on your responses!
+          Advancing resilience is a long-term process, but your personal resilience dashboard should
+          help you reach your goals!
+          <div />
+          Individual resilience involves behaviors, thoughts, and actions that promote personal
+          wellbeing and mental health. People can develop the ability to withstand, adapt to, and
+          recover from stress and adversity—and maintain or return to a state of mental health
+          wellbeing—by using effective coping strategies.
+        </Typography>
+      </Box>
       <Container>
         <Row className="panel-row">
           <Col>

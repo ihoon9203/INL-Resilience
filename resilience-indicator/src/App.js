@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import * as am4core from '@amcharts/amcharts4/core';
 import am4ThemesAnimated from '@amcharts/amcharts4/themes/animated';
+import AdminPage from './pages/AdminPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import NotFoundPage from './pages/NotFoundPage';
@@ -23,6 +24,7 @@ const DefaultContainer = function DefaultContainerFunc() {
       <NavBar />
       <div id="page-body">
         <Routes>
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="/" element={<HomePage />} exact />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/take-survey/:name" element={<TakeSurveyPage />} />

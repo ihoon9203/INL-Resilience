@@ -30,6 +30,7 @@ const NavBar = function NavBarFunc() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">
+            <Link className="nav-tab" to="./admin">Admin</Link>
             <Link className="nav-tab" to="./about">About</Link>
             <Link className="nav-tab" to={loggedInTo}>{loggedInText}</Link>
           </Nav>

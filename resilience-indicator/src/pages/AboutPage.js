@@ -1,26 +1,25 @@
 import React from 'react';
+import Box from '@mui/material/Box';
+import { Typography } from '@material-ui/core';
 
 const AboutPage = function AboutPageFunc() {
   return (
-    <>
-      <h1>About Us</h1>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-        deserunt mollit anim id est laborum.
-      </p>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-        irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-        deserunt mollit anim id est laborum.
-      </p>
-    </>
+    <Box mt={2} ml={2} sx={{ width: '60%' }}>
+      <Typography color="primary" variant="h3" id="about-us-title">
+        INL Personal Resilience Mission
+      </Typography>
+      <Typography variant="p">
+        Idaho National Laboratories is working towards a safer America.
+        Advancing resilience is a long-term process, but can be coordinated around visible,
+        short-term goals that allow individuals and organizations to measure or mark their
+        progress toward becoming resilient and overcoming these gaps.
+        <div />
+        Individual resilience involves behaviors, thoughts, and actions that promote personal
+        wellbeing and mental health. People can develop the ability to withstand, adapt to, and
+        recover from stress and adversity—and maintain or return to a state of mental health
+        wellbeing—by using effective coping strategies.
+      </Typography>
+    </Box>
   );
 };
 
