@@ -1,21 +1,58 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Grid } from '@material-ui/core';
+import Axios from 'axios';
 import INLCarousel from '../components/Carousel';
 import Gauge from '../components/Gauge';
 import BarGraph from '../components/BarGraph';
 import CategoryCard from '../components/CategoryCard';
 import useStyles from '../styles';
+import '../styles/analysistab.css';
 
 const HomePage = function HomePageFunc() {
   const classes = useStyles();
-
+  // const [healthScore, setHealthScoreState] = useState();
+  // const [cyberScore, setCyberScoreState] = useState();
+  // const [financeScore, setFinanceScoreState] = useState();
+  // const [emergencyScore, setEmergencyScoreState] = useState();
+  // const [totalScore, setTotalScoreState] = useState();
+  //  const [showAnalysis, setShowAnalysisState] = useState(false);
   useEffect(() => {
+    Axios({
+      method: 'GET',
+      // withCredentials: true, // include access of the cookie.
+      url: '/api/all-scores',
+    }).then(async (res) => {
+      // redirect to home page upon success
+      if (res.status === 200) {
+        const scoreList = res.data;
+        const allscores = scoreList.values();
+        console.log(allscores);
+        console.log(res.data.values());
+        // allscores.forEach((data) => {
+        //   console.log(data.score);
+        //   if (data.surveyId === 1) {
+        //     setFinanceScoreState(data.score);
+        //   } else if (data.surveyId === 2) {
+        //     setEmergencyScoreState(data.score);
+        //   } else if (data.surveyId === 3) {
+        //     setHealthScoreState(data.score);
+        //   } else if (data.surveyId === 4) {
+        //     setCyberScoreState(data.score);
+        //   }
+        //   total += data.score;
+        // });
+        // setTotalScoreState(total / scoreList.length);
+        // console.log(setTotalScoreState(total / scoreList.length));
+      }
+    });
     if (window.innerWidth < 371) {
+      console.log('370');
       const image = document.querySelector('.inl-logo');
       image.style.height = '35px';
     }
     if (window.innerWidth < 300) {
+      console.log('300');
       const image = document.querySelector('.inl-logo');
       image.style.height = '30px';
     }
@@ -46,10 +83,10 @@ const HomePage = function HomePageFunc() {
         <div className="column">
           <Container className="panel">
             <h3 className="bargraph-title">Improve your Resiliency Now!</h3>
-            <Link to="/description/health"><BarGraph className="panel-item health" category="Health" score={0} /></Link>
-            <Link to="/description/emergency"><BarGraph className="panel-item emergency" category="Emergency" score={80} /></Link>
-            <Link to="/description/cyber"><BarGraph className="panel-item cyber" category="Cyber Security" score={40} /></Link>
-            <Link to="/description/finance"><BarGraph className="panel-item finance" category="Finance" score={60} /></Link>
+            <Link to="/description/health"><BarGraph className="panel-item health" category="Health" score={60} /></Link>
+            <Link to="/description/emergency"><BarGraph className="panel-item emergency" category="Emergency" score={50} /></Link>
+            <Link to="/description/cyber"><BarGraph className="panel-item cyber" category="Cyber Security" score={70} /></Link>
+            <Link to="/description/finance"><BarGraph className="panel-item finance" category="Finance" score={100} /></Link>
           </Container>
         </div>
       </section>

@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import Carousel from 'react-material-ui-carousel';
 import {
   Box, Button, Card, CardMedia, Grid, Typography,
-}
-from '@mui/material';
+} from '@mui/material';
 import useStyles from '../styles';
 
 const INLCarousel = function INLCarouselFunc() {

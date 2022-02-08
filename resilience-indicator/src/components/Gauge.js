@@ -14,7 +14,6 @@ class Gauge extends Component {
     axis.min = 0;
     axis.max = 100;
     axis.strictMinMax = true;
-    chart.innerRadius = -40;
     chart.startAngle = 160;
     chart.endAngle = 380;
     const rangeBad = axis.axisRanges.create();
@@ -55,6 +54,16 @@ class Gauge extends Component {
     label.text = userScore;
     label.fontSize = '2em';
     label.fontFamily = 'Roboto';
+    if (window.innerWidth > 500) {
+      chart.innerRadius = -40;
+      hand.pin.radius = 30;
+    } else {
+      chart.innerRadius = -20;
+      hand.pin.radius = 10;
+      label.fontSize = '0.7em';
+      hand.startWidth = 10;
+      label.y = -7;
+    }
 
     setInterval(() => {
       new am4core.Animation(

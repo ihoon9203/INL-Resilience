@@ -46,6 +46,7 @@ const useStyles = makeStyles(() => ({
     alignItems: 'center',
   },
   featureButtons: {
+    marginTop: '20px',
     height: '30px',
   },
   header: {
@@ -61,8 +62,11 @@ const useStyles = makeStyles(() => ({
   smallbox: {
     display: 'flex',
     padding: '1px',
+    textAlign: 'center',
   },
   surveyButtons: {
+    marginLeft: '20px',
+    marginRight: '20px',
     height: '40px',
   },
 }));

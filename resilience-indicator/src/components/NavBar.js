@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
+import '../styles/navbar.css';
 
 const NavBar = function NavBarFunc() {
   const [loggedInStatus, setLoggedInStatus] = useState(false);

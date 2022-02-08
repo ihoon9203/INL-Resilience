@@ -1,0 +1,111 @@
+
+/* Analysis Tab*/
+#category {
+  height: 20%;
+  width: auto;
+  position: relative;
+  font-size: 0.6em;
+  font-weight: bolder;
+  justify-content: center;
+  font-family: monospace;
+  margin: 5px;
+  color: #fff; 
+}
+  
+.panel-item {
+  padding: 8px 4px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+  
+.progress {
+  display: flex;
+  position: relative;
+  align-items: center;
+  padding: 20px 24px;
+  border-radius: 4px;
+  background: linear-gradient(#222328, #18191c);
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.4), inset 2px -2px 2px rgba(0, 0, 0, 0.4), 0 -2px 2px rgba(255, 255, 255, 0.02), 2px -2px 2px rgba(255, 255, 255, 0.02), inset 2px -2px 2px rgba(255, 255, 255, 0.02);
+}
+.milestone {
+  background: linear-gradient(#eaeeff, #a5a9b4) !important;
+  box-shadow: 0 2px 2px rgba(194, 194, 194, 0.4), inset 2px -2px 2px rgba(199, 199, 199, 0.4), 0 -2px 2px rgba(145, 145, 145, 0.02), 2px -2px 2px rgba(177, 177, 177, 0.02), inset 2px -2px 2px rgba(175, 175, 175, 0.02) !important;
+}
+.milestone-label{
+  color: #000000 !important;
+  text-shadow: 2px 2px 4px rgb(160, 160, 160) !important;
+}
+.panel-progress{  
+    top: 130%;
+}
+.progress-label {
+  font: 14px 'Lato', sans-serif;
+  float: left;
+  text-shadow: 2px 2px 4px #000;
+  color: #f1f1f1;
+  margin: 2px;
+  flex-shrink: 0;
+}
+  
+.progress-line {
+  height: 18px;
+  border-radius: 9px;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  margin: 0 24px;
+}
+  
+.progress-name {
+  width: 100px;
+  text-align: right;
+}
+  
+.progress-theme-1 {
+  background: linear-gradient(to right, #ff7b02, #ffcb52);
+}
+  
+.progress-theme-2 {
+  background: linear-gradient(to right, #5c27fe, #4798e4);
+}
+  
+.progress-theme-3 {
+  background: linear-gradient(to right, #dd2323, #fc43a8);
+}
+  
+.progress-theme-4 {
+  background: linear-gradient(to right, #13c403, #8ae95e);
+}
+  
+.progress-active {
+  height: 100%;
+  width: 50%;
+  transition: opacity 0.2s ease, transform 0.2s ease, width 1s ease;
+  border-radius: inherit;
+  position: relative;
+}
+.progress-active:after {
+  content: " ";
+  position: absolute;
+  display: block;
+  border-radius: inherit;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: inherit;
+  filter: blur(6px);
+  transform: translateZ(0);
+}
+
+.panel {
+  width: 650px;
+  margin: 0 auto;
+  user-select: none;  
+}
+.panel:hover .panel-item {
+  opacity: 0.2;
+}
+.panel:hover .panel-item:hover {
+  opacity: 1;
+  transform: scale(1.1);
+  cursor: pointer;
+}
