@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Box from '@mui/material/Box';
-import { Typography } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
+import INLCarousel from '../components/Carousel';
 import Gauge from '../components/Gauge';
-import SurveyPanel from '../components/SurveyPanel';
 import BarGraph from '../components/BarGraph';
+import CategoryCard from '../components/CategoryCard';
+import useStyles from '../styles';
 
 const HomePage = function HomePageFunc() {
+  const classes = useStyles();
+
   useEffect(() => {
     if (window.innerWidth < 371) {
       const image = document.querySelector('.inl-logo');
@@ -20,6 +22,22 @@ const HomePage = function HomePageFunc() {
   });
   return (
     <>
+      <INLCarousel />
+      <Container maxWidth="xl">
+        <h1 className="title">Resilience Indicator</h1>
+        <h2 className="inl">idaho national laboratory</h2>
+        <p>
+          This is your personal resiliency dashboard! Here you can take surveys and see your scores.
+          Set goals and get personally curated improvement plans based on your responses!
+          Advancing resilience is a long-term process, but your personal resilience dashboard should
+          help you reach your goals!
+          <div />
+          Individual resilience involves behaviors, thoughts, and actions that promote personal
+          wellbeing and mental health. People can develop the ability to withstand, adapt to, and
+          recover from stress and adversity—and maintain or return to a state of mental health
+          wellbeing—by using effective coping strategies.
+        </p>
+      </Container>
       <section className="columns">
         <div className="column">
           <div className="text-center"><h1>Your Overall Resilience Score</h1></div>
@@ -35,47 +53,21 @@ const HomePage = function HomePageFunc() {
           </Container>
         </div>
       </section>
-      <Box mt={2} ml={2} mb={3} sx={{ width: '80%' }}>
-        <Typography color="primary" variant="h3" id="about-us-title">
-          Welcome to the Resilience Indicator!
-        </Typography>
-        <Typography variant="p">
-          This is your personal resiliency dashboard! Here you can take surveys and see your scores.
-          Set goals and get personally curated improvement plans based on your responses!
-          Advancing resilience is a long-term process, but your personal resilience dashboard should
-          help you reach your goals!
-          <div />
-          Individual resilience involves behaviors, thoughts, and actions that promote personal
-          wellbeing and mental health. People can develop the ability to withstand, adapt to, and
-          recover from stress and adversity—and maintain or return to a state of mental health
-          wellbeing—by using effective coping strategies.
-        </Typography>
-      </Box>
-      <Container>
-        <Row className="panel-row">
-          <Col>
-            <Link className="survey-list-item" to="/description/finance">
-              <SurveyPanel category="Financial" score={80} progress={100} />
-            </Link>
-          </Col>
-          <Col>
-            <Link className="survey-list-item" to="/description/emergency">
-              <SurveyPanel category="Emergency" score={-1} progress={30} />
-            </Link>
-          </Col>
-        </Row>
-        <Row className="panel-row">
-          <Col>
-            <Link className="survey-list-item" to="/description/health">
-              <SurveyPanel category="Health" score={-1} progress={70} />
-            </Link>
-          </Col>
-          <Col>
-            <Link className="survey-list-item" to="/description/cyber">
-              <SurveyPanel category="Cyber" score={50} progress={100} />
-            </Link>
-          </Col>
-        </Row>
+      <Container className={classes.cardGrid} alignItems="center" maxWidth="xl">
+        <Grid container spacing={2} justify="center">
+          <Grid item xs={12} sm={6} md={5} lg={3}>
+            <CategoryCard cardID="cyber" category="Cyber Security" score={70} status="completed" description="The protection of computer systems and networks from information disclosure, theft, damage, and disruption or misdirection of services." />
+          </Grid>
+          <Grid item xs={12} sm={6} md={5} lg={3}>
+            <CategoryCard cardID="emergency" category="Emergency" score={0} status="in-progress" description="Serious, unexpected, and often dangerous situations resulting in a state that requires immediate action and or intervention." />
+          </Grid>
+          <Grid item xs={12} sm={6} md={5} lg={3}>
+            <CategoryCard cardID="finance" category="Financial" score={89} status="completed" description="The management, creation, and study of money and investments. Money management and the process of acquiring needed funds." />
+          </Grid>
+          <Grid item xs={12} sm={6} md={5} lg={3}>
+            <CategoryCard cardID="health" category="Public Health" score={70} status="completed" description="The science of protecting and improving the health of people and their communities through treatements and preventative measures." />
+          </Grid>
+        </Grid>
       </Container>
     </>
   );

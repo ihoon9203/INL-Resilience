@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
-  Button, Box, CssBaseline, Grid, Typography,
+  Box, Button, CssBaseline, Grid, Typography,
 } from '@material-ui/core';
 import Axios from 'axios';
 import NotFoundPage from './NotFoundPage';
@@ -103,7 +103,6 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
   return (
     <>
       <CssBaseline />
-
       <Typography
         variant="h4"
         align="center"

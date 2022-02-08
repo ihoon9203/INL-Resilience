@@ -61,7 +61,7 @@ const LoginPage = function LoginPageFunc() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
+      <Grid className="login-shift" container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
         <Grid
           item

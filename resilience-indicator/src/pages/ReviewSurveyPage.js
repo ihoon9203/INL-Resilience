@@ -56,9 +56,7 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
           </Grid>
           <Grid item xs={4} md={4}>
             <Button className={classes.button} variant="contained" color="primary">
-              {' '}
               Update Survey
-              {' '}
             </Button>
           </Grid>
         </Grid>

@@ -21,6 +21,20 @@ const useStyles = makeStyles(() => ({
   card: {
     margin: '30px 20px 20px 20px',
   },
+  cardGrid: {
+    padding: '30px 20px',
+  },
+  carouselBox: {
+    position: 'absolute',
+    bottom: 150,
+    left: 80,
+    width: '100%',
+    padding: '10px',
+  },
+  carouselButtons: {
+    height: 40,
+    left: 80,
+  },
   chipSuccess: {
     padding: '5px',
   },

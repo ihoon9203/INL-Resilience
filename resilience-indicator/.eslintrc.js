@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    node: true,
     jest: true,
   },
   root: true,
@@ -12,6 +13,11 @@ module.exports = {
     },
     ecmaVersion: 12,
     sourceType: 'module',
+  },
+  settings: {
+    'import/resolver': {
+      node: {},
+    },
   },
   plugins: ['react'],
   rules: {
@@ -24,6 +30,7 @@ module.exports = {
     'react/prop-types': 'off',
     'react/destructuring-assignment': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    // 'parser': 'babel-eslint',
     'linebreak-style': 0,
     indent: ['error', 2],
   },

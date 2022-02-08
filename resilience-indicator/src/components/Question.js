@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import {
   Card, CardContent, Grid, Typography,
 } from '@material-ui/core';
+import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/material/IconButton';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import QuestionList from './QuestionList';
 import RadioButtonSet from './RadioButtonSet';
 
@@ -36,15 +39,24 @@ class Question extends React.Component {
       <Card style={cardStyle.card}>
         <CardContent>
           <Grid container spacing={1} justify="left">
-            <Grid item xs={0.5}>
+            {/* <Grid item xs={0.5}>
               {this.question.id}
-            </Grid>
+            </Grid> */}
             <Grid item xs={10}>
               <Typography>{this.question.question || this.question.subquestion}</Typography>
               <RadioButtonSet
                 myChangeHandler={this.myChangeHandler}
                 answerVal={answerVal}
               />
+            </Grid>
+            <Grid item xs={0.5}>
+              {this.question.Subquestions && answerVal === 'Yes' && (
+                <Tooltip title={this.question.question}>
+                  <IconButton>
+                    <InfoOutlinedIcon fontsize="small" color="primary" />
+                  </IconButton>
+                </Tooltip>
+              )}
             </Grid>
           </Grid>
           <li>
