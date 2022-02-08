@@ -2,7 +2,9 @@ const express = require('express');
 const surveyAnswers = require('../resources/survey-answers');
 const sequelize = require('../models/index');
 
-const { Survey, Question, Subquestion } = sequelize.models;
+const {
+  Survey, Question, Subquestion, Answer,
+} = sequelize.models;
 const router = express.Router();
 
 /**
@@ -62,6 +64,25 @@ router.get('/survey-answers/:survey', (req, res) => {
   if (!surveyAnswerList) return res.status(404).send(`Survey "${req.params.survey}" Not Found`);
 
   return res.status(200).send(surveyAnswerList.answers);
+});
+
+router.post('/saveAnswer', async (req, res) => {
+  const answerList = req.body;
+  let reassignId = null;
+
+  if (req.user) {
+    // eslint-disable-next-line no-unused-vars
+    reassignId = req.user.id;
+  }
+  answerList.forEach((obj) => {
+    // eslint-disable-next-line no-param-reassign
+    obj.userId = reassignId;
+  });
+
+  const answersSaved = Answer.bulkCreate(answerList);
+
+  if (!answersSaved) return res.status(500).json({ error: 'Answer saving failed!' });
+  return res.status(201).json({ message: 'Answers sent to DB successfuly!' });
 });
 
 module.exports = router;

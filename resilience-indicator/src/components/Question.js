@@ -27,6 +27,7 @@ class Question extends React.Component {
     this.setState({
       answerVal: event.target.value,
     });
+    this.question.answer = event.target.value;
   }
 
   render() {

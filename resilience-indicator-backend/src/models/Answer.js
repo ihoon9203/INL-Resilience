@@ -14,6 +14,7 @@ module.exports = (sequelize) => {
           foreignKey: 'userId',
           onUpdate: 'CASCADE',
           onDelete: 'CASCADE',
+          allowNull: true,
         },
       );
       Answer.belongsTo(
