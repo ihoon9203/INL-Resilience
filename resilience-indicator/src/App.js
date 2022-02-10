@@ -25,7 +25,7 @@ const DefaultContainer = function DefaultContainerFunc() {
       <div id="page-body">
         <Routes>
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="/" element={<HomePage />} exact />
+          <Route path="/home" element={<HomePage />} exact />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/take-survey/:name" element={<TakeSurveyPage />} />
           <Route path="/review-survey/:name" element={<ReviewSurveyPage />} />
@@ -42,6 +42,7 @@ const App = function AppFunc() {
     <Router>
       <div className="App">
         <Routes>
+          <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="*" element={<DefaultContainer />} />

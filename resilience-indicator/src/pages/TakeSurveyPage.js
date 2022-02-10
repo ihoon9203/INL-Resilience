@@ -40,7 +40,6 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
         return body.Questions;
       });/* eslint-enable */
     };
-    // eslint-disable-next-line no-console
     fetchData().catch((err) => console.log(err));
   }, [name]);
 
@@ -53,7 +52,6 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
       withCredentials: true,
       url: '/api/saveAnswer',
     }).catch((err) => {
-      // eslint-disable-next-line no-console
       console.log(err);
       // eslint-disable-next-line no-alert
       window.alert('There was an error trying to send a post request for the answers');

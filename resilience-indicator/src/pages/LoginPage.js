@@ -52,7 +52,6 @@ const LoginPage = function LoginPageFunc() {
       })
       // TODO: improve design
       .catch((err) => {
-        // eslint-disable-next-line no-console
         console.log(err);
         // eslint-disable-next-line no-alert
         window.alert('Incorrect username or password!');
@@ -123,7 +122,7 @@ const LoginPage = function LoginPageFunc() {
               >
                 Sign In
               </Button>
-              <Link href="/">
+              <Link href="/home">
                 <Button
                   fullWidth
                   variant="contained"

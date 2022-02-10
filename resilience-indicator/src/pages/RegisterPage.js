@@ -38,7 +38,6 @@ const SignUp = function SignUpFunc() {
       })
       // TODO: improve design
       .catch((err) => {
-        // eslint-disable-next-line no-console
         console.log(err);
         // eslint-disable-next-line no-alert
         window.alert('Username already exists!');

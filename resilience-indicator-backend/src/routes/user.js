@@ -109,7 +109,7 @@ router.post('/register', async (req, res) => {
 router.post(
   '/login',
   passport.authenticate('local', {
-    successReturnToOrRedirect: '/',
+    successReturnToOrRedirect: '/home',
     failureRedirect: '/login',
     failureFlash: true,
   }),

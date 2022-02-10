@@ -126,7 +126,7 @@ describe('Test user API endpoints', () => {
       .then(async (response) => {
         expect(response.statusCode).toBe(302);
         expect(response.redirect).toBe(true);
-        expect(response.header.location).toBe('/');
+        expect(response.header.location).toBe('/home');
       });
   });
 

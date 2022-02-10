@@ -21,7 +21,6 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
       const body = await result.json();
       setSurveyAnswers(body);
     };
-    // eslint-disable-next-line no-console
     fetchData().catch((err) => console.log(err));
   }, [name]);
   if (!survey || surveyAnswers.length === 0) return <NotFoundPage />;

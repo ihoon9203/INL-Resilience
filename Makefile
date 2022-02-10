@@ -18,7 +18,7 @@ lint:
 		&& node node_modules/eslint/bin/eslint.js . --fix
 	@echo "No linting errors!"
 
-unit-tests:
+test:
 	@echo "Running backend unit tests..." \
 	 && cd ./resilience-indicator-backend/ \
 	 && node node_modules/jest/bin/jest.js .

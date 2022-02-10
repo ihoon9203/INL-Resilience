@@ -15,7 +15,7 @@ const router = express.Router();
  *         description: Returns a welcome message.
  */
 router.get('/', (req, res) => {
-  res.json({
+  res.status(200).json({
     message: 'Welcome to the Resilience Indicator API!',
   });
 });
@@ -32,7 +32,7 @@ router.get('/', (req, res) => {
  *         description: Returns the API version.
  */
 router.get('/version', (req, res) => {
-  res.json({
+  res.status(200).json({
     version: pjson.version,
   });
 });

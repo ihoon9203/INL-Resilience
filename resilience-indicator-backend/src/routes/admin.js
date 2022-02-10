@@ -1,28 +1,49 @@
 const express = require('express');
-// const bcrypt = require('bcryptjs');
-// const { ensureLoggedIn } = require('connect-ensure-login');
-// const passport = require('../auth/passport');
 const sequelize = require('../models/index');
 
 const { Question } = sequelize.models;
 const router = express.Router();
 
-// TODO: fix this documentation
-
 /**
  * @openapi
  * /api/create-question:
  *   post:
+ *     tags:
+ *     - Admin
  *     summary: Add new question to a survey
+ *     requestBody:
+ *       description: The question to create
+ *       required: true
  *       content:
  *         application/json:
  *           schema:
+ *             $ref: '#/components/schemas/CreateQuestionInSchema'
+ *           examples:
+ *             example1:
+ *               summary: Example1
+ *               value:
+ *                 question: "This is a question"
+ *                 weight: 10
+ *                 information: "This is information tooltip"
  *     responses:
  *       200:
  *         description: New question added
  *
  * components:
- *
+ *   schemas:
+ *     CreateQuestionInSchema:
+ *       title: CreateQuestionInSchema
+ *       type: object
+ *       properties:
+ *         question:
+ *           type: string
+ *           description: The question
+ *         weight:
+ *           type: number
+ *           description: The question weight
+ *         information:
+ *           type: string
+ *           description: The question information tooltip
  */
 router.post('/admin/create-question', async (req, res) => {
   const { question, weight, information } = req.body;
