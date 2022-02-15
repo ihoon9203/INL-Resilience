@@ -17,15 +17,6 @@ module.exports = (sequelize) => {
           defaultValue: null,
         },
       );
-      CorrectAnswer.belongsTo(
-        models.Subquestion,
-        {
-          foreignKey: 'subquestionId',
-          onUpdate: 'CASCADE',
-          onDelete: 'CASCADE',
-          defaultValue: null,
-        },
-      );
     }
   }
   CorrectAnswer.init({

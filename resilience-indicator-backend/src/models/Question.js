@@ -9,16 +9,13 @@ module.exports = (sequelize) => {
      */
     static associate(models) {
       Question.belongsTo(
-        models.Survey,
+        models.Subcategory,
         {
-          foreignKey: 'surveyId',
+          foreignKey: 'subcategoryId',
           onUpdate: 'CASCADE',
           onDelete: 'CASCADE',
         },
       );
-      Question.hasMany(models.Subquestion, {
-        foreignKey: 'questionId',
-      });
       Question.hasMany(models.PossibleAnswer, {
         foreignKey: 'questionId',
       });

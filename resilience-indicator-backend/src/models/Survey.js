@@ -9,7 +9,7 @@ module.exports = (sequelize) => {
      */
     static associate(models) {
       Survey.hasMany(
-        models.Question,
+        models.Subcategory,
         {
           foreignKey: 'surveyId',
         },

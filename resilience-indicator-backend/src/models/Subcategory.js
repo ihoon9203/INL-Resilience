@@ -1,41 +1,34 @@
 const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
-  class Answer extends Model {
+  class Subcategory extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Answer.belongsTo(
-        models.User,
+      Subcategory.belongsTo(
+        models.Survey,
         {
-          foreignKey: 'userId',
+          foreignKey: 'surveyId',
           onUpdate: 'CASCADE',
           onDelete: 'CASCADE',
-          allowNull: true,
         },
       );
-      Answer.belongsTo(
-        models.Question,
-        {
-          foreignKey: 'questionId',
-          onUpdate: 'CASCADE',
-          onDelete: 'CASCADE',
-          defaultValue: null,
-        },
-      );
+      Subcategory.hasMany(models.Question, {
+        foreignKey: 'questionId',
+      });
     }
   }
-  Answer.init({
-    answer: {
-      type: DataTypes.STRING,
+  Subcategory.init({
+    subcategory: {
+      type: DataTypes.TEXT('long'),
       allowNull: false,
     },
   }, {
     sequelize,
-    modelName: 'Answer',
+    modelName: 'Subcategory',
   });
-  return Answer;
+  return Subcategory;
 };

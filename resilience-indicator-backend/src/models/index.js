@@ -21,7 +21,7 @@ const modelDefiners = [
   require('./Survey'),
   require('./Score'),
   require('./Question'),
-  require('./Subquestion'),
+  require('./Subcategory'),
   require('./Answer'),
   require('./CorrectAnswer'),
   require('./PossibleAnswer'),
