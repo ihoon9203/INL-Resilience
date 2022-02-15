@@ -5,7 +5,7 @@
  * plan, and achievements/goals page can be accessed from here.
  */
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 import { Button, Typography } from '@material-ui/core';
 import { Container } from 'react-bootstrap';
 import Grid from '@mui/material/Grid';
@@ -18,13 +18,13 @@ import useStyles from '../styles';
 const DescriptionPage = function DescriptionPageFunc() {
   const classes = useStyles();
   const { name } = useParams();
+  const location = useLocation();
+  const { score } = location.state;
   const survey = surveyDescriptions.find((s) => s.name === name);
   if (!survey) return <NotFoundPage />;
   useEffect(() => {
     if (window.innerWidth < 800) {
-      console.log('got here');
       const voidspace = document.querySelector('.empty-space-2');
-      console.log(voidspace.display);
       voidspace.style.display = 'none';
     }
   });
@@ -36,7 +36,7 @@ const DescriptionPage = function DescriptionPageFunc() {
       <section className="columns center-column">
         <div className="column">
           <h3>Category Score</h3>
-          <Gauge score={60} style={{ width: '100%', height: '500px' }} size={60} />
+          <Gauge score={score} style={{ width: '100%', height: '500px' }} size={60} />
         </div>
         <div className="column small-column">
           <div className="empty-space-2" />
@@ -45,7 +45,7 @@ const DescriptionPage = function DescriptionPageFunc() {
             Progress to next milestone:
           </Typography>
           <Container className="panel">
-            <Link to="."><MilestoneBar className="panel-item health milestone" category={survey.title} score={60} /></Link>
+            <Link to="."><MilestoneBar className="panel-item health milestone" category={survey.title} score={score} /></Link>
           </Container>
           <Grid container spacing={1}>
             <Grid item xs={6}>

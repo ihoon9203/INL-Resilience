@@ -9,6 +9,11 @@ build: version # create frontend build and move to backend
 		&& npm run build \
 		&& cp -r ./build ../resilience-indicator-backend/src/
 
+build-windows: version # create frontend build and move to backend windows
+	@cd ./resilience-indicator/ \
+		&& npm run build \
+		&& Xcopy .\build ..\resilience-indicator-backend\src\build\ /E
+
 lint:
 	@echo "Checking frontend code..." \
 	  && cd ./resilience-indicator/ \

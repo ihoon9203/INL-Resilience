@@ -7,7 +7,7 @@ am4core.useTheme(am4ThemesAnimated);
 
 class Gauge extends Component {
   componentDidMount() {
-    const { score } = this.props || {};
+    const { score } = this.props;
     const chart = am4core.create('chartdiv', am4charts.GaugeChart);
     const axis = chart.xAxes.push(new am4charts.ValueAxis());
     const userScore = score;

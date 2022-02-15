@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 const CategoryCard = function CategoryCardFunc({
@@ -7,10 +7,6 @@ const CategoryCard = function CategoryCardFunc({
   const buttons = document.querySelectorAll('.card-buttons button');
   const sections = document.querySelectorAll('.card-section');
   const cards = document.querySelectorAll('.card');
-
-  useEffect(() => {
-
-  }, []);
 
   const toggleClass = (e, cardid) => {
     const targetSection = e.target.getAttribute('data-section');

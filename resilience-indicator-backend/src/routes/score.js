@@ -1,3 +1,4 @@
+// eslint-disable/no-extraneous-dependencies
 const express = require('express');
 const sequelize = require('../models/index');
 

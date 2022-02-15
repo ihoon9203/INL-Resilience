@@ -12,6 +12,10 @@
   color: #fff; 
 }
   
+.bigchart {
+  width: auto;
+  height: 400px;
+}
 .panel-item {
   padding: 8px 4px;
   transition: opacity 0.2s ease, transform 0.2s ease;
