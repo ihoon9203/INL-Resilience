@@ -86,6 +86,7 @@ npx sequelize-cli db:seed:all
 2. Update the version in `resilience-indicator-backend/package.json` file following [semantic versioning guide](https://semver.org/). You can run `make version` to verify the version update.
 3. From the base directory run `make build` to build the frontend and store it in the backend directory. 
 4. Push changes to the `release` branch ensuring to include the `resilience-indicator-backend/src/build` directory (which is usually gitignored - hence the use of a release branch).
+- Note: If you are using an VM that has more than 4Gi of memory available you could also just run the `make build` from the machine and not worry about using the release branch.
 5. Create a [new GitLab release](https://docs.gitlab.com/ee/user/project/releases/#create-a-release). Set the `Tag version` and `Release title` to be the same as the version label generated from running `make version` after you've updated the version in step 2. The content of the release should have the following format:
 ```
 # Changelog
@@ -108,6 +109,7 @@ Paste output of:
 - Git clone the repository, cd into backend directory, and run `npm install` to install node modules.
 - Install `forever` with `npm -g install forever`
 - Change directory to the `resilience-indicator-backend` directory.
+- Run `export DB_ENV=production`
 - Ensure you can run it with `npm run run-prod`. Install any missing modules. Then stop the process.
 - Then run `forever start -c "node src/server.js" .` to start the server and keep it running forever.
 - Then map port 80 to port 8000 so that we access our app at the default http port: `sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8000`
