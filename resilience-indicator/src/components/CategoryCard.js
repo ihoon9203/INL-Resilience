@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import '../styles/categoryCard.css';
 
 const CategoryCard = function CategoryCardFunc({
   cardID, category, score, status, description,
 }) {
   const buttons = document.querySelectorAll('.card-buttons button');
   const sections = document.querySelectorAll('.card-section');
-  const cards = document.querySelectorAll('.card');
+  let cards = document.querySelectorAll('.card');
+
+  useEffect(() => {
+  }, []);
+
+  // eslint-disable-next-line no-unused-vars
+  const [dummy, setDummy] = useState('');
 
   const toggleClass = (e, cardid) => {
+    while (cards.length === 0) {
+      setDummy('change happened');
+      cards = document.querySelectorAll('.card');
+    }
+
     const targetSection = e.target.getAttribute('data-section');
     const displaySections = document.querySelectorAll(targetSection);
     cards.forEach((card) => {
