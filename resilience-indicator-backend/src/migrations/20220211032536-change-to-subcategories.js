@@ -30,6 +30,21 @@ module.exports = {
       },
     });
 
+    await queryInterface.addColumn(
+      'Subcategories',
+      'questionId',
+      {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Questions',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+        defaultValue: null,
+      },
+    );
+
     await queryInterface.removeColumn(
       'Questions',
       'surveyId',
@@ -103,6 +118,11 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+
+    await queryInterface.removeColumn(
+      'Subcategories',
+      'questionId',
+    );
 
     await queryInterface.addColumn(
       'Questions',

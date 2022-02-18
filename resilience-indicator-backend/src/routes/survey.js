@@ -3,7 +3,7 @@ const surveyAnswers = require('../resources/survey-answers');
 const sequelize = require('../models/index');
 
 const {
-  Survey, Question, Subquestion, Answer,
+  Survey, Subcategory, Question, Answer,
 } = sequelize.models;
 const router = express.Router();
 
@@ -32,7 +32,7 @@ router.get(
   async (req, res) => {
     const results = await Survey.findOne({
       where: { category: req.params.survey },
-      include: [{ model: Question, include: [{ model: Subquestion }] }],
+      include: [{ model: Subcategory, include: [{ model: Question }] }],
     });
     if (!results) return res.status(404).send(`Survey "${req.params.survey}" Not Found`);
     return res.status(200).json(results);

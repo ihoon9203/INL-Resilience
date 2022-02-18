@@ -17,7 +17,7 @@ module.exports = (sequelize) => {
         },
       );
       Subcategory.hasMany(models.Question, {
-        foreignKey: 'questionId',
+        foreignKey: 'subcategoryId',
       });
     }
   }

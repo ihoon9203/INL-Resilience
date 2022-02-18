@@ -11,7 +11,7 @@ module.exports = {
       [2, 1.5, 'Do you know how to contact your student loan servicer to request disaster forbearance?', null],
       [3, 8.91, 'Do you have an easily accessible inventory of your financial and banking information?', null],
       [3, 6.93, 'Do you know the steps to take after a disaster to protect your finances?', null],
-      [3, 9.57, ' Do you or your beneficiary have estate planning documents such as a will, living will, life insurance policy or health insurance plan?', 'A living will is different than a will. It is a document that lets people state their wishes for end-of-life medical care, in case they become unable to communicate their decisions.'],
+      [3, 9.57, 'Do you or your beneficiary have estate planning documents such as a will, living will, life insurance policy or health insurance plan?', 'A living will is different than a will. It is a document that lets people state their wishes for end-of-life medical care, in case they become unable to communicate their decisions.'],
       [3, 7.59, 'Do you have a disaster and financial planning checklist for preparedness and recovery?', null],
       [4, 2.4, 'Do you have an evacuation plan, shelter-in-place plan, and communication plan?', null],
       [4, 1.6, 'Do you have the ability to help others around you in a disaster event?', null],

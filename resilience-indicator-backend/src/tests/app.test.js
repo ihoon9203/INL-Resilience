@@ -66,7 +66,8 @@ describe('Test survey API endpoints', () => {
       .get('/api/survey-questions/health')
       .then((response) => {
         expect(response.statusCode).toBe(200);
-        expect(response.body.Questions.length).toBeGreaterThan(0);
+        expect(response.body.Subcategories.length).toEqual(1);
+        expect(response.body.Subcategories[0].Questions.length).toEqual(10);
       });
   });
 
