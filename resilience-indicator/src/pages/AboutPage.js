@@ -1,22 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import { Typography } from '@material-ui/core';
-import Axios from 'axios';
 
 const AboutPage = function AboutPageFunc() {
-  const [test, setTest] = useState('no');
-
-  useEffect(() => {
-    Axios
-      .get('/api/all-scores', { withCredentials: true })
-      .then((res) => {
-        setTest(res.data.cyber);
-      });
-    // setTest('another');
-  });
-
-  // console.log(test);
-
   return (
     <Box mt={2} ml={2} sx={{ width: '60%' }}>
       <Typography color="primary" variant="h3" id="about-us-title">
@@ -35,7 +21,6 @@ const AboutPage = function AboutPageFunc() {
         wellbeing—by using effective coping strategies.
         <br />
         <br />
-        {test}
       </Typography>
     </Box>
   );

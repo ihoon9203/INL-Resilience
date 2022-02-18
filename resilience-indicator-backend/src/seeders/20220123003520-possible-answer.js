@@ -16,7 +16,7 @@ module.exports = {
       [5, 'Yes'],
       [5, 'No'],
       [5, 'Not applicable'],
-      [6,'Yes'],
+      [6, 'Yes'],
       [6, 'No'],
       [6, 'Not applicable'],
       [7, 'Yes'],
@@ -51,7 +51,7 @@ module.exports = {
       [16, 'Not applicable'],
       [17, 'Yes'],
       [17, 'No'],
-      [17,'Not applicable'],
+      [17, 'Not applicable'],
       [18, 'Yes'],
       [18, 'No'],
       [18, 'Not applicable'],
@@ -231,7 +231,7 @@ module.exports = {
       [76, 'Not applicable'],
       [77, 'Yes'],
       [77, 'No'],
-      [77, 'Not applicable'],   
+      [77, 'Not applicable'],
     ];
     const possibleAnswerObjectList = [];
     possibleAnswers.forEach((a) => {

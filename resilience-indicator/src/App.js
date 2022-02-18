@@ -11,6 +11,7 @@ import ReviewSurveyPage from './pages/ReviewSurveyPage';
 import DescriptionPage from './pages/DescriptionPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
+import ProfilePage from './pages/ProfilePage';
 import NavBar from './components/NavBar';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -27,6 +28,7 @@ const DefaultContainer = function DefaultContainerFunc() {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/home" element={<HomePage />} exact />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           <Route path="/take-survey/:name" element={<TakeSurveyPage />} />
           <Route path="/review-survey/:name" element={<ReviewSurveyPage />} />
           <Route path="/description/:name" element={<DescriptionPage />} />

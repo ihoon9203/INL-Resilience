@@ -21,7 +21,7 @@ const NavBar = function NavBarFunc() {
   let loggedInTo = './login';
   if (loggedInStatus) {
     loggedInText = 'Profile';
-    loggedInTo = './';
+    loggedInTo = './profile';
   }
 
   return (

@@ -138,7 +138,7 @@ module.exports = {
       },
     );
 
-    await querInterface.addColumn(
+    await queryInterface.addColumn(
       'CorrectAnswers',
       'subquestionId',
       {

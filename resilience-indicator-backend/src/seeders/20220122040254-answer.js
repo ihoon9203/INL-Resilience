@@ -76,7 +76,7 @@ module.exports = {
       [1, 74, 'Yes'],
       [1, 75, 'Yes'],
       [1, 76, 'No'],
-      [1, 77, 'Yes']
+      [1, 77, 'Yes'],
     ];
     const answerObjectList = [];
     answers.forEach((a) => {
