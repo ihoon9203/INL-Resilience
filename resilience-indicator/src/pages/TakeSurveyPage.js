@@ -24,20 +24,19 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
 
       /* eslint-disable no-param-reassign */
       setSurveyQuestions(() => {
-        if (body.Questions) {
-          body.Questions.map((parentQ) => {
-            parentQ.answer = '';
-            if (parentQ.Subquestions) {
-              parentQ.Subquestions.map((subQ) => {
-                subQ.answer = '';
-                return null;
-              });
-            }
-
+        // eslint-disable-next-line prefer-const
+        let questionList = [];
+        if (body.Subcategories) {
+          body.Subcategories.map((subcat) => {
+            subcat.Questions.map((question) => {
+              question.answer = '';
+              questionList.push(question);
+              return null;
+            });
             return null;
           });
         }
-        return body.Questions;
+        return questionList;
       });/* eslint-enable */
     };
     fetchData().catch((err) => console.log(err));
@@ -60,30 +59,16 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
 
   const getAnswers = () => {
     const answerDbData = [];
-    surveyQuestions.map((pQ) => {
+    surveyQuestions.map((question) => {
       const pQData = {
         userId: 1,
-        questionId: pQ.id,
+        questionId: question.id,
         subquestionId: null,
-        answer: pQ.answer,
+        answer: question.answer,
         createdAt: new Date(),
         updatedAt: new Date(),
       };
       answerDbData.push(pQData);
-      if (pQ.Subquestions) {
-        pQ.Subquestions.map((sQ) => {
-          const sQData = {
-            userId: 1,
-            questionId: null,
-            subquestionId: sQ.id,
-            answer: sQ.answer,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          };
-          answerDbData.push(sQData);
-          return null;
-        });
-      }
       return null;
     });
 
@@ -92,7 +77,7 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
       answerCheckList.push(obj.answer);
     });
 
-    if (answerCheckList.includes('')) console.log('All questions must be answered');
+    if (answerCheckList.includes('')) console.log('User must answer all questions must be answered!');
 
     // Call the request handler
     handleSubmit(answerDbData);
