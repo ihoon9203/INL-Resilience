@@ -14,6 +14,7 @@ module.exports = (sequelize) => {
           foreignKey: 'improvementPlanId',
           onUpdate: 'CASCADE',
           onDelete: 'CASCADE',
+          defaultValue: null,
         },
       );
       Goal.belongsTo(
@@ -22,6 +23,15 @@ module.exports = (sequelize) => {
           foreignKey: 'userId',
           onUpdate: 'CASCADE',
           onDelete: 'CASCADE',
+        },
+      );
+      Goal.belongsTo(
+        models.Survey,
+        {
+          foreignKey: 'surveyId',
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE',
+          defaultValue: null,
         },
       );
     }

@@ -28,19 +28,11 @@ module.exports = (sequelize) => {
           foreignKey: 'improvementPlanId',
         },
       );
-      ImprovementPlan.belongsTo(
-        models.User,
-        {
-          foreignKey: 'userId',
-          onUpdate: 'CASCADE',
-          onDelete: 'CASCADE',
-        },
-      );
     }
   }
   ImprovementPlan.init({
-    category: {
-      type: DataTypes.STRING,
+    task: {
+      type: DataTypes.TEXT('long'),
       allowNull: false,
     },
     priority: {
