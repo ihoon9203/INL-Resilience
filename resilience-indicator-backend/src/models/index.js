@@ -29,6 +29,8 @@ const modelDefiners = [
   require('./Achievement'),
   require('./Goal'),
   require('./ImprovementPlan'),
+  require('./FeedbackCategory'),
+  require('./Feedback'),
 ];
 
 // We define all models according to their files.

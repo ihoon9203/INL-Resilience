@@ -32,12 +32,10 @@ router.get(
 
     if (!results) return res.status(404).send('User not found');
 
-    // console.log(results);
     const returnVal = {};
     for (let i = 0; i < results.length; i += 1) {
       returnVal[results[i].Survey.category] = results[i].score;
     }
-    console.log(returnVal);
     return res.status(200).json(returnVal);
   },
 );

@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 
 // TODO: connect privacy documents and make viewable
-// TODO: allow cookie customization?
 
 const PrivacySetting = function PrivacySettingFunc() {
   return (
@@ -60,25 +59,6 @@ const PrivacySetting = function PrivacySettingFunc() {
               variant="contained"
             >
               Terms of Use
-            </Button>
-          </Grid>
-          <Grid
-            item
-            md={6}
-            xs={12}
-          >
-            <Typography
-              color="textPrimary"
-              gutterBottom
-              variant="h6"
-            >
-              Set Cookie Preference
-            </Typography>
-            <Button
-              color="primary"
-              variant="contained"
-            >
-              Cookie Preferences
             </Button>
           </Grid>
         </Grid>

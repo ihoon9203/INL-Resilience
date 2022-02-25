@@ -9,20 +9,20 @@ import '../styles/navbar.css';
 const NavBar = function NavBarFunc() {
   const [loggedInStatus, setLoggedInStatus] = useState(false);
 
+  const [user, setUser] = useState({
+    isAdmin: false,
+  });
+
   useEffect(() => {
     Axios
       .get('/api/logged_in', { withCredentials: true })
       .then((res) => {
         setLoggedInStatus(res.data.loggedIn);
+        if (res.data.user) {
+          setUser(res.data.user);
+        }
       });
-  });
-
-  let loggedInText = 'Login';
-  let loggedInTo = './login';
-  if (loggedInStatus) {
-    loggedInText = 'Profile';
-    loggedInTo = './profile';
-  }
+  }, []);
 
   return (
     <Navbar sticky="top" className="navbar-main" collapseOnSelect expand="lg" bg="light" variant="light">
@@ -31,9 +31,9 @@ const NavBar = function NavBarFunc() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">
-            <Link className="nav-tab" to="./admin">Admin</Link>
+            {user.isAdmin ? <Link className="nav-tab" to="./admin">Admin</Link> : null}
             <Link className="nav-tab" to="./about">About</Link>
-            <Link className="nav-tab" to={loggedInTo}>{loggedInText}</Link>
+            <Link className="nav-tab" to={loggedInStatus ? './profile' : './login'}>{loggedInStatus ? 'Profile' : 'Login'}</Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -11,6 +11,7 @@ const sessionStore = require('./auth/sessionStore');
 const routes = require('./routes');
 const pjson = require('../package.json');
 const passport = require('./auth/passport');
+const ensureAdmin = require('./auth/ensureAdmin');
 
 // Set up express app
 const app = express();
@@ -52,12 +53,13 @@ const swaggerDefinition = {
 };
 const options = {
   swaggerDefinition,
-  apis: ['src/routes/*.js'],
+  apis: ['src/routes/*.js', 'src/routes/admin/*.js'],
 };
 const swaggerSpec = swaggerJSDoc(options);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Require our routes into the application
+app.all('/api/admin/*', ensureAdmin());
 app.use('/api', routes);
 
 // Pass all other requests to our client-side app

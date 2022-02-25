@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import {
-  Box, Button, Card, CardContent, CardHeader, Divider, TextField,
+  Box, Button, Card, CardContent, CardHeader, Divider, Snackbar, TextField, Alert,
 } from '@mui/material';
-
-// TODO: handle password change
+import Axios from 'axios';
 
 const PasswordSetting = function PasswordSettingFunc(props) {
   const [values, setValues] = useState({
@@ -11,11 +10,69 @@ const PasswordSetting = function PasswordSettingFunc(props) {
     confirm: '',
   });
 
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const [alert, setAlert] = useState({
+    message: '',
+    severity: 'success',
+  });
+
   const handleChange = (event) => {
     setValues({
       ...values,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
+
+  const showToast = (message, severity) => {
+    setAlert({ message, severity });
+    setSnackbarOpen(true);
+  };
+
+  const onClick = (event) => {
+    event.preventDefault();
+
+    // no empty passwords
+    if (values.password === '' && values.confirm === '') {
+      showToast('No empty passwords', 'error');
+      return;
+    }
+
+    // verify password and confirm password matches
+    if (values.password !== values.confirm) {
+      showToast('Passwords don\'t match', 'error');
+      return;
+    }
+
+    const body = {
+      password: values.password,
+    };
+
+    Axios({
+      method: 'POST',
+      data: body,
+      withCredentials: true,
+      url: '/api/change_password',
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          showToast('Password updated successfully!', 'success');
+        } else {
+          showToast('Unable to update password', 'error');
+        }
+      })
+      .catch((err) => {
+        showToast('Unexpected error', 'error');
+        console.log(err);
+      });
   };
 
   return (
@@ -59,9 +116,20 @@ const PasswordSetting = function PasswordSettingFunc(props) {
           <Button
             color="primary"
             variant="contained"
+            onClick={onClick}
           >
             Update
           </Button>
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={3000}
+            onClose={handleSnackbarClose}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          >
+            <Alert variant="filled" elevation={6} onClose={handleSnackbarClose} severity={alert.severity} sx={{ width: '100%' }}>
+              {alert.message}
+            </Alert>
+          </Snackbar>
         </Box>
       </Card>
     </form>

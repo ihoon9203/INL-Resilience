@@ -167,6 +167,122 @@ router.get(
 
 /**
  * @openapi
+ * /api/change_password:
+ *   post:
+ *     security:
+ *       - cookieAuth: []
+ *     tags:
+ *     - User
+ *     summary: Change user password
+ *     requestBody:
+ *       description: User new password
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserPasswordChangeInSchema'
+ *           examples:
+ *             bob:
+ *               summary: Bob
+ *               value:
+ *                 password: newpass
+ *     responses:
+ *       200:
+ *         description: New password saved
+ *
+ * components:
+ *   schemas:
+ *     UserPasswordChangeInSchema:
+ *       title: UserPasswordChangeInSchema
+ *       type: object
+ *       properties:
+ *         password:
+ *           type: string
+ *           description: The user's new password
+ */
+router.post(
+  '/change_password',
+  ensureLoggedIn(),
+  async (req, res) => {
+    const { password } = req.body;
+
+    const user = await User.findOne({
+      where: { email: req.user.email },
+    }).catch((err) => req.res.status(500).json(err));
+
+    if (!user) return res.status(404).json({ message: 'User does not exist!' });
+
+    const newHashedPassword = await bcrypt.hash(password, 10);
+    user.password = newHashedPassword;
+
+    const savedUser = await user.save();
+
+    if (!savedUser) return res.status(500).json({ error: 'Cannot save new password at the moment!' });
+    return res.status(200).json({ message: 'Password change successful!' });
+  },
+);
+
+/**
+ * @openapi
+ * /api/change_username:
+ *   post:
+ *     security:
+ *       - cookieAuth: []
+ *     tags:
+ *     - User
+ *     summary: Change user's username
+ *     requestBody:
+ *       description: User new username
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UserUsernameChangeInSchema'
+ *           examples:
+ *             bob:
+ *               summary: Bob
+ *               value:
+ *                 username: newbob@mail.com
+ *     responses:
+ *       200:
+ *         description: New username saved
+ *
+ * components:
+ *   schemas:
+ *     UserUsernameChangeInSchema:
+ *       title: UserUsernameChangeInSchema
+ *       type: object
+ *       properties:
+ *         password:
+ *           type: string
+ *           description: The user's new username
+ */
+router.post(
+  '/change_username',
+  ensureLoggedIn(),
+  async (req, res) => {
+    const { username } = req.body;
+
+    const user = await User.findOne({
+      where: { email: req.user.email },
+    }).catch((err) => req.res.status(500).json(err));
+
+    if (!user) return res.status(404).json({ message: 'User does not exist!' });
+
+    // refresh user session to pull in new email
+    req.user.email = username;
+    req.login(req.user, () => {});
+
+    user.email = username;
+    const savedUser = await user.save();
+
+    if (!savedUser) return res.status(500).json({ error: 'Cannot save new username at the moment!' });
+    return res.status(200).json({ message: 'Username change successful!' });
+  },
+);
+
+/**
+ * @openapi
  * /api/score/{survey}:
  *   get:
  *     security:

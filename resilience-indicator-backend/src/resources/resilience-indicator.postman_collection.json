@@ -248,7 +248,7 @@
 					"response": []
 				},
 				{
-					"name": "/logged_in",
+					"name": "/api/logged_in",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -278,6 +278,412 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "/api/change_password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "session=s%3APp7OvRb1zjrk0cwKS0vYjgzJN5vN27Mq.vbmog7Hdpt99X%2FykL70NBfAMCjaePYA9VlaN4oaUYOs",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "password",
+									"value": "newpass",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/change_password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"change_password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/change_username",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "session=s%3Aq8dm2wZbMVAidnGYVtEwTRcEn-CyojU1.WrkDY7GwePDchwBKHd%2FslO3tAG9FgmAbtd%2FRJLDpqzo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "newbob@mail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/change_username",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"change_username"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Score",
+			"item": [
+				{
+					"name": "/api/all-scores",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "session=s%3A2EUWhym0EgHPsn0cQRV2xPrJ7LYrbpyc.wTRcuUUR3BI6RLzicY40YlqSTN6Sfq1DauazOcJRAas",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/all-scores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"all-scores"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Feedback",
+			"item": [
+				{
+					"name": "/api/feedback/:categoryId",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "session=s%3Aw1pkDtOgy7gUpgmYJ2tfKkfwcO1mVpnl.cCBCFtW4%2FypURlkc20zzJy2ozU26ZAbWsI9yaM21tRg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "feedback",
+									"value": "This is some new feedback.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/feedback/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"feedback",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/api/feedback-categories",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "session=s%3AojICWM-bD7D6XD5xqWn9hNkvKasAVG5v.j9losQdPWwVXiyBLKbuNI7u9LyQhaOQ5Tw%2FrQn1nXko",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8000/api/feedback-categories",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"feedback-categories"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"item": [
+				{
+					"name": "Feedback",
+					"item": [
+						{
+							"name": "/api/feedback-categories",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session=s%3Aw1pkDtOgy7gUpgmYJ2tfKkfwcO1mVpnl.cCBCFtW4%2FypURlkc20zzJy2ozU26ZAbWsI9yaM21tRg",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "feedbackCategoryLabel",
+											"value": "New Category",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/admin/feedback-categories",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"admin",
+										"feedback-categories"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/api/feedback-categories/:id",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session=s%3Aw1pkDtOgy7gUpgmYJ2tfKkfwcO1mVpnl.cCBCFtW4%2FypURlkc20zzJy2ozU26ZAbWsI9yaM21tRg",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "feedbackCategoryLabel",
+											"value": "Updated Cat",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/admin/feedback-categories/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"admin",
+										"feedback-categories",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/api/feedback-categories/:id Copy",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session=s%3Aw1pkDtOgy7gUpgmYJ2tfKkfwcO1mVpnl.cCBCFtW4%2FypURlkc20zzJy2ozU26ZAbWsI9yaM21tRg",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/admin/feedback-categories/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"admin",
+										"feedback-categories",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/api/feedback",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session=s%3A_6nc5Sf7wUCHC1K-5p65pN2B9-I0_BSz.IIm4AQWh%2FP4GEdLSdc9t7gnxCVIyyNBIDy89DdCSOww",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/admin/feedback",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"admin",
+										"feedback"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/api/feedback/:feedbackId",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session=s%3Aw1pkDtOgy7gUpgmYJ2tfKkfwcO1mVpnl.cCBCFtW4%2FypURlkc20zzJy2ozU26ZAbWsI9yaM21tRg",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/admin/feedback/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"admin",
+										"feedback",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/api/feedback/:feedbackId",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session=s%3Aw1pkDtOgy7gUpgmYJ2tfKkfwcO1mVpnl.cCBCFtW4%2FypURlkc20zzJy2ozU26ZAbWsI9yaM21tRg",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "resolved",
+											"value": "true",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://localhost:8000/api/admin/feedback/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"admin",
+										"feedback",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "/api/feedback/:categoryId",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "session=s%3Aw1pkDtOgy7gUpgmYJ2tfKkfwcO1mVpnl.cCBCFtW4%2FypURlkc20zzJy2ozU26ZAbWsI9yaM21tRg",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:8000/api/admin/feedback/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"api",
+										"admin",
+										"feedback",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				}
 			]
 		}

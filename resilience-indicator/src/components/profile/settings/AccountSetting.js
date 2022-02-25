@@ -8,14 +8,21 @@ import {
   Divider,
   Grid,
   TextField,
+  Snackbar,
+  Alert,
 } from '@mui/material';
 import Axios from 'axios';
-
-// TODO: save email change back to db
 
 const AccountSetting = function AccountSettingFunc(props) {
   const [user, setUser] = useState({
     email: '',
+  });
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const [alert, setAlert] = useState({
+    message: '',
+    severity: 'success',
   });
 
   useEffect(() => {
@@ -31,6 +38,69 @@ const AccountSetting = function AccountSettingFunc(props) {
       ...user,
       [event.target.name]: event.target.value,
     });
+  };
+
+  const handleLogout = () => {
+    Axios({
+      method: 'POST',
+      withCredentials: true,
+      url: '/api/logout',
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          window.location = '/login';
+        } else {
+          console.log('failed to logout');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
+
+  const showToast = (message, severity) => {
+    setAlert({ message, severity });
+    setSnackbarOpen(true);
+  };
+
+  const handleUpdate = (event) => {
+    event.preventDefault();
+
+    // no empty email
+    if (user.email === '') {
+      showToast('Email must not be empty', 'error');
+      return;
+    }
+
+    const body = {
+      username: user.email,
+    };
+
+    Axios({
+      method: 'POST',
+      data: body,
+      withCredentials: true,
+      url: '/api/change_username',
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          showToast('Email updated successfully!', 'success');
+        } else {
+          showToast('Unable to update email', 'error');
+        }
+      })
+      .catch((err) => {
+        showToast('Unexpected error', 'error');
+        console.log(err);
+      });
   };
 
   return (
@@ -65,21 +135,51 @@ const AccountSetting = function AccountSettingFunc(props) {
                 variant="outlined"
               />
             </Grid>
+            <Grid
+              item
+              md={6}
+              xs={12}
+            >
+              <Button
+                color="primary"
+                variant="contained"
+                sx={{
+                  marginTop: 1.5,
+                }}
+                onClick={handleUpdate}
+              >
+                Update
+              </Button>
+              <Snackbar
+                open={snackbarOpen}
+                autoHideDuration={3000}
+                onClose={handleSnackbarClose}
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+              >
+                <Alert variant="filled" elevation={6} onClose={handleSnackbarClose} severity={alert.severity} sx={{ width: '100%' }}>
+                  {alert.message}
+                </Alert>
+              </Snackbar>
+            </Grid>
           </Grid>
         </CardContent>
         <Divider />
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'flex-end',
+            justifyContent: 'flex-start',
             p: 2,
           }}
         >
           <Button
-            color="primary"
+            color="secondary"
             variant="contained"
+            sx={{
+              width: 100,
+            }}
+            onClick={handleLogout}
           >
-            Save
+            Logout
           </Button>
         </Box>
       </Card>

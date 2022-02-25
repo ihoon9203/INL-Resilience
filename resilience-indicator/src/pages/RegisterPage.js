@@ -2,28 +2,56 @@
  * Modified version of https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-up/SignUp.js
  */
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import { useState } from 'react';
+import {
+  Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Container, Typography, Snackbar, Alert,
+} from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Axios from 'axios';
 
 const theme = createTheme();
 
 const SignUp = function SignUpFunc() {
+  const [alert, setAlert] = useState({
+    message: '',
+    severity: 'error',
+  });
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const showToast = (message, severity) => {
+    setAlert({ message, severity });
+    setSnackbarOpen(true);
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnackbarOpen(false);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const creds = {
       username: event.currentTarget.email.value,
       password: event.currentTarget.password.value,
     };
+
+    // no empty username
+    if (creds.username === '') {
+      showToast('Must supply a username', 'error');
+      return;
+    }
+
+    // no empty password
+    if (creds.password === '') {
+      showToast('Must supply a non-empty password', 'error');
+      return;
+    }
+
     Axios({
       method: 'POST',
       data: creds,
@@ -36,11 +64,9 @@ const SignUp = function SignUpFunc() {
           window.location = '/login';
         }
       })
-      // TODO: improve design
       .catch((err) => {
         console.log(err);
-        // eslint-disable-next-line no-alert
-        window.alert('Username already exists!');
+        showToast('Username already exists!', 'error');
       });
   };
 
@@ -101,6 +127,16 @@ const SignUp = function SignUpFunc() {
             >
               Sign Up
             </Button>
+            <Snackbar
+              open={snackbarOpen}
+              autoHideDuration={3000}
+              onClose={handleSnackbarClose}
+              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+              <Alert variant="filled" elevation={6} onClose={handleSnackbarClose} severity={alert.severity} sx={{ width: '100%' }}>
+                {alert.message}
+              </Alert>
+            </Snackbar>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">

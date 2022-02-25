@@ -1,12 +1,7 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Container, Grid } from '@material-ui/core';
 import Axios from 'axios';
-import { Chart } from '@amcharts/amcharts4/charts';
 import INLCarousel from '../components/Carousel';
-import Gauge from '../components/Gauge';
-import BarGraph from '../components/BarGraph';
 import CategoryCard from '../components/CategoryCard';
 import useStyles from '../styles';
 import AnalysisPanel from '../components/AnalysisPanel';
@@ -33,9 +28,7 @@ const HomePage = function HomePageFunc() {
     Axios
       .get('/api/logged_in', { withCredentials: true })
       .then((res) => {
-        // eslint-disable-next-line no-empty
         if (res.data.loggedIn) {
-          console.log(res.data);
           setLogin(true);
         }
       });

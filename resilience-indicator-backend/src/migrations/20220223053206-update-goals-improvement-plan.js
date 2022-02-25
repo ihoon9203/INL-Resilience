@@ -1,6 +1,6 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.addColumn(
+    await queryInterface.changeColumn(
       'PossibleAnswers',
       'improvementPlanId',
       {
@@ -78,9 +78,18 @@ module.exports = {
       'task',
     );
 
-    await queryInterface.removeColumn(
+    await queryInterface.changeColumn(
       'PossibleAnswers',
       'improvementPlanId',
+      {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'ImprovementPlans',
+          key: 'id',
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
+      },
     );
 
     await queryInterface.removeColumn(

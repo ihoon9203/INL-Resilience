@@ -1,7 +1,9 @@
 const express = require('express');
 const sequelize = require('../models/index');
 
-const { PossibleAnswer, Question, Subcategory, Survey } = sequelize.models;
+const {
+  PossibleAnswer, Question, Subcategory, Survey,
+} = sequelize.models;
 const router = express.Router();
 
 /**
@@ -56,7 +58,7 @@ router.get('/subcategories/:survey', async (req, res) => {
  *         description: Returns list of questions in a subcategory
  *
  */
- router.get('/questions/:subcategory', async (req, res) => {
+router.get('/questions/:subcategory', async (req, res) => {
   console.log(req.params.subcategory);
   const results = await Subcategory.findOne({
     where: { subcategory: req.params.subcategory },
@@ -89,7 +91,9 @@ router.get('/subcategories/:survey', async (req, res) => {
  *
  */
 router.post('/create-question', async (req, res) => {
-  const { subcategoryId, question, weight, information } = req.body;
+  const {
+    subcategoryId, question, weight, information,
+  } = req.body;
 
   // Validate request
   if (!question) {
@@ -109,9 +113,7 @@ router.post('/create-question', async (req, res) => {
 
   // Save Question in the database
   Question.create(newQuestion)
-    .then((data) => {
-      return res.send(data);
-    })
+    .then((data) => res.send(data))
     .catch((err) => {
       res.status(500).send({
         message:
@@ -136,33 +138,33 @@ router.post('/create-question', async (req, res) => {
  *         description: New possible answer added
  *
  */
-  router.post('/create-possible-answer', async (req, res) => {
-    console.log(req.body);
-    const { question, possibleAnswers } = req.body;
-    
-    // Validate request
-    if (!possibleAnswers) {
-      res.status(400).send({
-        message: 'Answer cannot be empty!',
-      });
-      return;
-    }
+router.post('/create-possible-answer', async (req, res) => {
+  console.log(req.body);
+  const { question, possibleAnswers } = req.body;
 
-    // Find question ID
-    const questionId = await Question.findOne({
-      where: { question: question },
-      attributes: ['id']
+  // Validate request
+  if (!possibleAnswers) {
+    res.status(400).send({
+      message: 'Answer cannot be empty!',
     });
+    return;
+  }
 
-    possibleAnswers.forEach((answer) => {
-      // Create a PossibleAnswer
-      const newPossibleAnswer = {
-        questionId,
-        answer,
-      };
+  // Find question ID
+  const questionId = await Question.findOne({
+    where: { question },
+    attributes: ['id'],
+  });
 
-      // Save PossibleAnswer in the database
-      PossibleAnswer.create(newPossibleAnswer)
+  possibleAnswers.forEach((answer) => {
+    // Create a PossibleAnswer
+    const newPossibleAnswer = {
+      questionId,
+      answer,
+    };
+
+    // Save PossibleAnswer in the database
+    PossibleAnswer.create(newPossibleAnswer)
       .then((data) => {
         res.send(data);
         console.log(data);
@@ -173,8 +175,7 @@ router.post('/create-question', async (req, res) => {
               err.message || 'Error occurred while creating the question.',
         });
       });
-    })
   });
-
+});
 
 module.exports = router;

@@ -64,14 +64,9 @@ const NotificationSetting = function NotificationSettingFunc(props) {
                 label="Milestones"
               />
               <FormControlLabel
-                control={<Checkbox />}
-                label="Text Messages"
-              />
-              <FormControlLabel
                 control={(
                   <Checkbox
                     color="primary"
-                    defaultChecked
                   />
                 )}
                 label="Achievements"
