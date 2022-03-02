@@ -1,0 +1,422 @@
+
+.dial__progress, .dial--alt .dial__progress {
+    position: relative;
+    overflow: hidden;
+}
+.dial__progress:before, .dial--alt .dial__progress:before {
+    content: "";
+    position: absolute;
+    height: 100%;
+    border-top-left-radius: 100% 50%;
+    border-top-right-radius: 0 0;
+    border-bottom-right-radius: 0 0;
+    border-bottom-left-radius: 100% 50%;
+    transform-origin: right center;
+}
+.dial__progress[data-percent="0"], .dial__progress[data-percent="1"], .dial__progress[data-percent="2"], .dial__progress[data-percent="3"], .dial__progress[data-percent="4"], .dial__progress[data-percent="5"], .dial__progress[data-percent="6"], .dial__progress[data-percent="7"], .dial__progress[data-percent="8"], .dial__progress[data-percent="9"], .dial__progress[data-percent="10"], .dial__progress[data-percent="11"], .dial__progress[data-percent="12"], .dial__progress[data-percent="13"], .dial__progress[data-percent="14"], .dial__progress[data-percent="15"], .dial__progress[data-percent="16"], .dial__progress[data-percent="17"], .dial__progress[data-percent="18"], .dial__progress[data-percent="19"], .dial__progress[data-percent="20"], .dial__progress[data-percent="21"], .dial__progress[data-percent="22"], .dial__progress[data-percent="23"], .dial__progress[data-percent="24"], .dial__progress[data-percent="25"], .dial__progress[data-percent="26"], .dial__progress[data-percent="27"], .dial__progress[data-percent="28"], .dial__progress[data-percent="29"], .dial__progress[data-percent="30"], .dial__progress[data-percent="31"], .dial__progress[data-percent="32"], .dial__progress[data-percent="33"], .dial__progress[data-percent="34"], .dial__progress[data-percent="35"], .dial__progress[data-percent="36"], .dial__progress[data-percent="37"], .dial__progress[data-percent="38"], .dial__progress[data-percent="39"], .dial__progress[data-percent="40"], .dial__progress[data-percent="41"], .dial__progress[data-percent="42"], .dial__progress[data-percent="43"], .dial__progress[data-percent="44"], .dial__progress[data-percent="45"], .dial__progress[data-percent="46"], .dial__progress[data-percent="47"], .dial__progress[data-percent="48"], .dial__progress[data-percent="49"], .dial__progress[data-percent="50"], .dial--alt .dial__progress[data-percent="0"], .dial--alt .dial__progress[data-percent="10"], .dial--alt .dial__progress[data-percent="20"], .dial--alt .dial__progress[data-percent="30"], .dial--alt .dial__progress[data-percent="40"], .dial--alt .dial__progress[data-percent="50"] {
+    width: 50%;
+    height: 100%;
+    left: 50%;
+    transform-origin: left center;
+}
+.dial__progress[data-percent="0"]:before, .dial__progress[data-percent="1"]:before, .dial__progress[data-percent="2"]:before, .dial__progress[data-percent="3"]:before, .dial__progress[data-percent="4"]:before, .dial__progress[data-percent="5"]:before, .dial__progress[data-percent="6"]:before, .dial__progress[data-percent="7"]:before, .dial__progress[data-percent="8"]:before, .dial__progress[data-percent="9"]:before, .dial__progress[data-percent="10"]:before, .dial__progress[data-percent="11"]:before, .dial__progress[data-percent="12"]:before, .dial__progress[data-percent="13"]:before, .dial__progress[data-percent="14"]:before, .dial__progress[data-percent="15"]:before, .dial__progress[data-percent="16"]:before, .dial__progress[data-percent="17"]:before, .dial__progress[data-percent="18"]:before, .dial__progress[data-percent="19"]:before, .dial__progress[data-percent="20"]:before, .dial__progress[data-percent="21"]:before, .dial__progress[data-percent="22"]:before, .dial__progress[data-percent="23"]:before, .dial__progress[data-percent="24"]:before, .dial__progress[data-percent="25"]:before, .dial__progress[data-percent="26"]:before, .dial__progress[data-percent="27"]:before, .dial__progress[data-percent="28"]:before, .dial__progress[data-percent="29"]:before, .dial__progress[data-percent="30"]:before, .dial__progress[data-percent="31"]:before, .dial__progress[data-percent="32"]:before, .dial__progress[data-percent="33"]:before, .dial__progress[data-percent="34"]:before, .dial__progress[data-percent="35"]:before, .dial__progress[data-percent="36"]:before, .dial__progress[data-percent="37"]:before, .dial__progress[data-percent="38"]:before, .dial__progress[data-percent="39"]:before, .dial__progress[data-percent="40"]:before, .dial__progress[data-percent="41"]:before, .dial__progress[data-percent="42"]:before, .dial__progress[data-percent="43"]:before, .dial__progress[data-percent="44"]:before, .dial__progress[data-percent="45"]:before, .dial__progress[data-percent="46"]:before, .dial__progress[data-percent="47"]:before, .dial__progress[data-percent="48"]:before, .dial__progress[data-percent="49"]:before, .dial__progress[data-percent="50"]:before, .dial--alt .dial__progress[data-percent="0"]:before, .dial--alt .dial__progress[data-percent="10"]:before, .dial--alt .dial__progress[data-percent="20"]:before, .dial--alt .dial__progress[data-percent="30"]:before, .dial--alt .dial__progress[data-percent="40"]:before, .dial--alt .dial__progress[data-percent="50"]:before {
+    left: -100%;
+    width: 100%;
+}
+.dial__progress[data-percent="51"], .dial__progress[data-percent="52"], .dial__progress[data-percent="53"], .dial__progress[data-percent="54"], .dial__progress[data-percent="55"], .dial__progress[data-percent="56"], .dial__progress[data-percent="57"], .dial__progress[data-percent="58"], .dial__progress[data-percent="59"], .dial__progress[data-percent="60"], .dial__progress[data-percent="61"], .dial__progress[data-percent="62"], .dial__progress[data-percent="63"], .dial__progress[data-percent="64"], .dial__progress[data-percent="65"], .dial__progress[data-percent="66"], .dial__progress[data-percent="67"], .dial__progress[data-percent="68"], .dial__progress[data-percent="69"], .dial__progress[data-percent="70"], .dial__progress[data-percent="71"], .dial__progress[data-percent="72"], .dial__progress[data-percent="73"], .dial__progress[data-percent="74"], .dial__progress[data-percent="75"], .dial__progress[data-percent="76"], .dial__progress[data-percent="77"], .dial__progress[data-percent="78"], .dial__progress[data-percent="79"], .dial__progress[data-percent="80"], .dial__progress[data-percent="81"], .dial__progress[data-percent="82"], .dial__progress[data-percent="83"], .dial__progress[data-percent="84"], .dial__progress[data-percent="85"], .dial__progress[data-percent="86"], .dial__progress[data-percent="87"], .dial__progress[data-percent="88"], .dial__progress[data-percent="89"], .dial__progress[data-percent="90"], .dial__progress[data-percent="91"], .dial__progress[data-percent="92"], .dial__progress[data-percent="93"], .dial__progress[data-percent="94"], .dial__progress[data-percent="95"], .dial__progress[data-percent="96"], .dial__progress[data-percent="97"], .dial__progress[data-percent="98"], .dial__progress[data-percent="99"], .dial__progress[data-percent="100"], .dial--alt .dial__progress[data-percent="60"], .dial--alt .dial__progress[data-percent="70"], .dial--alt .dial__progress[data-percent="80"], .dial--alt .dial__progress[data-percent="90"], .dial--alt .dial__progress[data-percent="100"] {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    transform-origin: center center;
+}
+.dial__progress[data-percent="51"]:before, .dial__progress[data-percent="52"]:before, .dial__progress[data-percent="53"]:before, .dial__progress[data-percent="54"]:before, .dial__progress[data-percent="55"]:before, .dial__progress[data-percent="56"]:before, .dial__progress[data-percent="57"]:before, .dial__progress[data-percent="58"]:before, .dial__progress[data-percent="59"]:before, .dial__progress[data-percent="60"]:before, .dial__progress[data-percent="61"]:before, .dial__progress[data-percent="62"]:before, .dial__progress[data-percent="63"]:before, .dial__progress[data-percent="64"]:before, .dial__progress[data-percent="65"]:before, .dial__progress[data-percent="66"]:before, .dial__progress[data-percent="67"]:before, .dial__progress[data-percent="68"]:before, .dial__progress[data-percent="69"]:before, .dial__progress[data-percent="70"]:before, .dial__progress[data-percent="71"]:before, .dial__progress[data-percent="72"]:before, .dial__progress[data-percent="73"]:before, .dial__progress[data-percent="74"]:before, .dial__progress[data-percent="75"]:before, .dial__progress[data-percent="76"]:before, .dial__progress[data-percent="77"]:before, .dial__progress[data-percent="78"]:before, .dial__progress[data-percent="79"]:before, .dial__progress[data-percent="80"]:before, .dial__progress[data-percent="81"]:before, .dial__progress[data-percent="82"]:before, .dial__progress[data-percent="83"]:before, .dial__progress[data-percent="84"]:before, .dial__progress[data-percent="85"]:before, .dial__progress[data-percent="86"]:before, .dial__progress[data-percent="87"]:before, .dial__progress[data-percent="88"]:before, .dial__progress[data-percent="89"]:before, .dial__progress[data-percent="90"]:before, .dial__progress[data-percent="91"]:before, .dial__progress[data-percent="92"]:before, .dial__progress[data-percent="93"]:before, .dial__progress[data-percent="94"]:before, .dial__progress[data-percent="95"]:before, .dial__progress[data-percent="96"]:before, .dial__progress[data-percent="97"]:before, .dial__progress[data-percent="98"]:before, .dial__progress[data-percent="99"]:before, .dial__progress[data-percent="100"]:before, .dial--alt .dial__progress[data-percent="60"]:before, .dial--alt .dial__progress[data-percent="70"]:before, .dial--alt .dial__progress[data-percent="80"]:before, .dial--alt .dial__progress[data-percent="90"]:before, .dial--alt .dial__progress[data-percent="100"]:before {
+    left: 0;
+    width: 50%;
+}
+.dial__progress[data-percent="51"]:after, .dial__progress[data-percent="52"]:after, .dial__progress[data-percent="53"]:after, .dial__progress[data-percent="54"]:after, .dial__progress[data-percent="55"]:after, .dial__progress[data-percent="56"]:after, .dial__progress[data-percent="57"]:after, .dial__progress[data-percent="58"]:after, .dial__progress[data-percent="59"]:after, .dial__progress[data-percent="60"]:after, .dial__progress[data-percent="61"]:after, .dial__progress[data-percent="62"]:after, .dial__progress[data-percent="63"]:after, .dial__progress[data-percent="64"]:after, .dial__progress[data-percent="65"]:after, .dial__progress[data-percent="66"]:after, .dial__progress[data-percent="67"]:after, .dial__progress[data-percent="68"]:after, .dial__progress[data-percent="69"]:after, .dial__progress[data-percent="70"]:after, .dial__progress[data-percent="71"]:after, .dial__progress[data-percent="72"]:after, .dial__progress[data-percent="73"]:after, .dial__progress[data-percent="74"]:after, .dial__progress[data-percent="75"]:after, .dial__progress[data-percent="76"]:after, .dial__progress[data-percent="77"]:after, .dial__progress[data-percent="78"]:after, .dial__progress[data-percent="79"]:after, .dial__progress[data-percent="80"]:after, .dial__progress[data-percent="81"]:after, .dial__progress[data-percent="82"]:after, .dial__progress[data-percent="83"]:after, .dial__progress[data-percent="84"]:after, .dial__progress[data-percent="85"]:after, .dial__progress[data-percent="86"]:after, .dial__progress[data-percent="87"]:after, .dial__progress[data-percent="88"]:after, .dial__progress[data-percent="89"]:after, .dial__progress[data-percent="90"]:after, .dial__progress[data-percent="91"]:after, .dial__progress[data-percent="92"]:after, .dial__progress[data-percent="93"]:after, .dial__progress[data-percent="94"]:after, .dial__progress[data-percent="95"]:after, .dial__progress[data-percent="96"]:after, .dial__progress[data-percent="97"]:after, .dial__progress[data-percent="98"]:after, .dial__progress[data-percent="99"]:after, .dial__progress[data-percent="100"]:after, .dial--alt .dial__progress[data-percent="60"]:after, .dial--alt .dial__progress[data-percent="70"]:after, .dial--alt .dial__progress[data-percent="80"]:after, .dial--alt .dial__progress[data-percent="90"]:after, .dial--alt .dial__progress[data-percent="100"]:after {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 100%;
+    left: 50%;
+    border-top-left-radius: 0 0;
+    border-top-right-radius: 100% 50%;
+    border-bottom-right-radius: 100% 50%;
+    border-bottom-left-radius: 0 0;
+}
+.dial {
+    position: relative;
+    margin: 30px auto;
+    width: 300px;
+    height: 300px;
+}
+.dial__progress[data-percent="0"]:before {
+    transform: rotate(0deg);
+}
+.dial__progress[data-percent="1"]:before {
+    transform: rotate(3.6deg);
+}
+.dial__progress[data-percent="2"]:before {
+    transform: rotate(7.2deg);
+}
+.dial__progress[data-percent="3"]:before {
+    transform: rotate(10.8deg);
+}
+.dial__progress[data-percent="4"]:before {
+    transform: rotate(14.4deg);
+}
+.dial__progress[data-percent="5"]:before {
+    transform: rotate(18deg);
+}
+.dial__progress[data-percent="6"]:before {
+    transform: rotate(21.6deg);
+}
+.dial__progress[data-percent="7"]:before {
+    transform: rotate(25.2deg);
+}
+.dial__progress[data-percent="8"]:before {
+    transform: rotate(28.8deg);
+}
+.dial__progress[data-percent="9"]:before {
+    transform: rotate(32.4deg);
+}
+.dial__progress[data-percent="10"]:before {
+    transform: rotate(36deg);
+}
+.dial__progress[data-percent="11"]:before {
+    transform: rotate(39.6deg);
+}
+.dial__progress[data-percent="12"]:before {
+    transform: rotate(43.2deg);
+}
+.dial__progress[data-percent="13"]:before {
+    transform: rotate(46.8deg);
+}
+.dial__progress[data-percent="14"]:before {
+    transform: rotate(50.4deg);
+}
+.dial__progress[data-percent="15"]:before {
+    transform: rotate(54deg);
+}
+.dial__progress[data-percent="16"]:before {
+    transform: rotate(57.6deg);
+}
+.dial__progress[data-percent="17"]:before {
+    transform: rotate(61.2deg);
+}
+.dial__progress[data-percent="18"]:before {
+    transform: rotate(64.8deg);
+}
+.dial__progress[data-percent="19"]:before {
+    transform: rotate(68.4deg);
+}
+.dial__progress[data-percent="20"]:before {
+    transform: rotate(72deg);
+}
+.dial__progress[data-percent="21"]:before {
+    transform: rotate(75.6deg);
+}
+.dial__progress[data-percent="22"]:before {
+    transform: rotate(79.2deg);
+}
+.dial__progress[data-percent="23"]:before {
+    transform: rotate(82.8deg);
+}
+.dial__progress[data-percent="24"]:before {
+    transform: rotate(86.4deg);
+}
+.dial__progress[data-percent="25"]:before {
+    transform: rotate(90deg);
+}
+.dial__progress[data-percent="26"]:before {
+    transform: rotate(93.6deg);
+}
+.dial__progress[data-percent="27"]:before {
+    transform: rotate(97.2deg);
+}
+.dial__progress[data-percent="28"]:before {
+    transform: rotate(100.8deg);
+}
+.dial__progress[data-percent="29"]:before {
+    transform: rotate(104.4deg);
+}
+.dial__progress[data-percent="30"]:before {
+    transform: rotate(108deg);
+}
+.dial__progress[data-percent="31"]:before {
+    transform: rotate(111.6deg);
+}
+.dial__progress[data-percent="32"]:before {
+    transform: rotate(115.2deg);
+}
+.dial__progress[data-percent="33"]:before {
+    transform: rotate(118.8deg);
+}
+.dial__progress[data-percent="34"]:before {
+    transform: rotate(122.4deg);
+}
+.dial__progress[data-percent="35"]:before {
+    transform: rotate(126deg);
+}
+.dial__progress[data-percent="36"]:before {
+    transform: rotate(129.6deg);
+}
+.dial__progress[data-percent="37"]:before {
+    transform: rotate(133.2deg);
+}
+.dial__progress[data-percent="38"]:before {
+    transform: rotate(136.8deg);
+}
+.dial__progress[data-percent="39"]:before {
+    transform: rotate(140.4deg);
+}
+.dial__progress[data-percent="40"]:before {
+    transform: rotate(144deg);
+}
+.dial__progress[data-percent="41"]:before {
+    transform: rotate(147.6deg);
+}
+.dial__progress[data-percent="42"]:before {
+    transform: rotate(151.2deg);
+}
+.dial__progress[data-percent="43"]:before {
+    transform: rotate(154.8deg);
+}
+.dial__progress[data-percent="44"]:before {
+    transform: rotate(158.4deg);
+}
+.dial__progress[data-percent="45"]:before {
+    transform: rotate(162deg);
+}
+.dial__progress[data-percent="46"]:before {
+    transform: rotate(165.6deg);
+}
+.dial__progress[data-percent="47"]:before {
+    transform: rotate(169.2deg);
+}
+.dial__progress[data-percent="48"]:before {
+    transform: rotate(172.8deg);
+}
+.dial__progress[data-percent="49"]:before {
+    transform: rotate(176.4deg);
+}
+.dial__progress[data-percent="50"]:before {
+    transform: rotate(180deg);
+}
+.dial__progress[data-percent="51"]:before {
+    transform: rotate(183.6deg);
+}
+.dial__progress[data-percent="52"]:before {
+    transform: rotate(187.2deg);
+}
+.dial__progress[data-percent="53"]:before {
+    transform: rotate(190.8deg);
+}
+.dial__progress[data-percent="54"]:before {
+    transform: rotate(194.4deg);
+}
+.dial__progress[data-percent="55"]:before {
+    transform: rotate(198deg);
+}
+.dial__progress[data-percent="56"]:before {
+    transform: rotate(201.6deg);
+}
+.dial__progress[data-percent="57"]:before {
+    transform: rotate(205.2deg);
+}
+.dial__progress[data-percent="58"]:before {
+    transform: rotate(208.8deg);
+}
+.dial__progress[data-percent="59"]:before {
+    transform: rotate(212.4deg);
+}
+.dial__progress[data-percent="60"]:before {
+    transform: rotate(216deg);
+}
+.dial__progress[data-percent="61"]:before {
+    transform: rotate(219.6deg);
+}
+.dial__progress[data-percent="62"]:before {
+    transform: rotate(223.2deg);
+}
+.dial__progress[data-percent="63"]:before {
+    transform: rotate(226.8deg);
+}
+.dial__progress[data-percent="64"]:before {
+    transform: rotate(230.4deg);
+}
+.dial__progress[data-percent="65"]:before {
+    transform: rotate(234deg);
+}
+.dial__progress[data-percent="66"]:before {
+    transform: rotate(237.6deg);
+}
+.dial__progress[data-percent="67"]:before {
+    transform: rotate(241.2deg);
+}
+.dial__progress[data-percent="68"]:before {
+    transform: rotate(244.8deg);
+}
+.dial__progress[data-percent="69"]:before {
+    transform: rotate(248.4deg);
+}
+.dial__progress[data-percent="70"]:before {
+    transform: rotate(252deg);
+}
+.dial__progress[data-percent="71"]:before {
+    transform: rotate(255.6deg);
+}
+.dial__progress[data-percent="72"]:before {
+    transform: rotate(259.2deg);
+}
+.dial__progress[data-percent="73"]:before {
+    transform: rotate(262.8deg);
+}
+.dial__progress[data-percent="74"]:before {
+    transform: rotate(266.4deg);
+}
+.dial__progress[data-percent="75"]:before {
+    transform: rotate(270deg);
+}
+.dial__progress[data-percent="76"]:before {
+    transform: rotate(273.6deg);
+}
+.dial__progress[data-percent="77"]:before {
+    transform: rotate(277.2deg);
+}
+.dial__progress[data-percent="78"]:before {
+    transform: rotate(280.8deg);
+}
+.dial__progress[data-percent="79"]:before {
+    transform: rotate(284.4deg);
+}
+.dial__progress[data-percent="80"]:before {
+    transform: rotate(288deg);
+}
+.dial__progress[data-percent="81"]:before {
+    transform: rotate(291.6deg);
+}
+.dial__progress[data-percent="82"]:before {
+    transform: rotate(295.2deg);
+}
+.dial__progress[data-percent="83"]:before {
+    transform: rotate(298.8deg);
+}
+.dial__progress[data-percent="84"]:before {
+    transform: rotate(302.4deg);
+}
+.dial__progress[data-percent="85"]:before {
+    transform: rotate(306deg);
+}
+.dial__progress[data-percent="86"]:before {
+    transform: rotate(309.6deg);
+}
+.dial__progress[data-percent="87"]:before {
+    transform: rotate(313.2deg);
+}
+.dial__progress[data-percent="88"]:before {
+    transform: rotate(316.8deg);
+}
+.dial__progress[data-percent="89"]:before {
+    transform: rotate(320.4deg);
+}
+.dial__progress[data-percent="90"]:before {
+    transform: rotate(324deg);
+}
+.dial__progress[data-percent="91"]:before {
+    transform: rotate(327.6deg);
+}
+.dial__progress[data-percent="92"]:before {
+    transform: rotate(331.2deg);
+}
+.dial__progress[data-percent="93"]:before {
+    transform: rotate(334.8deg);
+}
+.dial__progress[data-percent="94"]:before {
+    transform: rotate(338.4deg);
+}
+.dial__progress[data-percent="95"]:before {
+    transform: rotate(342deg);
+}
+.dial__progress[data-percent="96"]:before {
+    transform: rotate(345.6deg);
+}
+.dial__progress[data-percent="97"]:before {
+    transform: rotate(349.2deg);
+}
+.dial__progress[data-percent="98"]:before {
+    transform: rotate(352.8deg);
+}
+.dial__progress[data-percent="99"]:before {
+    transform: rotate(356.4deg);
+}
+.dial__progress[data-percent="100"]:before {
+    transform: rotate(360deg);
+}
+.dial__content {
+    position: absolute;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.99);
+    box-shadow: inset   3px 3px 5px 6px #ccc;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: 4%;
+    z-index: 1;
+}
+.dial--positive .dial__progress:before, .dial--positive .dial__progress:after {
+    background-color: #6a56c5;
+}
+.dial--negative .dial__progress:before, .dial--negative .dial__progress:after {
+    background-color: #ab4642;
+}
+.dial--alt {
+    width: 200px;
+    height: 200px;
+}
+.dial--alt .dial__progress[data-percent="0"]:before {
+    transform: rotate(0deg);
+}
+.dial--alt .dial__progress[data-percent="10"]:before {
+    transform: rotate(36deg);
+}
+.dial--alt .dial__progress[data-percent="20"]:before {
+    transform: rotate(72deg);
+}
+.dial--alt .dial__progress[data-percent="30"]:before {
+    transform: rotate(108deg);
+}
+.dial--alt .dial__progress[data-percent="40"]:before {
+    transform: rotate(144deg);
+}
+.dial--alt .dial__progress[data-percent="50"]:before {
+    transform: rotate(180deg);
+}
+.dial--alt .dial__progress[data-percent="60"]:before {
+    transform: rotate(216deg);
+}
+.dial--alt .dial__progress[data-percent="70"]:before {
+    transform: rotate(252deg);
+}
+.dial--alt .dial__progress[data-percent="80"]:before {
+    transform: rotate(288deg);
+}
+.dial--alt .dial__progress[data-percent="90"]:before {
+    transform: rotate(324deg);
+}
+.dial--alt .dial__progress[data-percent="100"]:before {
+    transform: rotate(360deg);
+}
+.dial--alt .dial__progress:before, .dial--alt .dial__progress:after {
+    background-color: #ba8baf;
+}
+.dial--alt .dial__content {
+    margin: 5px;
+    background-color: #282828;
+}
+.radial_text {
+    color:#6a56c5;
+    font-size: 50px;
+}
+@import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');

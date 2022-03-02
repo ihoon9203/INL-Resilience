@@ -4,6 +4,7 @@ const userApi = require('./user');
 const infoApi = require('./info');
 const surveyApi = require('./survey');
 const scoreApi = require('./score');
+const goalApi = require('./goal');
 const feedbackApi = require('./feedback');
 const adminFeedbackApi = require('./admin/feedback');
 
@@ -14,6 +15,7 @@ router.use(infoApi);
 router.use(surveyApi);
 router.use(userApi);
 router.use(scoreApi);
+router.use(goalApi);
 router.use(feedbackApi);
 router.use(adminFeedbackApi);
 

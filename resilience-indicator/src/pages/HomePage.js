@@ -19,11 +19,19 @@ const HomePage = function HomePageFunc() {
     Axios
       .get('/api/all-scores', { withCredentials: true })
       .then((res) => {
-        setTotal((res.data.health + res.data.cyber + res.data.emergency + res.data.finance) / Object.keys(res.data).length);
-        setHealthScore(res.data.health);
-        setCyberScore(res.data.cyber);
-        setEmergencyScore(res.data.emergency);
-        setFinanceScore(res.data.finance);
+        let length = 1;
+        if (Object.keys(res.data).length !== 0) {
+          length = Object.keys(res.data).length;
+        }
+        const thisHealthScore = typeof (res.data.health) !== 'undefined' ? res.data.health : 0;
+        const thisEmergencyScore = typeof (res.data.emergency) !== 'undefined' ? res.data.emergency : 0;
+        const thisCyberScore = typeof (res.data.cyber) !== 'undefined' ? res.data.cyber : 0;
+        const thisFinanceScore = typeof (res.data.finance) !== 'undefined' ? res.data.finance : 0;
+        setTotal(Math.round((thisHealthScore + thisEmergencyScore + thisCyberScore + thisFinanceScore) / length));
+        setHealthScore(thisHealthScore);
+        setCyberScore(thisCyberScore);
+        setEmergencyScore(thisEmergencyScore);
+        setFinanceScore(thisFinanceScore);
       });
     Axios
       .get('/api/logged_in', { withCredentials: true })

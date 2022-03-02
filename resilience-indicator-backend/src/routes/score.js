@@ -25,10 +25,7 @@ router.get(
     const results = await Score.findAll({
       where: { userId: req.user.id },
       include: [{ model: Survey, attributes: ['category'] }],
-    }).catch((err) => {
-      console.log('DB_ERROR: ', err);
-      return res.status(500).send('INTERNAL_ERROR: ', err);
-    });
+    }).catch((err) => res.status(500).send('INTERNAL_ERROR: ', err));
 
     if (!results) return res.status(404).send('User not found');
 

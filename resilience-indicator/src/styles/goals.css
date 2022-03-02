@@ -1,0 +1,85 @@
+.badge{
+    display: flex;
+    height: 70px;
+}
+.badge:empty{
+    display: flex !important;
+}
+.badge-container{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    border-radius: 10px;
+    height: 80px;
+    width: 100%;
+    margin-top: 15px !important;
+    background-color: #fff;
+    border-style: solid;
+    border-color:rgb(165, 165, 165);
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    color: black !important;
+}
+.badge-container:hover{
+    background-color: #ccc;
+    border-color:rgb(128, 128, 128);
+}
+.badge-cp{
+    display: flex;
+    height: 70px;
+}
+.badge-cp:empty{
+    display: flex !important;
+}
+.badge-cp-container{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    height: 80px;
+    width: 100%;
+    background: rgb(255, 224, 139);
+    border-style: solid;
+    border-color:rgb(253, 199, 50);
+    font-family: 'DM Sans', sans-serif;
+    margin-top: 15px !important;
+    cursor: pointer;
+    color: black !important;
+}
+.badge-cp-container:hover{
+    background: rgb(250, 200, 64);
+    border-color:rgb(206, 162, 42);
+}
+.badge-desc{
+    text-align: left;
+    margin: 10px
+}
+.goals-list{
+    justify-content: center;
+    border-radius: 10px;
+    border-style: solid;
+    border-color:rgb(197, 197, 197);
+    overflow: auto;
+    height: 600px;
+    width: auto;
+}
+.goals-list::-webkit-scrollbar {
+    width: 12px;               /* width of the entire scrollbar */
+  }
+
+.goals-list::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;      /* color of the tracking area */
+}
+
+.goals-list::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #858585;;  /* creates padding around scroll thumb */
+}
+.return-button {
+    justify-content: center;
+    text-align: center;
+}
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=PT+Sans&display=swap');

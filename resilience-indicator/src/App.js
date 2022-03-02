@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import * as am4core from '@amcharts/amcharts4/core';
 import am4ThemesAnimated from '@amcharts/amcharts4/themes/animated';
+import AchievementsPage from './pages/AchievementsPage';
 import AdminPage from './pages/AdminPage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -13,6 +14,7 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import NavBar from './components/NavBar';
+import GoalsPage from './pages/GoalsPage';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Footer from './components/Footer';
@@ -25,6 +27,8 @@ const DefaultContainer = function DefaultContainerFunc() {
       <NavBar />
       <div id="page-body">
         <Routes>
+          <Route path="/achievements" element={<AchievementsPage />} />
+          <Route path="/goals" element={<GoalsPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/home" element={<HomePage />} exact />
           <Route path="/about" element={<AboutPage />} />
