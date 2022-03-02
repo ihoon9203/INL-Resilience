@@ -27,8 +27,6 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
       .get(`/api/subcategories/${survey}`, { withCredentials: true })
       .then((res) => {
         setSubcategories(res.data);
-        // eslint-disable-next-line
-        console.log(subcategories);
       });
   }, [survey]);
 
@@ -72,7 +70,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     // eslint-disable-next-line
-    console.log(formValues);
+    // console.log(formValues);
 
     // change string of possible answers to an array
     const possibleAnswersArray = possibleAnswers.split(',');
@@ -82,7 +80,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
       possibleAnswers: possibleAnswersArray,
     };
 
-    console.log(possibleAnswerValues);
+    // console.log(possibleAnswerValues);
 
     Axios({
       method: 'POST',
@@ -91,7 +89,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
       url: '/api/create-question',
     })
       .then((res) => {
-        console.log(res.status);
+        // console.log(res.status);
         if (res.status === 200) {
           // eslint-disable-next-line no-alert
           window.alert('Successfully added question!');
@@ -103,7 +101,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
           })
             // eslint-disable-next-line no-shadow
             .then((res) => {
-              console.log(res.status);
+              // console.log(res.status);
               if (res.status === 200) {
                 // eslint-disable-next-line no-alert
                 window.alert('Successfully added answers!');

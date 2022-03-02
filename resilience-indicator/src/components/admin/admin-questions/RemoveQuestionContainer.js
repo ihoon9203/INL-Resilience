@@ -34,9 +34,9 @@ const RemoveQuestionContainer = function RemoveQuestionContainer({ survey }) {
     Axios
       // eslint-disable-next-line prefer-template
       .get('/api/questions/' + encodeURIComponent(chosenSubcategory), { withCredentials: true })
-      .then((res) => {
+      .then(() => {
       // eslint-disable-next-line
-      console.log(res);
+      // console.log(res);
       // setQuestions(res.data);
       });
   }, [chosenSubcategory]);
@@ -61,7 +61,7 @@ const RemoveQuestionContainer = function RemoveQuestionContainer({ survey }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     // eslint-disable-next-line
-    console.log(formValues);
+    // console.log(formValues);
 
     // Axios({
     //   method: 'POST',

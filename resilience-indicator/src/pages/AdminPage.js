@@ -1,30 +1,21 @@
-import * as React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  Tabs, Tab, Box, Accordion, AccordionDetails, AccordionSummary, Typography,
+  Box, Container, Grid, Typography,
 } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Axios from 'axios';
-import AddQuestionContainer from '../components/AddQuestionContainer';
-import RemoveQuestionContainer from '../components/RemoveQuestionContainer';
+import AdminNav from '../components/admin/AdminNav';
+import AdminPicker from '../components/admin/AdminPicker';
 import NotFoundPage from './NotFoundPage';
 
 const AdminPage = function AdminPageFunc() {
-  const [survey, setSurvey] = useState('Finance');
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleAccordionChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  const [pickerValue, setPickerValue] = useState('Feedback');
 
   const [user, setUser] = useState({
     isAdmin: false,
   });
 
-  const handleChange = (newValue) => {
-    setSurvey(newValue);
-    // eslint-disable-next-line
-    console.log(newValue);
+  const handlePickerValueChange = (newPickerValue) => {
+    setPickerValue(newPickerValue);
   };
 
   useEffect(() => {
@@ -39,46 +30,42 @@ const AdminPage = function AdminPageFunc() {
 
   if (user.isAdmin) {
     return (
-      <Box ml={2} sx={{ width: '100%' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={survey} onChange={handleChange} aria-label="survey tabs">
-            <Tab label="Finance" value="Finance" onClick={() => setSurvey('Finance')} />
-            <Tab label="Emergency" value="Emergency" onClick={() => setSurvey('Emergency')} />
-            <Tab label="Cyber" value="Cyber" onClick={() => setSurvey('Cyber')} />
-            <Tab label="Health" value="Health" onClick={() => setSurvey('Health')} />
-          </Tabs>
-        </Box>
-        <Typography color="primary" variant="h3">
-          {survey}
-        </Typography>
-        <Accordion expanded={expanded === 'panel1'} onChange={handleAccordionChange('panel1')}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          py: 8,
+        }}
+      >
+        <Container maxWidth="lg">
+          <Typography
+            sx={{ mb: 3 }}
+            variant="h4"
           >
-            <Typography sx={{ width: '100%', flexShrink: 0 }}>
-              Add a question
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <AddQuestionContainer survey={survey} />
-          </AccordionDetails>
-        </Accordion>
-        <Accordion expanded={expanded === 'panel2'} onChange={handleAccordionChange('panel2')}>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel2bh-content"
-            id="panel2bh-header"
+            Admin ------------
+          </Typography>
+          <Grid
+            container
+            spacing={3}
           >
-            <Typography sx={{ width: '100%', flexShrink: 0 }}>
-              Remove a question
-            </Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <RemoveQuestionContainer survey={survey} />
-          </AccordionDetails>
-        </Accordion>
+            <Grid
+              item
+              lg={3}
+              md={6}
+              xs={12}
+            >
+              <AdminNav handlePickerValueChange={handlePickerValueChange} />
+            </Grid>
+            <Grid
+              item
+              lg={8}
+              md={6}
+              xs={12}
+            >
+              <AdminPicker pickerValue={pickerValue} />
+            </Grid>
+          </Grid>
+        </Container>
       </Box>
     );
   }

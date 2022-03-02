@@ -4,6 +4,7 @@ import {
   Box, Button, Card, CardContent, CardHeader, Divider, TextField, Snackbar, Alert,
 } from '@mui/material';
 import Axios from 'axios';
+import { escapeHtml } from '../../../resources/security';
 
 const FeedbackSetting = function FeedbackSettingFunc(props) {
   const [values, setValues] = useState({
@@ -39,14 +40,6 @@ const FeedbackSetting = function FeedbackSettingFunc(props) {
     setAlert({ message, severity });
     setSnackbarOpen(true);
   };
-
-  // prevent XSS
-  const escapeHtml = (unsafe) => unsafe
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
 
   const handleFeedbackSubmit = (event) => {
     event.preventDefault();

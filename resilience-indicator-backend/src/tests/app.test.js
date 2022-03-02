@@ -49,10 +49,22 @@ afterAll(async () => {
   await FeedbackCategory.destroy({
     where: { feedbackCategoryLabel: 'Updated Category' },
   });
+  await FeedbackCategory.destroy({
+    where: { feedbackCategoryLabel: 'cat1' },
+  });
+  await FeedbackCategory.destroy({
+    where: { feedbackCategoryLabel: 'cat2' },
+  });
 
   // ensure deletion (if tests fail) of created feedback
   await Feedback.destroy({
     where: { feedback: 'New feedback!' },
+  });
+  await Feedback.destroy({
+    where: { feedback: 'feedback1' },
+  });
+  await Feedback.destroy({
+    where: { feedback: 'feedback2' },
   });
 
   await sequelize.close();
@@ -194,6 +206,63 @@ describe('Test feedback API endpoints', () => {
     expect(cat).toBe(null);
   });
 
+  test('DELETE bulk feedback category', async () => {
+    // create 2 new categories
+    let prevCount = await FeedbackCategory.count();
+    const first = 'cat1';
+    const second = 'cat2';
+    await request(app)
+      .post('/api/admin/feedback-categories')
+      .send({ feedbackCategoryLabel: first })
+      .set('cookie', cookie)
+      .then((response) => {
+        expect(response.statusCode).toBe(201);
+      });
+    await request(app)
+      .post('/api/admin/feedback-categories')
+      .send({ feedbackCategoryLabel: second })
+      .set('cookie', cookie)
+      .then((response) => {
+        expect(response.statusCode).toBe(201);
+      });
+    let afterCount = await FeedbackCategory.count();
+    expect(afterCount - prevCount === 2);
+
+    // Get the 2 new categories
+    const firstCat = await FeedbackCategory.findOne({
+      where: { feedbackCategoryLabel: first },
+    });
+    const secondCat = await FeedbackCategory.findOne({
+      where: { feedbackCategoryLabel: second },
+    });
+    expect(firstCat.feedbackCategoryLabel === first);
+    expect(secondCat.feedbackCategoryLabel === second);
+    const firstCatId = firstCat.id;
+    const secondCatId = secondCat.id;
+
+    // Perform bulk delete
+    prevCount = await FeedbackCategory.count();
+    await request(app)
+      .delete('/api/admin/feedback-categories')
+      .send({ ids: [firstCatId, secondCatId] })
+      .set('cookie', cookie)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+      });
+    afterCount = await FeedbackCategory.count();
+    expect(prevCount - afterCount === 2);
+
+    // ensure deleted
+    const cat1 = await FeedbackCategory.findOne({
+      where: { id: firstCatId },
+    });
+    const cat2 = await FeedbackCategory.findOne({
+      where: { id: secondCatId },
+    });
+    expect(cat1).toBe(null);
+    expect(cat2).toBe(null);
+  });
+
   test('GET all feedback', async () => {
     const count = await Feedback.count();
     await request(app)
@@ -292,6 +361,64 @@ describe('Test feedback API endpoints', () => {
       where: { id: updatedFeedbackResultId },
     });
     expect(feedback).toBe(null);
+  });
+
+  test('DELETE bulk feedback', async () => {
+    // create 2 new categories
+    const feedbackCategoryId = 1;
+    let prevCount = await Feedback.count();
+    const first = 'feedback1';
+    const second = 'feedback2';
+    await request(app)
+      .post(`/api/feedback/${feedbackCategoryId}`)
+      .send({ feedback: first, resolved: false })
+      .set('cookie', cookie)
+      .then((response) => {
+        expect(response.statusCode).toBe(201);
+      });
+    await request(app)
+      .post(`/api/feedback/${feedbackCategoryId}`)
+      .send({ feedback: second, resolved: false })
+      .set('cookie', cookie)
+      .then((response) => {
+        expect(response.statusCode).toBe(201);
+      });
+    let afterCount = await Feedback.count();
+    expect(afterCount - prevCount === 2);
+
+    // Get the 2 new categories
+    const firstFeedback = await Feedback.findOne({
+      where: { feedback: first },
+    });
+    const secondFeedback = await Feedback.findOne({
+      where: { feedback: second },
+    });
+    expect(firstFeedback.feedback === first);
+    expect(secondFeedback.feedback === second);
+    const firstFeedbackId = firstFeedback.id;
+    const secondFeedbackId = secondFeedback.id;
+
+    // Perform bulk delete
+    prevCount = await Feedback.count();
+    await request(app)
+      .delete('/api/admin/feedback')
+      .send({ ids: [firstFeedbackId, secondFeedbackId] })
+      .set('cookie', cookie)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+      });
+    afterCount = await Feedback.count();
+    expect(prevCount - afterCount === 2);
+
+    // ensure deleted
+    const cat1 = await Feedback.findOne({
+      where: { id: firstFeedbackId },
+    });
+    const cat2 = await Feedback.findOne({
+      where: { id: secondFeedbackId },
+    });
+    expect(cat1).toBe(null);
+    expect(cat2).toBe(null);
   });
 });
 

@@ -191,6 +191,71 @@ router.delete(
   },
 );
 
+/**
+ * @openapi
+ * /api/admin/feedback-categories:
+ *   delete:
+ *     security:
+ *       - cookieAuth: []
+ *     tags:
+ *     - Admin/Feedback
+ *     summary: Bulk delete feedback categories
+ *     requestBody:
+ *       description: Feedback category ids to be deleted
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/FeedbackCategoryBulkDeleteInSchema'
+ *           examples:
+ *             example1:
+ *               summary: example1
+ *               value:
+ *                 ids: [1, 2, 3]
+ *     responses:
+ *       200:
+ *         description: Feedback categories deleted.
+ *
+ * components:
+ *   schemas:
+ *     FeedbackCategoryBulkDeleteInSchema:
+ *       title: FeedbackCategoryBulkDeleteInSchema
+ *       type: object
+ *       properties:
+ *         ids:
+ *           type: array
+ *           description: Feedback category ids to be deleted
+ *           items:
+ *             type: int
+ */
+router.delete(
+  '/admin/feedback-categories',
+  async (req, res) => {
+    const { ids } = req.body;
+
+    ids.forEach(async (id) => {
+      // ensure category exists
+      const feedbackCategoryResult = await FeedbackCategory.findOne({
+        where: { id },
+      });
+      if (!feedbackCategoryResult) {
+        console.log(`Feedback category id ${req.params.id} Not Found`);
+        return; // equivalent to continue in conventional for loop
+      }
+
+      // delete feedback category
+      const deleted = await feedbackCategoryResult.destroy().catch((err) => {
+        console.log('Error: ', err);
+        res.status(500).json({ error: 'Cannot delete feedback category at the moment!' });
+      });
+
+      if (!deleted) res.status(500).json({ error: 'Cannot delete feedback category at the moment!' });
+    });
+
+    return res.status(200).json({ message: 'Feedback categories deleted!' });
+  },
+);
+
 /* --------------- FEEDBACK --------------- */
 
 /**
@@ -209,7 +274,9 @@ router.delete(
 router.get(
   '/admin/feedback',
   async (req, res) => {
-    const results = await Feedback.findAll().catch((err) => {
+    const results = await Feedback.findAll({
+      include: [{ model: FeedbackCategory }],
+    }).catch((err) => {
       console.log('DB_ERROR: ', err);
       return res.status(500).send('INTERNAL_ERROR: ', err);
     });
@@ -303,7 +370,7 @@ router.put(
   async (req, res) => {
     const { resolved } = req.body;
 
-    // ensure category exists
+    // ensure feedback exists
     const feedbackResult = await Feedback.findOne({
       where: { id: req.params.feedbackId },
     });
@@ -357,6 +424,71 @@ router.delete(
     });
 
     if (!deleted) return res.status(500).json({ error: 'Cannot delete feedback at the moment!' });
+    return res.status(200).json({ message: 'Feedback deleted!' });
+  },
+);
+
+/**
+ * @openapi
+ * /api/admin/feedback:
+ *   delete:
+ *     security:
+ *       - cookieAuth: []
+ *     tags:
+ *     - Admin/Feedback
+ *     summary: Bulk delete feedback
+ *     requestBody:
+ *       description: Feedback ids to be deleted
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/FeedbackBulkDeleteInSchema'
+ *           examples:
+ *             example1:
+ *               summary: example1
+ *               value:
+ *                 ids: [1, 2, 3]
+ *     responses:
+ *       200:
+ *         description: Feedback categories deleted.
+ *
+ * components:
+ *   schemas:
+ *     FeedbackBulkDeleteInSchema:
+ *       title: FeedbackBulkDeleteInSchema
+ *       type: object
+ *       properties:
+ *         ids:
+ *           type: array
+ *           description: Feedback category ids to be deleted
+ *           items:
+ *             type: int
+ */
+router.delete(
+  '/admin/feedback',
+  async (req, res) => {
+    const { ids } = req.body;
+
+    ids.forEach(async (id) => {
+      // ensure category exists
+      const feedbackResult = await Feedback.findOne({
+        where: { id },
+      });
+      if (!feedbackResult) {
+        console.log(`Feedback id ${req.params.id} Not Found`);
+        return; // equivalent to continue in conventional for loop
+      }
+
+      // delete feedback
+      const deleted = await feedbackResult.destroy().catch((err) => {
+        console.log('Error: ', err);
+        res.status(500).json({ error: 'Cannot delete feedback at the moment!' });
+      });
+
+      if (!deleted) res.status(500).json({ error: 'Cannot delete feedback at the moment!' });
+    });
+
     return res.status(200).json({ message: 'Feedback deleted!' });
   },
 );

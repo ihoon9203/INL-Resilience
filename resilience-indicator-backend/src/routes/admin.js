@@ -59,14 +59,14 @@ router.get('/subcategories/:survey', async (req, res) => {
  *
  */
 router.get('/questions/:subcategory', async (req, res) => {
-  console.log(req.params.subcategory);
+  // console.log(req.params.subcategory);
   const results = await Subcategory.findOne({
     where: { subcategory: req.params.subcategory },
     include: [{ model: Question }],
   });
   if (!results) return res.status(404).send(`Subcategory "${req.params.subcategory}" Not Found`);
 
-  console.log(results);
+  // console.log(results);
   // const returnVal = {};
   // for (let i = 0; i < results.Subcategories.length; i += 1) {
   //   returnVal[results.Subcategories[i].subcategory] = results.Subcategories[i].id;
@@ -139,7 +139,7 @@ router.post('/create-question', async (req, res) => {
  *
  */
 router.post('/create-possible-answer', async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { question, possibleAnswers } = req.body;
 
   // Validate request
@@ -167,7 +167,7 @@ router.post('/create-possible-answer', async (req, res) => {
     PossibleAnswer.create(newPossibleAnswer)
       .then((data) => {
         res.send(data);
-        console.log(data);
+        // console.log(data);
       })
       .catch((err) => {
         res.status(500).send({
