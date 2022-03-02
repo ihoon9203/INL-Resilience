@@ -32,12 +32,6 @@ module.exports = (sequelize) => {
           foreignKey: 'userId',
         },
       );
-      User.hasMany(
-        models.ImprovementPlan,
-        {
-          foreignKey: 'userId',
-        },
-      );
     }
   }
   User.init({

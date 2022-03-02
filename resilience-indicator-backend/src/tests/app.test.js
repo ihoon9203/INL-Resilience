@@ -113,12 +113,31 @@ describe('Test survey API endpoints', () => {
       .set('cookie', cookie)
       .then((response) => {
         expect(response.statusCode).toBe(200);
-        expect(response.body).toEqual([]); // no answers tied to superuser
+        expect(response.body).toEqual([]); // TODO: no answers tied to superuser
       });
   });
 
   test('GET survey-answers for non-existing category', () => request(app)
     .get('/api/survey-answers/test')
+    .set('cookie', cookie)
+    .then((response) => {
+      expect(response.body).toEqual([]); // ensure empty response
+    }));
+});
+
+describe('Test improment plan API endpoints', () => {
+  test('GET improvement plan tasks for existing category', async () => {
+    await request(app)
+      .get('/api/improvement-plan-tasks/health')
+      .set('cookie', cookie)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toEqual([]); // TODO: no answers tied to superuser
+      });
+  });
+
+  test('GET survey-answers for non-existing category', () => request(app)
+    .get('/api/improvement-plan-tasks/test')
     .set('cookie', cookie)
     .then((response) => {
       expect(response.body).toEqual([]); // ensure empty response
