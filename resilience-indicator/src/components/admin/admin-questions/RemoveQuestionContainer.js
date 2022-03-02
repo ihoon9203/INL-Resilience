@@ -7,78 +7,49 @@ import Select from '@mui/material/Select';
 import {
   Button, Grid, Typography,
 } from '@material-ui/core';
-
-const defaultValues = {
-  subcategoryId: 0,
-  question: '',
-  weight: 0.0,
-  information: '',
-};
+import { errorAlert, successAlert, warningAlert } from '../../../resources/swal-inl';
 
 const RemoveQuestionContainer = function RemoveQuestionContainer({ survey }) {
-  const [formValues, setFormValues] = useState(defaultValues);
-  const [subcategories, setSubcategories] = useState({});
-  const [chosenSubcategory, setChosenSubcategory] = useState('');
-  //   const [questions, setQuestions] = useState({});
-  //   const [chosenQuestion, setChosenQuestion] = useState('');
+  const [questions, setQuestions] = useState({});
+  const [chosenQuestion, setChosenQuestion] = useState('');
 
   useEffect(() => {
     Axios
-      .get(`/api/subcategories/${survey}`, { withCredentials: true })
+      .get(`/api/questions/${survey}`, { withCredentials: true })
       .then((res) => {
-        setSubcategories(res.data);
+        setQuestions(res.data);
       });
   }, [survey]);
 
-  useEffect(() => {
-    Axios
-      // eslint-disable-next-line prefer-template
-      .get('/api/questions/' + encodeURIComponent(chosenSubcategory), { withCredentials: true })
-      .then(() => {
-      // eslint-disable-next-line
-      // console.log(res);
-      // setQuestions(res.data);
-      });
-  }, [chosenSubcategory]);
-
-  const handleSubcategoryChange = (e) => {
-    setChosenSubcategory(e.target.value);
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: subcategories[value],
-    });
-  };
-
   const handleQuestionChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
+    setChosenQuestion(e.target.value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // eslint-disable-next-line
-    // console.log(formValues);
-
-    // Axios({
-    //   method: 'POST',
-    //   data: formValues,
-    //   withCredentials: true,
-    //   url: '/api/create-question',
-    // })
-    //   .then((res) => {
-    //     console.log(res.status);
-    //     if (res.status === 200) {
-    //       // eslint-disable-next-line no-alert
-    //       window.alert('Successfully added question!');
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    const questionId = questions[chosenQuestion];
+    const data = { questionId };
+    warningAlert("You won't be able to revert this!", 'Yes, delete!').then((result) => {
+      if (result.isConfirmed) {
+        Axios({
+          method: 'POST',
+          data,
+          withCredentials: true,
+          url: '/api/remove-question',
+        })
+          .then((res) => {
+            if (res.status === 200) {
+              successAlert('Question deleted.');
+            } else {
+              errorAlert('Something went wrong!');
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            errorAlert('Unexpected error.');
+          });
+      }
+    });
   };
 
   return (
@@ -91,33 +62,17 @@ const RemoveQuestionContainer = function RemoveQuestionContainer({ survey }) {
         </Grid>
         <Grid item xs={12}>
           <FormControl style={{ minWidth: 400 }}>
-            <InputLabel id="subcategory-select-label">Subcategory</InputLabel>
-            <Select
-              autoWidth
-              labelId="subcategory-select-label"
-              id="subcategory-select"
-              name="subcategoryId"
-              value={chosenSubcategory}
-              label="Subcategory"
-              onChange={handleSubcategoryChange}
-            >
-              {Object.keys(subcategories).map((subcategory) => <MenuItem key={subcategory} value={subcategory}>{subcategory}</MenuItem>)}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <FormControl style={{ minWidth: 400 }}>
             <InputLabel id="question-select-label">Question</InputLabel>
             <Select
               autoWidth
               labelId="question-select-label"
               id="question-select"
               name="question"
-              value="test"
+              value={chosenQuestion}
               label="Question"
               onChange={handleQuestionChange}
             >
-              {Object.keys(subcategories).map((subcategory) => <MenuItem key={subcategory} value={subcategory}>{subcategory}</MenuItem>)}
+              {Object.keys(questions).map((question) => <MenuItem key={question} value={question}>{question}</MenuItem>)}
             </Select>
           </FormControl>
         </Grid>

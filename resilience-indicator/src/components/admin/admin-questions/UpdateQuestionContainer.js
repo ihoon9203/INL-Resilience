@@ -11,12 +11,14 @@ import { errorAlert, successAlert } from '../../../resources/swal-inl';
 
 const defaultValues = {
   subcategoryId: 0,
-  question: '',
+  newQuestion: '',
+  currentQuestion: '',
   weight: 0.0,
   information: '',
 };
 
-const AddQuestionContainer = function AddQuestionContainer({ survey }) {
+const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
+  const [questions, setQuestions] = useState({});
   const [formValues, setFormValues] = useState(defaultValues);
   const [possibleAnswers, setPossibleAnswers] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('');
@@ -28,6 +30,11 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
       .get(`/api/subcategories/${survey}`, { withCredentials: true })
       .then((res) => {
         setSubcategories(res.data);
+      });
+    Axios
+      .get(`/api/questions/${survey}`, { withCredentials: true })
+      .then((res) => {
+        setQuestions(res.data);
       });
   }, [survey]);
 
@@ -41,6 +48,14 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
   };
 
   const handleQuestionChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
+
+  const handleNewQuestionChange = (e) => {
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
@@ -75,56 +90,60 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // change string of possible answers to an array
-    const possibleAnswersArray = possibleAnswers.split(',');
-
-    const possibleAnswerValues = {
-      question: formValues.question,
-      possibleAnswers: possibleAnswersArray,
-    };
-
-    const correctAnswerValues = {
-      question: formValues.question,
-      correctAnswer,
-    };
+    // format possible answers and correct answers if not empty
+    let possibleAnswersValues = {};
+    if (possibleAnswers !== '') {
+      const possibleAnswersArray = possibleAnswers.split(',');
+      possibleAnswersValues = {
+        question: formValues.currentQuestion,
+        possibleAnswers: possibleAnswersArray,
+      };
+    }
 
     Axios({
       method: 'POST',
       data: formValues,
       withCredentials: true,
-      url: '/api/create-question',
+      url: '/api/update-question',
     })
       .then((res) => {
-        if (res.status === 200) {
+        const questionId = { questionId: res.data.id };
+        if (res.status === 200 && possibleAnswers !== '') {
           Axios({
             method: 'POST',
-            data: possibleAnswerValues,
+            data: questionId,
             withCredentials: true,
-            url: '/api/create-possible-answer',
+            url: '/api/remove-possible-answer',
           })
-            // eslint-disable-next-line no-shadow
+          // eslint-disable-next-line no-shadow
             .then((res) => {
               if (res.status === 200) {
                 Axios({
                   method: 'POST',
-                  data: correctAnswerValues,
+                  data: possibleAnswersValues,
                   withCredentials: true,
-                  url: '/api/create-correct-answer',
+                  url: '/api/create-possible-answer',
                 })
                 // eslint-disable-next-line no-shadow
-                  .then((res) => {
-                    if (res.status === 200) {
-                      successAlert('Question added.');
-                    } else {
-                      errorAlert('Something went wrong!');
-                    }
-                  })
                   .catch((err) => {
                     console.log(err);
                     errorAlert('Unexpected error.');
                   });
               }
-            })
+            });
+        }
+        if (res.status === 200 && correctAnswer !== '') {
+          const correctAnswerValues = {
+            questionId: res.data.id,
+            correctAnswer,
+          };
+          Axios({
+            method: 'POST',
+            data: correctAnswerValues,
+            withCredentials: true,
+            url: '/api/update-correct-answer',
+          })
+          // eslint-disable-next-line no-shadow
             .catch((err) => {
               console.log(err);
               errorAlert('Unexpected error.');
@@ -135,6 +154,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
         console.log(err);
         errorAlert('Unexpected error.');
       });
+    successAlert('Question updated.');
   };
 
   return (
@@ -142,7 +162,10 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
       <Grid container alignItems="center" justifyContent="space-around" spacing={3}>
         <Grid item xs={12}>
           <Typography color="primary" variant="h5" id="question-title">
-            Add a question
+            Update a question
+          </Typography>
+          <Typography color="primary" variant="subtitle2" id="update-caption">
+            Choose the subcategory and question. Enter in the values you want to change, and leave the rest blank.
           </Typography>
         </Grid>
         <Grid item xs={12}>
@@ -163,19 +186,33 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
           </FormControl>
         </Grid>
         <Grid item xs={12}>
+          <FormControl style={{ minWidth: 400 }}>
+            <InputLabel id="question-select-label">Question</InputLabel>
+            <Select
+              autoWidth
+              labelId="question-select-label"
+              id="question-select"
+              name="currentQuestion"
+              value={formValues.currentQuestion}
+              label="Question"
+              onChange={handleQuestionChange}
+            >
+              {Object.keys(questions).map((question) => <MenuItem key={question} value={question}>{question}</MenuItem>)}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12}>
           <TextField
-            required
-            id="question-input"
+            id="new-question-input"
             aria-label="minimum height"
-            name="question"
-            label="Question:"
+            name="newQuestion"
+            label="Updated Question:"
             type="text"
-            value={formValues.question}
-            onChange={handleQuestionChange}
+            value={formValues.newQuestion}
+            onChange={handleNewQuestionChange}
             multiline
             minRows={2}
             maxRows={4}
-            placeholder="Write question here."
             variant="filled"
             style={{ width: 400 }}
           />
@@ -183,9 +220,8 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
         <Grid item xs={12}>
           <TextField
             id="weight-input"
-            required
             name="weight"
-            label="Question Score"
+            label="Updated Score"
             type="number"
             value={formValues.weight}
             variant="filled"
@@ -197,7 +233,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
             id="information-input"
             aria-label="minimum height"
             name="information"
-            label="Extra information"
+            label="Updated information"
             type="text"
             value={formValues.information}
             multiline
@@ -211,10 +247,9 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            required
             id="possible-answers-input"
             name="possibleAnswers"
-            label="Answer Bank"
+            label="Updated Answer Bank"
             helperText="Please enter a comma-separated list of answers."
             type="text"
             value={possibleAnswers}
@@ -228,10 +263,9 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
         </Grid>
         <Grid item xs={12}>
           <TextField
-            required
             id="correct-answer-input"
             name="correctAnswers"
-            label="Correct Answer"
+            label="Updated Correct Answer"
             helperText="Please enter the correct answer."
             type="text"
             value={correctAnswer}
@@ -253,4 +287,4 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
   );
 };
 
-export default AddQuestionContainer;
+export default UpdateQuestionContainer;

@@ -6,6 +6,7 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddQuestionContainer from './AddQuestionContainer';
 import RemoveQuestionContainer from './RemoveQuestionContainer';
+import UpdateQuestionContainer from './UpdateQuestionContainer';
 
 const AdminQuestionsFunc = function AdminQuestionsFuncFunc() {
   const [survey, setSurvey] = useState('Finance');
@@ -29,7 +30,7 @@ const AdminQuestionsFunc = function AdminQuestionsFuncFunc() {
           <Tab label="Health" value="Health" onClick={() => setSurvey('Health')} />
         </Tabs>
       </Box>
-      <Typography color="primary" variant="h3">
+      <Typography color="primary" variant="h4">
         {survey}
       </Typography>
       <Accordion expanded={expanded === 'panel1'} onChange={handleAccordionChange('panel1')}>
@@ -58,6 +59,20 @@ const AdminQuestionsFunc = function AdminQuestionsFuncFunc() {
         </AccordionSummary>
         <AccordionDetails>
           <RemoveQuestionContainer survey={survey} />
+        </AccordionDetails>
+      </Accordion>
+      <Accordion expanded={expanded === 'panel3'} onChange={handleAccordionChange('panel3')}>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel3bh-content"
+          id="panel3bh-header"
+        >
+          <Typography sx={{ width: '100%', flexShrink: 0 }}>
+            Update a question
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <UpdateQuestionContainer survey={survey} />
         </AccordionDetails>
       </Accordion>
     </Box>
