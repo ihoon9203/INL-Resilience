@@ -1,5 +1,5 @@
 const express = require('express');
-const surveyAnswers = require('../resources/survey-answers');
+const { ensureLoggedIn } = require('connect-ensure-login');
 const sequelize = require('../models/index');
 
 const {
@@ -43,6 +43,8 @@ router.get(
  * @openapi
  * /api/survey-answers/{survey}:
  *   get:
+ *     security:
+ *       - cookieAuth: []
  *     tags:
  *     - Survey
  *     summary: Get survey answers for specified survey
@@ -55,23 +57,69 @@ router.get(
  *       enum: [health, cyber, finance, emergency]
  *     responses:
  *       200:
- *         description: Returns list of survey answers.
+ *         description: Returns list of survey answers for the user
  */
-router.get('/survey-answers/:survey', (req, res) => {
-  // TODO: hookup to DB when ready
-  const surveyAnswerList = surveyAnswers[`${req.params.survey}`];
+router.get(
+  '/survey-answers/:survey',
+  ensureLoggedIn(),
+  async (req, res) => {
+    const results = await Answer.findAll({
+      attributes: ['answer'],
+      include: [{
+        model: Question,
+        attributes: ['id', 'weight', 'question', 'information'],
+        include: [{
+          model: Subcategory,
+          attributes: ['subcategory'],
+          include: [{
+            model: Survey,
+            attributes: [],
+          }],
+        }],
+      }],
+      where: { userId: req.user.id, '$Question->Subcategory->Survey.category$': req.params.survey },
+    });
 
-  if (!surveyAnswerList) return res.status(404).send(`Survey "${req.params.survey}" Not Found`);
+    if (!results) return res.status(404).send(`Survey "${req.params.survey}" Not Found`);
+    return res.status(200).json(results);
+  },
+);
 
-  return res.status(200).send(surveyAnswerList.answers);
-});
-
+/**
+ * @openapi
+ * /api/saveAnswer:
+ *   post:
+ *     tags:
+ *     - Survey
+ *     summary: Save answers
+ *     requestBody:
+ *       description: Answer list
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/AnswerSaveInSchema'
+ *     responses:
+ *       201:
+ *         description: Answers saved
+ *
+ * components:
+ *   schemas:
+ *     AnswerSaveInSchema:
+ *       title: AnswerSaveInSchema
+ *       type: object
+ *       properties:
+ *         answerList:
+ *           type: array
+ *           description: The user's answers
+ *           items:
+ *             type: object
+ */
 router.post('/saveAnswer', async (req, res) => {
   const answerList = req.body;
   let reassignId = null;
 
   if (req.user) {
-    // eslint-disable-next-line no-unused-vars
     reassignId = req.user.id;
   }
   answerList.forEach((obj) => {

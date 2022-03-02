@@ -107,18 +107,21 @@ describe('Test survey API endpoints', () => {
       });
   });
 
-  test('GET survey-answers for existing category', () => request(app)
-    .get('/api/survey-answers/health')
-    .then((response) => {
-      expect(response.statusCode).toBe(200);
-      expect(response.body.length).toBeGreaterThan(0);
-    }));
+  test('GET survey-answers for existing category', async () => {
+    await request(app)
+      .get('/api/survey-answers/health')
+      .set('cookie', cookie)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(response.body).toEqual([]); // no answers tied to superuser
+      });
+  });
 
   test('GET survey-answers for non-existing category', () => request(app)
     .get('/api/survey-answers/test')
+    .set('cookie', cookie)
     .then((response) => {
-      expect(response.statusCode).toBe(404);
-      expect(response.body).toEqual({}); // ensure empty response
+      expect(response.body).toEqual([]); // ensure empty response
     }));
 });
 
