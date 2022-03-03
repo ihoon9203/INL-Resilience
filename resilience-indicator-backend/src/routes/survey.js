@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable max-len */
 const express = require('express');
 const { ensureLoggedIn } = require('connect-ensure-login');
@@ -134,13 +135,41 @@ router.post(
     const { userAnswers } = req.body;
     const userId = req.user ? req.user.id : null;
 
-    // Save answers
-    userAnswers.forEach((a) => {
-      // eslint-disable-next-line no-param-reassign
-      a.userId = userId;
-    });
-    const answersSaved = Answer.bulkCreate(userAnswers);
-    if (!answersSaved) return res.status(500).json({ error: 'Answer saving failed!' });
+    let preExistingUserAnswers = [];
+    if (userId) {
+      preExistingUserAnswers = await Answer.findAll({
+        include: [{
+          model: Question,
+          attributes: ['id'],
+          include: [{
+            model: Subcategory,
+            attributes: [],
+            include: [{
+              model: Survey,
+              attributes: [],
+            }],
+          }],
+        }],
+        where: { userId: req.user.id, '$Question->Subcategory->Survey.category$': req.params.survey },
+      });
+    }
+
+    if (preExistingUserAnswers.length !== 0) {
+      // update pre-existing answers
+      preExistingUserAnswers.forEach(async (p) => {
+        const newAnswer = userAnswers.find((a) => a.questionId === p.Question.id);
+        p.answer = newAnswer.answer;
+        const saveNewAnswer = await p.save();
+        if (!saveNewAnswer) res.status(500).json({ error: 'Cannot save new answer at the moment!' });
+      });
+    } else {
+      // Save new answers
+      userAnswers.forEach((a) => {
+        a.userId = userId;
+      });
+      const answersSaved = Answer.bulkCreate(userAnswers);
+      if (!answersSaved) return res.status(500).json({ error: 'Answer saving failed!' });
+    }
 
     // Get correct answers
     const correctAnswers = await CorrectAnswer.findAll({

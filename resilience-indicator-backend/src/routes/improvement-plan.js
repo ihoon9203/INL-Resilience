@@ -89,7 +89,8 @@ router.get(
     const incorrectUserAnswers = [];
     userAnswers.forEach((answer) => {
       const correctAnswer = correctAnswers.find((c) => c.Question.id === answer.Question.id);
-      if (answer.answer !== correctAnswer.correctAnswer) {
+      // TODO: this is a hacky fix (consider instead making IP tasks null for N/A answers)
+      if (answer.answer !== correctAnswer.correctAnswer && answer.answer !== 'Not applicable') {
         incorrectUserAnswers.push(answer);
       }
     });
