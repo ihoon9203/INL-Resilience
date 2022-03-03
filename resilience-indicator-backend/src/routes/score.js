@@ -36,5 +36,4 @@ router.get(
     return res.status(200).json(returnVal);
   },
 );
-
 module.exports = router;

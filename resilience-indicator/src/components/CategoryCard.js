@@ -12,7 +12,6 @@ const CategoryCard = function CategoryCardFunc({
   const [cardCat, setCardCat] = useState('initialize');
   useEffect(() => {
     setCardCat(cardcatid);
-    console.log(cardcatid);
   }, []);
 
   const toggleClass = (e, cardid) => {

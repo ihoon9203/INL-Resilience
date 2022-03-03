@@ -103,9 +103,6 @@ body {
   width: 100%;
   transition: 0.3s;
 }
-* {
-    transition: 0.3s;
-  }
 
 
 .card-cover {

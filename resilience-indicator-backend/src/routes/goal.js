@@ -113,11 +113,11 @@ router.get(
 router.post('/create-goal', async (req, res) => {
   // check for guest user
   if (req.user == null) return res.status(200).json({ message: 'guest user' });
-
   const {
     title, goal, dueDate, survey, improvementPlan,
-  } = req.body;
-
+  } = req.body.newData;
+  console.log(req.body.newData.title);
+  console.log(title);
   const userId = req.user.id;
 
   // Validate request
@@ -130,7 +130,7 @@ router.post('/create-goal', async (req, res) => {
   // Find survey Id
   let surveyId = 0;
   if (survey) {
-    const surveyObj = await Survey.find({
+    const surveyObj = await Survey.findOne({
       where: { category: survey },
     });
     surveyId = surveyObj.id;
@@ -139,7 +139,7 @@ router.post('/create-goal', async (req, res) => {
   let improvementPlanId = 0;
   // Find improvementplan id
   if (improvementPlan) {
-    const improvementPlanObj = await ImprovementPlan.find({
+    const improvementPlanObj = await ImprovementPlan.findOne({
       where: { task: improvementPlan },
     });
     improvementPlanId = improvementPlanObj.id;
@@ -160,6 +160,7 @@ router.post('/create-goal', async (req, res) => {
   Goal.create(newGoal)
     .then((data) => res.send(data))
     .catch((err) => {
+      console.log(err);
       res.status(500).send({
         message:
             err.message || 'Error occurred while creating the goal.',
@@ -187,11 +188,11 @@ router.post('/create-goal', async (req, res) => {
  *
  */
 router.post('/remove-goal', async (req, res) => {
-  const { title, goal } = req.body;
+  const { goalID } = req.body;
+  console.log(req.body);
   await Goal.destroy({
     where: {
-      title,
-      goal,
+      id: goalID,
       userId: req.user.id,
     },
   })
@@ -238,12 +239,13 @@ router.post('/update-goal', async (req, res) => {
     newGoal,
     currentDueDate,
     newDueDate,
-    currentSurvey,
-    newSurvey,
-  } = req.body;
+    currentSurvey, // 4 category
+    newSurvey, // 4 categorty
+  } = req.body.newData;
 
   // Validate request
   if (!currentTitle) {
+    console.log(currentTitle);
     res.status(400).send({
       message: 'Goal to update cannot be empty!',
     });
@@ -253,7 +255,7 @@ router.post('/update-goal', async (req, res) => {
   // Find survey Id
   let newSurveyId = 0;
   if (newSurvey) {
-    const surveyObj = await Survey.find({
+    const surveyObj = await Survey.findOne({
       where: { category: newSurvey },
     });
     newSurveyId = surveyObj.id;

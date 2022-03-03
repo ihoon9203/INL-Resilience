@@ -16,7 +16,7 @@ const AchievementsPage = function AchievementsPageFunc() {
   // const [emergencyScore, setEmergencyScore] = useState(0);
   // const [financeScore, setFinanceScore] = useState(0);
   const [total, setTotal] = useState(0);
-  const [mstate, setMstate] = useState('Bad');
+  const [mstate, setMstate] = useState(null);
   const [cpGoal, setCPGoal] = useState([]);
   const [ipGoal, setIPGoal] = useState([]);
   const bullets = document.getElementsByTagName('li');
@@ -87,7 +87,7 @@ const AchievementsPage = function AchievementsPageFunc() {
             <div className="achievements-sub-title">Current Milestone</div>
           </Row>
           <Row>
-            <div className="content"><MSTimeline /></div>
+            <div className="content"><MSTimeline score={mstate} /></div>
           </Row>
         </Col>
         <Col className="center-content">

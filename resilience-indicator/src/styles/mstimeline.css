@@ -82,5 +82,7 @@ ol.steps li.current ~ li a::before {
     box-shadow: inset 0px 0px 0px 3px #d4d4d4;
 }
 ol.steps li.current ~ li a::after {
+    color: #6a56c5;
+    background-color: #ffffff;
     border-bottom-style: none;
 }

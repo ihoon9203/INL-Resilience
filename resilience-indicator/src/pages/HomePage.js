@@ -32,6 +32,7 @@ const HomePage = function HomePageFunc() {
         setCyberScore(thisCyberScore);
         setEmergencyScore(thisEmergencyScore);
         setFinanceScore(thisFinanceScore);
+        console.log(total);
       });
     Axios
       .get('/api/logged_in', { withCredentials: true })
