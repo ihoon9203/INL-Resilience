@@ -29,7 +29,7 @@ const RadioButtonSet = function RadioButtonSetFunc({ answerVal, myChangeHandler 
             label="No"
           />
           <FormControlLabel
-            value="N/A"
+            value="Not applicable"
             name="answer"
             control={<Radio size="small" />}
             label="N/A"

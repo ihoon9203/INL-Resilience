@@ -1,5 +1,5 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Card, CardContent, Chip, Grid, Typography,
 } from '@material-ui/core';
@@ -10,17 +10,21 @@ const Answer = function AnswerFunc({ answer }) {
   return (
     <Card className={useStyles().card}>
       <CardContent>
-        <Grid container spacing={1} justify="left">
-          <Grid item xs={0.5}>
-            {answer.id}
-          </Grid>
-
+        <Grid container spacing={1} justifyAlign="flex-start">
           <Grid item xs={10}>
-            <Typography>{answer.question}</Typography>
+            <Typography>{answer.Question.question}</Typography>
           </Grid>
 
           <Grid item xs={1}>
-            <Chip label={answer.score} variant="outlined" color="error" size="small" />
+            <Chip
+              label={answer.Question.weight}
+              variant="outlined"
+              color="error"
+              size="small"
+              style={{
+                backgroundColor: `${answer.answer !== 'Yes' ? answer.answer === 'Not applicable' ? 'gray' : 'red' : 'white'}`,
+              }}
+            />
           </Grid>
         </Grid>
 
@@ -31,9 +35,6 @@ const Answer = function AnswerFunc({ answer }) {
       </CardContent>
     </Card>
   );
-};
-Answer.propTypes = {
-  answer: PropTypes.string.isRequired,
 };
 
 export default Answer;

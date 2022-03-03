@@ -172,13 +172,19 @@ router.post(
     });
 
     // Calculate user score
-    let userScore = surveyTotalScore;
+    let userScore = 0;
     userAnswers.forEach((answer) => {
       const correctAnswer = correctAnswers.find((c) => c.Question.id === answer.questionId);
-      if (answer.answer !== correctAnswer.correctAnswer) {
-        userScore -= correctAnswer.Question.weight;
+      if (answer.answer === correctAnswer.correctAnswer) {
+        userScore += correctAnswer.Question.weight;
+      } else if (answer.answer === 'Not applicable') {
+        surveyTotalScore -= correctAnswer.Question.weight;
       }
     });
+
+    // Get percentage score
+    userScore = (userScore / surveyTotalScore) * 100;
+    userScore = userScore.toFixed();
 
     // Save user score only if logged in
     if (userId) {

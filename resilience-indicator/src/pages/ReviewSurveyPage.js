@@ -56,9 +56,11 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
             </Link>
           </Grid>
           <Grid item xs={4} md={4}>
-            <Button className={classes.button} variant="contained" color="primary">
-              Update Survey
-            </Button>
+            <Link to="../home">
+              <Button className={classes.button} variant="contained" color="primary">
+                Back to Home
+              </Button>
+            </Link>
           </Grid>
         </Grid>
       </container>

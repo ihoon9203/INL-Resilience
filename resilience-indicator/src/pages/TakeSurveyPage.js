@@ -67,8 +67,6 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
       }
     });
 
-    console.log(userAnswers);
-
     // Validate all questions are answered
     let questionNotAnswered = false;
     userAnswers.forEach((obj) => {
@@ -85,14 +83,14 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
     let userScore;
     await Axios({
       method: 'POST',
-      data: { userAnswers, naSubcategories },
+      data: { userAnswers },
       withCredentials: true,
       url: `/api/submit-survey/${name}`,
     }).then((res) => {
       userScore = res.data.score;
     });
 
-    // TODO: remove me
+    // TODO: remove me once we use the score for guest download
     console.log(userScore);
 
     if (!loggedIn) {
@@ -108,14 +106,15 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
         });
     } else {
       // logged in user
-      surveySubmitAlert('Back to Survey', 'View Results')
+      surveySubmitAlert('Back to Home', 'View Results')
         .then((result) => {
           if (result.isConfirmed) {
-            console.log('Back to Survey');
-          // window.location = `../description/${name}`;
+            console.log('Back to Home');
+            window.location = '../home';
+            // window.location = `../description/${name}`; TODO: need to pass state or refactor
           } else {
             console.log('View Results');
-          // window.location = `../review-survey/${name}`;
+            window.location = `../review-survey/${name}`;
           }
         });
     }

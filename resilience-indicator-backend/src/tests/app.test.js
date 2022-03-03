@@ -174,7 +174,7 @@ describe('Test survey API endpoints', () => {
       .send(body)
       .then((response) => {
         expect(response.statusCode).toBe(200);
-        expect(response.body.score).toEqual(35);
+        expect(response.body.score).toEqual('35');
       });
   });
 });
