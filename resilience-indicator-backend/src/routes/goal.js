@@ -1,8 +1,9 @@
 // eslint-disable/no-extraneous-dependencies
 const express = require('express');
 const sequelize = require('../models/index');
+// const Survey = require('../models/Survey');
 
-const { Goal } = sequelize.models;
+const { Goal, Survey, ImprovementPlan } = sequelize.models;
 const router = express.Router();
 
 /**
@@ -32,6 +33,7 @@ router.get(
     return res.status(200).json(results);
   },
 );
+
 /**
  * @openapi
  * /api/cpgoal:
@@ -61,6 +63,7 @@ router.get(
     return res.status(200).json(results);
   },
 );
+
 /**
  * @openapi
  * /api/ipgoal:
@@ -90,4 +93,203 @@ router.get(
     return res.status(200).json(results);
   },
 );
+
+/**
+ * @openapi
+ * /api/create-goal:
+ *   post:
+ *     tags:
+ *     - Goal
+ *     summary: Add new goal for a user
+ *     requestBody:
+ *       description: The goal to create
+ *       required: true
+ *
+ *     responses:
+ *       201:
+ *         description: New goal added
+ *
+ */
+router.post('/create-goal', async (req, res) => {
+  // check for guest user
+  if (req.user == null) return res.status(200).json({ message: 'guest user' });
+
+  const {
+    title, goal, dueDate, survey, improvementPlan,
+  } = req.body;
+
+  const userId = req.user.id;
+
+  // Validate request
+  if (!title) {
+    return res.status(400).send({
+      message: 'Goal title cannot be empty!',
+    });
+  }
+
+  // Find survey Id
+  let surveyId = 0;
+  if (survey) {
+    const surveyObj = await Survey.find({
+      where: { category: survey },
+    });
+    surveyId = surveyObj.id;
+  }
+
+  let improvementPlanId = 0;
+  // Find improvementplan id
+  if (improvementPlan) {
+    const improvementPlanObj = await ImprovementPlan.find({
+      where: { task: improvementPlan },
+    });
+    improvementPlanId = improvementPlanObj.id;
+  }
+
+  // Create a Goal
+  const newGoal = {
+    title,
+    goal,
+    dueDate,
+    userId,
+    completed: 0,
+    surveyId: survey ? surveyId : null,
+    improvementPlanId: improvementPlan ? improvementPlanId : null,
+  };
+
+  // Save Goal in the database
+  Goal.create(newGoal)
+    .then((data) => res.send(data))
+    .catch((err) => {
+      res.status(500).send({
+        message:
+            err.message || 'Error occurred while creating the goal.',
+      });
+    });
+
+  // Have this here because it needed a return value
+  return res.status(200);
+});
+
+/**
+ * @openapi
+ * /api/remove-goal:
+ *   post:
+ *     tags:
+ *     - Goal
+ *     summary: Remove a goal
+ *     requestBody:
+ *       description: The goal to remove
+ *       required: true
+ *
+ *     responses:
+ *       201:
+ *         description: Goal removed
+ *
+ */
+router.post('/remove-goal', async (req, res) => {
+  const { title, goal } = req.body;
+  await Goal.destroy({
+    where: {
+      title,
+      goal,
+      userId: req.user.id,
+    },
+  })
+    .then((num) => {
+      if (num === 1) {
+        res.send({
+          message: 'Goal was deleted successfully!',
+        });
+      } else {
+        res.send({
+          message: 'Cannot delete Goal.',
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: `Could not delete Goal: ${err}`,
+      });
+    });
+});
+
+/**
+ * @openapi
+ * /api/update-goal:
+ *   post:
+ *     tags:
+ *     - Goal
+ *     summary: Update an existing goal
+ *     requestBody:
+ *       description: The goal to update
+ *       required: true
+ *
+ *     responses:
+ *       201:
+ *         description: Goal was updated
+ *
+ */
+router.post('/update-goal', async (req, res) => {
+  // Note: currentSurvey should be null if there is no category attached to the goal
+  const {
+    currentTitle,
+    newTitle,
+    currentGoal,
+    newGoal,
+    currentDueDate,
+    newDueDate,
+    currentSurvey,
+    newSurvey,
+  } = req.body;
+
+  // Validate request
+  if (!currentTitle) {
+    res.status(400).send({
+      message: 'Goal to update cannot be empty!',
+    });
+    return;
+  }
+
+  // Find survey Id
+  let newSurveyId = 0;
+  if (newSurvey) {
+    const surveyObj = await Survey.find({
+      where: { category: newSurvey },
+    });
+    newSurveyId = surveyObj.id;
+  }
+
+  await Goal.findOne({
+    where: {
+      title: currentTitle,
+      goal: currentGoal,
+      dueDate: currentDueDate,
+      userId: req.user.id,
+    },
+  })
+    .then((record) => {
+      if (!record) {
+        throw new Error('No record found');
+      }
+
+      const values = {
+        title: newTitle === '' ? record.title : newTitle,
+        goal: newGoal === '' ? record.goal : newGoal,
+        dueDate: newDueDate === null ? record.dueDate : newDueDate,
+        surveyId: newSurveyId === 0 ? currentSurvey : newSurveyId,
+      };
+
+      record.update(values)
+        .then((updatedRecord) => {
+          res.status(200).json(updatedRecord);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
 module.exports = router;
