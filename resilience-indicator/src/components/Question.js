@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Card, CardContent, Grid, Typography,
 } from '@material-ui/core';
@@ -17,9 +16,9 @@ const cardStyle = {
 };
 
 class Question extends React.Component {
-  constructor({ question }) {
-    super(question); // super() must be called before using 'this.'
-    this.question = question;
+  constructor(props) {
+    super(props); // super() must be called before using 'this.'
+    this.question = props.question;
     this.state = {
       answerVal: '',
     };
@@ -38,10 +37,7 @@ class Question extends React.Component {
     return (
       <Card style={cardStyle.card}>
         <CardContent>
-          <Grid container spacing={1} justify="left">
-            {/* <Grid item xs={0.5}>
-              {this.question.id}
-            </Grid> */}
+          <Grid container spacing={1} justifyContent="flex-start">
             <Grid item xs={10}>
               <Typography>{this.question.question || this.question.subquestion}</Typography>
               <RadioButtonSet
@@ -49,7 +45,7 @@ class Question extends React.Component {
                 answerVal={answerVal}
               />
             </Grid>
-            <Grid item xs={0.5}>
+            <Grid item xs={1}>
               {this.question.Subquestions && answerVal === 'Yes' && (
                 <Tooltip title={this.question.question}>
                   <IconButton>
@@ -69,8 +65,5 @@ class Question extends React.Component {
     );
   }
 }
-Question.propTypes = {
-  question: PropTypes.string.isRequired,
-};
 
 export default Question;

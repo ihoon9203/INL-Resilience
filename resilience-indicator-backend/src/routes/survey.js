@@ -1,9 +1,10 @@
+/* eslint-disable max-len */
 const express = require('express');
 const { ensureLoggedIn } = require('connect-ensure-login');
 const sequelize = require('../models/index');
 
 const {
-  Survey, Subcategory, Question, Answer,
+  Survey, Subcategory, Question, Answer, CorrectAnswer, Score,
 } = sequelize.models;
 const router = express.Router();
 
@@ -87,50 +88,136 @@ router.get(
 
 /**
  * @openapi
- * /api/saveAnswer:
+ * /api/submit-survey/{survey}:
  *   post:
  *     tags:
  *     - Survey
- *     summary: Save answers
+ *     summary: Submit survey answers for given survey
+ *     parameters:
+ *     - name: survey
+ *       description: short-name for survey
+ *       in: path
+ *       required: true
+ *       type: string
+ *       enum: [health, cyber, finance, emergency]
  *     requestBody:
  *       description: Answer list
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/AnswerSaveInSchema'
+ *             $ref: '#/components/schemas/SubmitSurveyInSchema'
+ *           examples:
+ *             healthExample:
+ *               summary: HealthExample
+ *               value:
+ *                 userAnswers: [{questionId: 34, answer: 'Yes'},{questionId: 35, answer: 'No'},{questionId: 36, answer: 'Yes'},{questionId: 37, answer: 'No'},{questionId: 38, answer: 'Yes'},{questionId: 39, answer: 'No'},{questionId: 40, answer: 'Yes'},{questionId: 41, answer: 'No'},{questionId: 42, answer: 'Yes'},{questionId: 43, answer: 'No'}]
  *     responses:
- *       201:
- *         description: Answers saved
+ *       200:
+ *         description: Survey submission saved
  *
  * components:
  *   schemas:
- *     AnswerSaveInSchema:
- *       title: AnswerSaveInSchema
- *       type: object
+ *     SubmitSurveyInSchema:
+ *       title: SubmitSurveyInSchema
+ *       type: array
  *       properties:
- *         answerList:
+ *         userAnswers:
  *           type: array
- *           description: The user's answers
+ *           description: The user's answers with question ids
  *           items:
  *             type: object
  */
-router.post('/saveAnswer', async (req, res) => {
-  const answerList = req.body;
-  let reassignId = null;
+router.post(
+  '/submit-survey/:survey',
+  async (req, res) => {
+    const { userAnswers } = req.body;
+    const userId = req.user ? req.user.id : null;
 
-  if (req.user) {
-    reassignId = req.user.id;
-  }
-  answerList.forEach((obj) => {
-    // eslint-disable-next-line no-param-reassign
-    obj.userId = reassignId;
-  });
+    // Save answers
+    userAnswers.forEach((a) => {
+      // eslint-disable-next-line no-param-reassign
+      a.userId = userId;
+    });
+    const answersSaved = Answer.bulkCreate(userAnswers);
+    if (!answersSaved) return res.status(500).json({ error: 'Answer saving failed!' });
 
-  const answersSaved = Answer.bulkCreate(answerList);
+    // Get correct answers
+    const correctAnswers = await CorrectAnswer.findAll({
+      attributes: ['correctAnswer'],
+      include: [{
+        model: Question,
+        attributes: ['id', 'weight'],
+        include: [{
+          model: Subcategory,
+          attributes: [],
+          include: [{
+            model: Survey,
+            attributes: [],
+          }],
+        }],
+      }],
+      where: { '$Question->Subcategory->Survey.category$': req.params.survey },
+    });
 
-  if (!answersSaved) return res.status(500).json({ error: 'Answer saving failed!' });
-  return res.status(201).json({ message: 'Answers sent to DB successfuly!' });
-});
+    // Ensure enough answers were provided
+    if (correctAnswers.length !== userAnswers.length) {
+      return res.status(400).json({ error: 'Bad request: not enough user answers provided for specified survey' });
+    }
+
+    // Get survey total score
+    let surveyTotalScore = 0;
+    correctAnswers.forEach((ca) => {
+      surveyTotalScore += ca.Question.weight;
+    });
+
+    // Calculate user score
+    let userScore = surveyTotalScore;
+    userAnswers.forEach((answer) => {
+      const correctAnswer = correctAnswers.find((c) => c.Question.id === answer.questionId);
+      if (answer.answer !== correctAnswer.correctAnswer) {
+        userScore -= correctAnswer.Question.weight;
+      }
+    });
+
+    // Save user score only if logged in
+    if (userId) {
+      // Get survey id
+      const survey = await Survey.findOne({
+        where: { category: req.params.survey },
+      });
+      const surveyId = survey.id;
+
+      // Check for pre-existing score
+      const preExistingScore = await Score.findOne({
+        where: { userId: req.user.id, surveyId },
+      }).catch((err) => {
+        console.log('Error: ', err);
+      });
+
+      // Update pre-existing score if one exists
+      if (preExistingScore) {
+        preExistingScore.score = userScore;
+        const savedNewScore = await preExistingScore.save();
+        if (!savedNewScore) return res.status(500).json({ error: 'Cannot save new score at the moment!' });
+        return res.status(200).json(savedNewScore);
+      }
+
+      // Otherwise save new score
+      const newScore = new Score({
+        score: userScore, surveyId, userId,
+      });
+      const savedNewScore = await newScore.save().catch((err) => {
+        console.log('Error: ', err);
+        res.status(500).json({ error: 'Cannot save new score at the moment!' });
+      });
+      if (!savedNewScore) return res.status(500).json({ error: 'Cannot register user at the moment!' });
+      return res.status(200).json(savedNewScore);
+    }
+
+    // Return just the score if a guest user
+    return res.status(200).json({ score: userScore });
+  },
+);
 
 module.exports = router;

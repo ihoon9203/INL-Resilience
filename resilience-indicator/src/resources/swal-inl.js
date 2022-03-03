@@ -28,7 +28,22 @@ class SwalINL {
       confirmButtonText,
     });
   }
+
+  static surveySubmitAlert(confirmButtonText, cancelButtonText) {
+    return Swal.fire({
+      icon: 'success',
+      title: 'Congrats!',
+      text: "You've completed the survey!",
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: 'green',
+      cancelButtonText,
+      confirmButtonText,
+    });
+  }
 }
 
-export const { successAlert, errorAlert, warningAlert } = SwalINL;
+export const {
+  successAlert, errorAlert, warningAlert, surveySubmitAlert,
+} = SwalINL;
 export default SwalINL;

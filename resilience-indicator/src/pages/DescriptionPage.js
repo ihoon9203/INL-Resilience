@@ -99,7 +99,6 @@ const DescriptionPage = function DescriptionPageFunc() {
           </Grid>
         </div>
       </section>
-      <Typography id="description">{survey.description}</Typography>
     </>
   );
 };

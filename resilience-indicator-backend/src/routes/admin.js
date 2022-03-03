@@ -357,16 +357,16 @@ router.post('/remove-possible-answer', async (req, res) => {
     return;
   }
 
-  await PossibleAnswer.destroy({ where: { questionId }, })
-  .then((data) => {
-    console.log(data);
-    res.sendStatus(200);
-  })
-  .catch((err) => {
-    res.status(500).send({
-      message: `Could not delete PossibleAnswer: ${err}`,
+  await PossibleAnswer.destroy({ where: { questionId } })
+    .then((data) => {
+      console.log(data);
+      res.sendStatus(200);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: `Could not delete PossibleAnswer: ${err}`,
+      });
     });
-  });
 });
 
 /**
@@ -385,9 +385,9 @@ router.post('/remove-possible-answer', async (req, res) => {
  *         description: Correct answer was updated
  *
  */
- router.post('/update-correct-answer', async (req, res) => {
+router.post('/update-correct-answer', async (req, res) => {
   const {
-    questionId, correctAnswer
+    questionId, correctAnswer,
   } = req.body;
 
   // Validate request

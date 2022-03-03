@@ -19,6 +19,8 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
     const fetchData = async () => {
       const result = await fetch(`/api/survey-answers/${name}`);
       const body = await result.json();
+      console.log('Answers object:');
+      console.log(body);
       setSurveyAnswers(body);
     };
     fetchData().catch((err) => console.log(err));

@@ -123,6 +123,60 @@ describe('Test survey API endpoints', () => {
     .then((response) => {
       expect(response.body).toEqual([]); // ensure empty response
     }));
+
+  test('POST submit-survey for guest user', async () => {
+    const body = {
+      userAnswers: [
+        {
+          questionId: 34,
+          answer: 'Yes',
+        },
+        {
+          questionId: 35,
+          answer: 'No',
+        },
+        {
+          questionId: 36,
+          answer: 'Yes',
+        },
+        {
+          questionId: 37,
+          answer: 'No',
+        },
+        {
+          questionId: 38,
+          answer: 'Yes',
+        },
+        {
+          questionId: 39,
+          answer: 'No',
+        },
+        {
+          questionId: 40,
+          answer: 'Yes',
+        },
+        {
+          questionId: 41,
+          answer: 'No',
+        },
+        {
+          questionId: 42,
+          answer: 'Yes',
+        },
+        {
+          questionId: 43,
+          answer: 'No',
+        },
+      ],
+    };
+    await request(app)
+      .post('/api/submit-survey/health')
+      .send(body)
+      .then((response) => {
+        expect(response.statusCode).toBe(200);
+        expect(response.body.score).toEqual(35);
+      });
+  });
 });
 
 describe('Test improment plan API endpoints', () => {
