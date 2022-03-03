@@ -38,12 +38,11 @@ const useStyles = makeStyles(() => ({
   chipSuccess: {
     padding: '5px',
   },
-  divider: {
-    height: '5%',
+  divider2: {
     width: '100%',
-    border: '2px solid #3f51b5',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    padding: '.4rem',
+    marginTop: '8px',
+    background: 'linear-gradient( to right, rgba(83, 200, 239, 0.8) 0%, rgba(81, 106, 204, 2) 100%)',
   },
   featureButtons: {
     marginTop: '20px',

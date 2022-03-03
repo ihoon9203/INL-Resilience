@@ -129,13 +129,14 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
         variant="h4"
         align="center"
         color="primary"
+        fontWeight="bolder"
         style={{ width: '100%', height: '90%' }}
       >
         {survey.title}
         {' '}
         Survey
       </Typography>
-      <Box className={classes.divider} />
+      <Box className={classes.divider2} />
       <List>
         {subcategories.map((subcatObj, key) => (
           <SubcategoryLabel key={key} subcatObj={subcatObj} handleNaSubcategoryChange={handleNaSubcategoryChange} />

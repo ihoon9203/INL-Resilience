@@ -40,7 +40,7 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
         {' '}
         Review Survey
       </Typography>
-      <Box className={classes.divider} />
+      <Box className={classes.divider2} />
       <container>
         <AnswerList answers={surveyAnswers} />
         <Grid container justifyContent="center" alignItems="center">

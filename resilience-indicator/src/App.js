@@ -10,6 +10,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import TakeSurveyPage from './pages/TakeSurveyPage';
 import ReviewSurveyPage from './pages/ReviewSurveyPage';
 import DescriptionPage from './pages/DescriptionPage';
+import ImprovementPlanPage from './pages/ImprovementPlanPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
@@ -36,6 +37,7 @@ const DefaultContainer = function DefaultContainerFunc() {
           <Route path="/take-survey/:name" element={<TakeSurveyPage />} />
           <Route path="/review-survey/:name" element={<ReviewSurveyPage />} />
           <Route path="/description/:name" element={<DescriptionPage />} />
+          <Route path="/improvement-plan/:name" element={<ImprovementPlanPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>

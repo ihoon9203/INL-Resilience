@@ -97,7 +97,7 @@ const INLCarousel = function INLCarouselFunc() {
                   Take the Cyber Security Survey to view your cyber index
                   and take steps to improve your Resilience with your own curated Improvement Plan!
                 </Typography>
-                <Link className="take-survey-button" to="/take-survey/finance">
+                <Link className="take-survey-button" to="/take-survey/cyber">
                   <Box component="span" m={2} className={classes.smallbox}>
                     <Button
                       className={classes.carouselButtons}

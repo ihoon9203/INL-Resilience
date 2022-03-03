@@ -6,7 +6,7 @@
  */
 import React, { useEffect } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
-import { Button, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@material-ui/core';
 import { Container } from 'react-bootstrap';
 import Grid from '@mui/material/Grid';
 import MilestoneBar from '../components/MilestoneBar';
@@ -30,9 +30,18 @@ const DescriptionPage = function DescriptionPageFunc() {
   });
   return (
     <>
-      <Typography color="primary" variant="h3" id="description-title">
+      <Typography
+        color="primary"
+        variant="h3"
+        align="center"
+        fontWeight="bolder"
+        style={{
+          width: '100%', height: '90%', paddingTop: '16px',
+        }}
+      >
         {survey.title}
       </Typography>
+      <Box className={classes.divider2} />
       <section className="columns center-column">
         <div className="column">
           <h3>Category Score</h3>
@@ -49,7 +58,7 @@ const DescriptionPage = function DescriptionPageFunc() {
           </Container>
           <Grid container spacing={1}>
             <Grid item xs={6}>
-              <Link className="take-survey-button" to={`/take-survey/${survey.name}`}>
+              <Link className="review-survey-button" to={`/improvement-plan/${survey.name}`}>
                 <Button
                   className={classes.featureButtons}
                   variant="contained"
