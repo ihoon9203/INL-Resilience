@@ -27,10 +27,54 @@ router.get(
       where: { userId: req.user.id },
     }).catch((err) => res.status(500).send('INTERNAL_ERROR: ', err));
 
-    if (!results) return res.status(404).send('User not found');
+    if (!results) return res.status(404).send('Goal not found');
 
-    // console.log(results);
     return res.status(200).json(results);
+  },
+);
+
+/**
+ * @openapi
+ * /api/goals/{survey}:
+ *   get:
+ *     tags:
+ *     - Goal
+ *     summary: Get all user goals in a survey category
+ *     parameters:
+ *     - name: survey
+ *       description: short-name for survey
+ *       in: path
+ *       required: true
+ *       type: string
+ *       enum: [health, cyber, finance, emergency]
+ *     responses:
+ *       200:
+ *         description: Returns all user goals tied to a survey
+ */
+router.get(
+  '/goals/:survey',
+  async (req, res) => {
+    // TODO: this is a work in progress
+    // check for guest user
+    if (req.user == null) return res.status(200).json({ message: 'guest user' });
+
+    const survey = await Survey.findOne({
+      where: { category: req.params.survey },
+    });
+    console.log(survey);
+    const surveyId = survey.id;
+
+    const results = await Goal.findAll({
+      where: { userId: req.user.id, surveyId },
+    }).catch((err) => res.status(500).send('INTERNAL_ERROR: ', err));
+
+    if (!results) return res.status(404).send('No goals for this survey');
+
+    const returnVal = {};
+    for (let i = 0; i < results.length; i += 1) {
+      returnVal[results[i].dataValues.goal] = results[i].dataValues.id;
+    }
+    return res.status(200).json(returnVal);
   },
 );
 
@@ -116,8 +160,6 @@ router.post('/create-goal', async (req, res) => {
   const {
     title, goal, dueDate, survey, improvementPlan,
   } = req.body.newData;
-  console.log(req.body.newData.title);
-  console.log(title);
   const userId = req.user.id;
 
   // Validate request
@@ -160,7 +202,6 @@ router.post('/create-goal', async (req, res) => {
   Goal.create(newGoal)
     .then((data) => res.send(data))
     .catch((err) => {
-      console.log(err);
       res.status(500).send({
         message:
             err.message || 'Error occurred while creating the goal.',
@@ -189,7 +230,6 @@ router.post('/create-goal', async (req, res) => {
  */
 router.post('/remove-goal', async (req, res) => {
   const { goalID } = req.body;
-  console.log(req.body);
   await Goal.destroy({
     where: {
       id: goalID,
@@ -245,7 +285,6 @@ router.post('/update-goal', async (req, res) => {
 
   // Validate request
   if (!currentTitle) {
-    console.log(currentTitle);
     res.status(400).send({
       message: 'Goal to update cannot be empty!',
     });

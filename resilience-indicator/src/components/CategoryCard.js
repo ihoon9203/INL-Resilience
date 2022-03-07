@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Axios from 'axios';
 import '../styles/categoryCard.css';
 
 const CategoryCard = function CategoryCardFunc({
-  cardcatid, category, cardscore, icon, description,
+  cardcatid, category, cardscore, icon, login, description,
 }) {
   const buttons = document.querySelectorAll('.card-buttons button');
   const sections = document.querySelectorAll('.card-section');
   let cards = document.querySelectorAll('.card');
+  const [goals, setGoals] = useState({});
+
+  useEffect(() => {
+    Axios
+      .get(`/api/goals/${cardcatid}`, { withCredentials: true })
+      .then((res) => {
+        setGoals(res.data);
+      });
+  }, []);
 
   const [cardCat, setCardCat] = useState('initialize');
   useEffect(() => {
@@ -81,14 +91,13 @@ const CategoryCard = function CategoryCardFunc({
             <div className="card-subtitle">ABOUT</div>
             <p className="card-desc">{description}</p>
             {(() => {
-              // survey not yet completed.
-              if (cardscore === 0) {
+              // guest user
+              if (!login) {
                 return (
                   <>
                   </>
                 );
               }
-              // survey completed.
               return (
                 <Link className="review-survey-button" to={`/description/${cardCat}`} state={{ score: cardscore }}>
                   <button type="button" className="improvment-plan">VIEW CATEGORY DETAILS</button>
@@ -129,11 +138,15 @@ const CategoryCard = function CategoryCardFunc({
                   <Link className="review-survey-button" to={`/take-survey/${cardCat}`}>
                     <button type="button" className="take-survey">RETAKE SURVEY</button>
                   </Link>
-                  <button type="button" className="update-survey">UPDATE SURVEY</button>
-                  <div className="card-subtitle" style={{ paddingTop: '40px' }}>IMPROVEMENT PLAN</div>
-                  <Link className="review-survey-button" to={`/improvement-plan/${cardCat}`}>
-                    <button type="button" className="improvment-plan">VIEW IMPROVEMENT PLAN</button>
-                  </Link>
+                  {login && (
+                    <div>
+                      <button type="button" className="update-survey">UPDATE SURVEY</button>
+                      <div className="card-subtitle" style={{ paddingTop: '40px' }}>IMPROVEMENT PLAN</div>
+                      <Link className="review-survey-button" to={`/improvement-plan/${cardCat}`}>
+                        <button type="button" className="improvment-plan">VIEW IMPROVEMENT PLAN</button>
+                      </Link>
+                    </div>
+                  )}
                 </>
               );
             })()}
@@ -143,43 +156,72 @@ const CategoryCard = function CategoryCardFunc({
         <div className="card-section" cardID={cardCat} id="contact">
           <div className="card-content">
             {(() => {
-              // survey not completed yet.
-              if (cardscore === 0) {
+              if (!Object.prototype.hasOwnProperty.call(goals, 'message') && Object.keys(goals).length > 0) {
+                return (
+                  <>
+                    <h1 className="card-score-sm" style={{ paddingLeft: '40px' }}>{cardscore}</h1>
+                    <div className="card-subtitle">GOALS</div>
+                    <div className="card-contact-wrapper">
+                      {Object.keys(goals).slice(0, 3).map((goal) => (
+                        <div className="card-contact">
+                          <img src="https://img.icons8.com/nolan/64/benzene-ring.png" alt="hexagon icon" />
+                          {goal}
+                        </div>
+                      ))}
+                      <Link className="review-survey-button" to="/goals">
+                        <button type="button" className="improvment-plan">VIEW GOALS</button>
+                      </Link>
+                    </div>
+                  </>
+                );
+              }
+              // survey not completed yet (or a guest user right now).
+              if (!login) {
                 return (
                   <>
                     <div className="card-icon-sm">
                       <img src={icon} alt="category icon" />
                     </div>
-                    <body className="card-incomplete-txt" style={{ fontSize: '16px', fontWeight: 'bolder', color: 'rgb(80,80,80)' }}>
+                    <div className="card-incomplete-txt" style={{ fontSize: '16px', fontWeight: 'bolder', color: 'rgb(80,80,80)' }}>
                       This feature is unavailable for guest users.
-                    </body>
-                    <body className="card-incomplete-txt" style={{ fontSize: '13px' }}>
+                    </div>
+                    <div className="card-incomplete-txt" style={{ fontSize: '13px' }}>
                       Please consider
                       creating an account to unlock additional features such as
-                      setting goals, reaching and shaing acheivements, and receiving a
+                      setting goals, reaching and sharing achievements, and receiving a
                       personally curated improvement plan.
-                    </body>
+                    </div>
                   </>
                 );
               }
-              // survey completed.
+              // It is a user but they haven't set any goals
               return (
                 <>
                   <h1 className="card-score-sm" style={{ paddingLeft: '40px' }}>{cardscore}</h1>
                   <div className="card-subtitle">GOALS</div>
                   <div className="card-contact-wrapper">
-                    <div className="card-contact">
-                      <img src="https://img.icons8.com/nolan/64/benzene-ring.png" alt="hexagon icon" />
-                      Acheive Category Score Above 90%.
+                    <div
+                      className="card-incomplete-txt"
+                      style={
+                        {
+                          fontSize: '14px',
+                          fontWeight: 'bolder',
+                          color: 'rgb(80,80,80)',
+                        }
+                      }
+                    >
+                      You have not set any goals for this category yet!
                     </div>
-                    <div className="card-contact">
-                      <img src="https://img.icons8.com/nolan/64/benzene-ring.png" alt="hexagon icon" />
-                      Reach the &apos;Great&lsquo; Milestone.
+                    <div className="card-incomplete-txt" style={{ fontSize: '14px' }}>
+                      Click the button below to create your first
+                      { ' '}
+                      {cardcatid}
+                      { ' ' }
+                      goal.
                     </div>
-                    <div className="card-contact">
-                      <img src="https://img.icons8.com/nolan/64/benzene-ring.png" alt="hexagon icon" />
-                      Complete all High Priority Tasks.
-                    </div>
+                    <Link className="review-survey-button" to="/goals">
+                      <button type="button" className="improvment-plan">GO TO GOALS</button>
+                    </Link>
                   </div>
                 </>
               );
