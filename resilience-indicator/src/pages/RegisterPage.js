@@ -2,37 +2,17 @@
  * Modified version of https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-up/SignUp.js
  */
 import * as React from 'react';
-import { useState } from 'react';
 import {
-  Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Container, Typography, Snackbar, Alert,
+  Avatar, Button, CssBaseline, TextField, Link, Grid, Box, Container, Typography,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Axios from 'axios';
+import { errorAlert } from '../resources/swal-inl';
 
 const theme = createTheme();
 
 const SignUp = function SignUpFunc() {
-  const [alert, setAlert] = useState({
-    message: '',
-    severity: 'error',
-  });
-
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  const showToast = (message, severity) => {
-    setAlert({ message, severity });
-    setSnackbarOpen(true);
-  };
-
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setSnackbarOpen(false);
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const creds = {
@@ -42,13 +22,13 @@ const SignUp = function SignUpFunc() {
 
     // no empty username
     if (creds.username === '') {
-      showToast('Must supply a username', 'error');
+      errorAlert('Must supply a username');
       return;
     }
 
     // no empty password
     if (creds.password === '') {
-      showToast('Must supply a non-empty password', 'error');
+      errorAlert('Must supply a non-empty password');
       return;
     }
 
@@ -66,7 +46,7 @@ const SignUp = function SignUpFunc() {
       })
       .catch((err) => {
         console.log(err);
-        showToast('Username already exists!', 'error');
+        errorAlert('Username already exists!');
       });
   };
 
@@ -127,16 +107,6 @@ const SignUp = function SignUpFunc() {
             >
               Sign Up
             </Button>
-            <Snackbar
-              open={snackbarOpen}
-              autoHideDuration={3000}
-              onClose={handleSnackbarClose}
-              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            >
-              <Alert variant="filled" elevation={6} onClose={handleSnackbarClose} severity={alert.severity} sx={{ width: '100%' }}>
-                {alert.message}
-              </Alert>
-            </Snackbar>
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">

@@ -1,20 +1,14 @@
 import { useState } from 'react';
 import {
-  Box, Button, Card, CardContent, CardHeader, Divider, Snackbar, TextField, Alert,
+  Box, Button, Card, CardContent, CardHeader, Divider, TextField,
 } from '@mui/material';
 import Axios from 'axios';
+import { errorAlert, successAlert } from '../../../resources/swal-inl';
 
 const PasswordSetting = function PasswordSettingFunc(props) {
   const [values, setValues] = useState({
     password: '',
     confirm: '',
-  });
-
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  const [alert, setAlert] = useState({
-    message: '',
-    severity: 'success',
   });
 
   const handleChange = (event) => {
@@ -24,31 +18,18 @@ const PasswordSetting = function PasswordSettingFunc(props) {
     });
   };
 
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setSnackbarOpen(false);
-  };
-
-  const showToast = (message, severity) => {
-    setAlert({ message, severity });
-    setSnackbarOpen(true);
-  };
-
   const onClick = (event) => {
     event.preventDefault();
 
     // no empty passwords
     if (values.password === '' && values.confirm === '') {
-      showToast('No empty passwords', 'error');
+      errorAlert('No empty passwords');
       return;
     }
 
     // verify password and confirm password matches
     if (values.password !== values.confirm) {
-      showToast('Passwords don\'t match', 'error');
+      errorAlert("Passwords don't match");
       return;
     }
 
@@ -64,13 +45,13 @@ const PasswordSetting = function PasswordSettingFunc(props) {
     })
       .then((res) => {
         if (res.status === 200) {
-          showToast('Password updated successfully!', 'success');
+          successAlert('Password updated successfully!');
         } else {
-          showToast('Unable to update password', 'error');
+          errorAlert('Unabel to update password');
         }
       })
       .catch((err) => {
-        showToast('Unexpected error', 'error');
+        errorAlert('Unexpected error');
         console.log(err);
       });
   };
@@ -120,16 +101,6 @@ const PasswordSetting = function PasswordSettingFunc(props) {
           >
             Update
           </Button>
-          <Snackbar
-            open={snackbarOpen}
-            autoHideDuration={3000}
-            onClose={handleSnackbarClose}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          >
-            <Alert variant="filled" elevation={6} onClose={handleSnackbarClose} severity={alert.severity} sx={{ width: '100%' }}>
-              {alert.message}
-            </Alert>
-          </Snackbar>
         </Box>
       </Card>
     </form>

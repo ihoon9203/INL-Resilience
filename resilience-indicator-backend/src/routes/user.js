@@ -4,7 +4,7 @@ const { ensureLoggedIn } = require('connect-ensure-login');
 const passport = require('../auth/passport');
 const sequelize = require('../models/index');
 
-const { User, Score, Survey } = sequelize.models;
+const { User } = sequelize.models;
 const router = express.Router();
 
 /**
@@ -278,43 +278,6 @@ router.post(
 
     if (!savedUser) return res.status(500).json({ error: 'Cannot save new username at the moment!' });
     return res.status(200).json({ message: 'Username change successful!' });
-  },
-);
-
-/**
- * @openapi
- * /api/score/{survey}:
- *   get:
- *     security:
- *       - cookieAuth: []
- *     tags:
- *     - User
- *     summary: Get user score for specified survey
- *     parameters:
- *     - name: survey
- *       description: short-name for survey
- *       in: path
- *       required: true
- *       type: string
- *       enum: [health, cyber, finance, emergency]
- *     responses:
- *       200:
- *         description: Returns user score of survey.
- */
-router.get(
-  '/score/:survey',
-  ensureLoggedIn(),
-  async (req, res) => {
-    const results = await Score.findOne({
-      include: [{ model: User, attributes: { exclude: ['password'] } }, { model: Survey }],
-      where: { userId: req.user.id, '$Survey.category$': req.params.survey },
-    }).catch((err) => {
-      console.log('DB_ERROR: ', err);
-      return res.status(500).send('INTERNAL_ERROR: ', err);
-    });
-
-    if (!results) return res.status(404).send(`Survey Score for "${req.params.survey}" Not Found`);
-    return res.status(200).json(results);
   },
 );
 

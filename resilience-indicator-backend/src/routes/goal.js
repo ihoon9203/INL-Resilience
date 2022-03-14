@@ -1,7 +1,5 @@
-// eslint-disable/no-extraneous-dependencies
 const express = require('express');
 const sequelize = require('../models/index');
-// const Survey = require('../models/Survey');
 
 const { Goal, Survey, ImprovementPlan } = sequelize.models;
 const router = express.Router();
@@ -61,7 +59,6 @@ router.get(
     const survey = await Survey.findOne({
       where: { category: req.params.survey },
     });
-    console.log(survey);
     const surveyId = survey.id;
 
     const results = await Goal.findAll({
@@ -102,8 +99,6 @@ router.get(
     }).catch((err) => res.status(500).send('INTERNAL_ERROR: ', err));
 
     if (!results) return res.status(404).send('User not found');
-
-    // console.log(results);
     return res.status(200).json(results);
   },
 );
@@ -132,8 +127,6 @@ router.get(
     }).catch((err) => res.status(500).send('INTERNAL_ERROR: ', err));
 
     if (!results) return res.status(404).send('User not found');
-
-    // console.log(results);
     return res.status(200).json(results);
   },
 );

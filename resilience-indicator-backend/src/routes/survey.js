@@ -212,7 +212,7 @@ router.post(
     });
 
     // Get percentage score
-    userScore = (userScore / surveyTotalScore) * 100;
+    userScore = surveyTotalScore === 0 ? 100 : (userScore / surveyTotalScore) * 100;
     userScore = userScore.toFixed();
 
     // Save user score only if logged in

@@ -61,6 +61,7 @@ function AdminFeedbackCategories() {
           console.log(err);
         })
         .finally(() => {
+          setSelectionModel([]);
           setTriggerRefresh(triggerRefresh + 1);
         });
 
@@ -100,10 +101,13 @@ function AdminFeedbackCategories() {
         data: body,
         withCredentials: true,
         url: `/api/admin/feedback-categories/${selectionModel[0]}`,
+        validateStatus: (status) => status < 500,
       })
         .then((res) => {
           if (res.status === 200) {
-            successAlert('Feedback Category Created!');
+            successAlert('Feedback Category Updated!');
+          } else if (res.status === 409) {
+            errorAlert('That Feedback Category Already Exists');
           } else {
             errorAlert('Something went wrong!');
           }
@@ -113,6 +117,7 @@ function AdminFeedbackCategories() {
           console.log(err);
         })
         .finally(() => {
+          setSelectionModel([]);
           setTriggerRefresh(triggerRefresh + 1);
         });
 
@@ -141,6 +146,7 @@ function AdminFeedbackCategories() {
               console.log(err);
             })
             .finally(() => {
+              setSelectionModel([]);
               setTriggerRefresh(triggerRefresh + 1);
             });
         } else {
@@ -166,6 +172,7 @@ function AdminFeedbackCategories() {
               console.log(err);
             })
             .finally(() => {
+              setSelectionModel([]);
               setTriggerRefresh(triggerRefresh + 1);
             });
         }

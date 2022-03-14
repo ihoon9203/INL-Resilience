@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   Box, Card, CardContent, CssBaseline, Grid, Typography,
 } from '@material-ui/core';
@@ -31,9 +30,6 @@ const Task = function TaskFunc({ task, priority }) {
       </Box>
     </>
   );
-};
-Task.propTypes = {
-  task: PropTypes.string.isRequired,
 };
 
 export default Task;

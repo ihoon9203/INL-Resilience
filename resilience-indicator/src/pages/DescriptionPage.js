@@ -1,14 +1,9 @@
-/*
- * 12/07/2021
- * Description page for each survey category. This displays the current score
- * for this survey, as well as a description of the category. The survey, personal improvement
- * plan, and achievements/goals page can be accessed from here.
- */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
 import { Box, Button, Typography } from '@material-ui/core';
 import { Container } from 'react-bootstrap';
 import Grid from '@mui/material/Grid';
+import Axios from 'axios';
 import MilestoneBar from '../components/MilestoneBar';
 import NotFoundPage from './NotFoundPage';
 import Gauge from '../components/Gauge';
@@ -20,14 +15,30 @@ const DescriptionPage = function DescriptionPageFunc() {
   const { name } = useParams();
   const location = useLocation();
   const { score } = location.state;
+  const [hasTakenSurvey, setHasTakenSurvey] = useState(false);
+
   const survey = surveyDescriptions.find((s) => s.name === name);
   if (!survey) return <NotFoundPage />;
+
   useEffect(() => {
     if (window.innerWidth < 800) {
       const voidspace = document.querySelector('.empty-space-2');
       voidspace.style.display = 'none';
     }
-  });
+    Axios
+      .get(`/api/score/${survey.name}`, {
+        withCredentials: true,
+        validateStatus: (status) => status < 500,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          setHasTakenSurvey(true);
+        } else if (res.status === 404) {
+          setHasTakenSurvey(false);
+        }
+      });
+  }, []);
+
   return (
     <>
       <Typography
@@ -54,15 +65,18 @@ const DescriptionPage = function DescriptionPageFunc() {
             Progress to next milestone:
           </Typography>
           <Container className="panel">
-            <Link to="."><MilestoneBar className="panel-item health milestone" category={survey.title} score={score} /></Link>
+            <Link to=".">
+              <MilestoneBar className="panel-item health milestone" category={survey.title} score={score} />
+            </Link>
           </Container>
           <Grid container spacing={1}>
             <Grid item xs={6}>
-              <Link className="review-survey-button" to={`/improvement-plan/${survey.name}`}>
+              <Link style={hasTakenSurvey ? {} : { pointerEvents: 'none' }} className="review-survey-button" to={`/improvement-plan/${survey.name}`}>
                 <Button
                   className={classes.featureButtons}
                   variant="contained"
                   color="primary"
+                  disabled={!hasTakenSurvey}
                 >
                   Plan
                 </Button>
@@ -73,6 +87,7 @@ const DescriptionPage = function DescriptionPageFunc() {
                 className={classes.featureButtons}
                 variant="contained"
                 color="primary"
+                disabled={!hasTakenSurvey}
               >
                 Goals
               </Button>

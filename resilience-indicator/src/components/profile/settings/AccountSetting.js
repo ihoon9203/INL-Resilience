@@ -8,21 +8,13 @@ import {
   Divider,
   Grid,
   TextField,
-  Snackbar,
-  Alert,
 } from '@mui/material';
 import Axios from 'axios';
+import { errorAlert, successAlert } from '../../../resources/swal-inl';
 
 const AccountSetting = function AccountSettingFunc(props) {
   const [user, setUser] = useState({
     email: '',
-  });
-
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  const [alert, setAlert] = useState({
-    message: '',
-    severity: 'success',
   });
 
   useEffect(() => {
@@ -58,25 +50,12 @@ const AccountSetting = function AccountSettingFunc(props) {
       });
   };
 
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setSnackbarOpen(false);
-  };
-
-  const showToast = (message, severity) => {
-    setAlert({ message, severity });
-    setSnackbarOpen(true);
-  };
-
   const handleUpdate = (event) => {
     event.preventDefault();
 
     // no empty email
     if (user.email === '') {
-      showToast('Email must not be empty', 'error');
+      errorAlert('Email must not be empty');
       return;
     }
 
@@ -92,13 +71,13 @@ const AccountSetting = function AccountSettingFunc(props) {
     })
       .then((res) => {
         if (res.status === 200) {
-          showToast('Email updated successfully!', 'success');
+          successAlert('Email updated successfully!');
         } else {
-          showToast('Unable to update email', 'error');
+          errorAlert('Unable to update email');
         }
       })
       .catch((err) => {
-        showToast('Unexpected error', 'error');
+        errorAlert('Unexpected error');
         console.log(err);
       });
   };
@@ -150,16 +129,6 @@ const AccountSetting = function AccountSettingFunc(props) {
               >
                 Update
               </Button>
-              <Snackbar
-                open={snackbarOpen}
-                autoHideDuration={3000}
-                onClose={handleSnackbarClose}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-              >
-                <Alert variant="filled" elevation={6} onClose={handleSnackbarClose} severity={alert.severity} sx={{ width: '100%' }}>
-                  {alert.message}
-                </Alert>
-              </Snackbar>
             </Grid>
           </Grid>
         </CardContent>

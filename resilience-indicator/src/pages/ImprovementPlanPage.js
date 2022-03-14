@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import {
   Box, Button, Card, CssBaseline, Grid, Typography,
 } from '@material-ui/core';
-import NotFoundPage from './NotFoundPage';
 import surveyDescriptions from '../resources/survey-descriptions';
 import useStyles from '../styles';
 import TaskList from '../components/TaskList';
@@ -21,11 +20,9 @@ const ImprovementPlan = function ImprovementPlaFunc() {
       const result = await fetch(`/api/improvement-plan-tasks/${name}`);
       const body = await result.json();
       setSurveyTasks(body);
-      console.log(body);
     };
     fetchData().catch((err) => console.log(err));
   }, [name]);
-  if (!survey || surveyTasks.length === 0) return <NotFoundPage />;
 
   return (
     <>

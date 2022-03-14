@@ -65,6 +65,7 @@ function AdminFeedback() {
             console.log(err);
           })
           .finally(() => {
+            setSelectionModel([]);
             setTriggerRefresh(triggerRefresh + 1);
           });
       }
@@ -92,6 +93,7 @@ function AdminFeedback() {
               console.log(err);
             })
             .finally(() => {
+              setSelectionModel([]);
               setTriggerRefresh(triggerRefresh + 1);
             });
         } else {
@@ -117,6 +119,7 @@ function AdminFeedback() {
               console.log(err);
             })
             .finally(() => {
+              setSelectionModel([]);
               setTriggerRefresh(triggerRefresh + 1);
             });
         }

@@ -2,13 +2,13 @@
  * Modified version of: https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-in-side/SignInSide.js
  */
 import * as React from 'react';
-import { useState } from 'react';
 import {
-  Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Grid, Typography, Snackbar, Alert,
+  Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Grid, Typography,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Axios from 'axios';
+import { errorAlert } from '../resources/swal-inl';
 
 const Copyright = function CopyrightFunc(props) {
   return (
@@ -27,26 +27,6 @@ const Copyright = function CopyrightFunc(props) {
 const theme = createTheme();
 
 const LoginPage = function LoginPageFunc() {
-  const [alert, setAlert] = useState({
-    message: '',
-    severity: 'error',
-  });
-
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  const showToast = (message, severity) => {
-    setAlert({ message, severity });
-    setSnackbarOpen(true);
-  };
-
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setSnackbarOpen(false);
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const creds = {
@@ -67,7 +47,7 @@ const LoginPage = function LoginPageFunc() {
       })
       .catch((err) => {
         console.log(err);
-        showToast('Incorrect username or password', 'error');
+        errorAlert('Incorrect username or password');
       });
   };
 
@@ -134,16 +114,6 @@ const LoginPage = function LoginPageFunc() {
               >
                 Sign In
               </Button>
-              <Snackbar
-                open={snackbarOpen}
-                autoHideDuration={3000}
-                onClose={handleSnackbarClose}
-                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-              >
-                <Alert variant="filled" elevation={6} onClose={handleSnackbarClose} severity={alert.severity} sx={{ width: '100%' }}>
-                  {alert.message}
-                </Alert>
-              </Snackbar>
               <Link href="/home">
                 <Button
                   fullWidth

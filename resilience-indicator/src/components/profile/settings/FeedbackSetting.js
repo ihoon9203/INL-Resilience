@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import { useState, useEffect } from 'react';
 import {
-  Box, Button, Card, CardContent, CardHeader, Divider, TextField, Snackbar, Alert,
+  Box, Button, Card, CardContent, CardHeader, Divider, TextField,
 } from '@mui/material';
 import Axios from 'axios';
 import { escapeHtml } from '../../../resources/security';
+import { errorAlert, successAlert } from '../../../resources/swal-inl';
 
 const FeedbackSetting = function FeedbackSettingFunc(props) {
   const [values, setValues] = useState({
@@ -14,13 +15,6 @@ const FeedbackSetting = function FeedbackSettingFunc(props) {
 
   const [feedbackCategories, setFeedbackCategories] = useState([]);
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-
-  const [alert, setAlert] = useState({
-    message: '',
-    severity: 'success',
-  });
-
   const handleChange = (event) => {
     setValues({
       ...values,
@@ -28,31 +22,18 @@ const FeedbackSetting = function FeedbackSettingFunc(props) {
     });
   };
 
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setSnackbarOpen(false);
-  };
-
-  const showToast = (message, severity) => {
-    setAlert({ message, severity });
-    setSnackbarOpen(true);
-  };
-
   const handleFeedbackSubmit = (event) => {
     event.preventDefault();
 
     // no empty feedback category
     if (values.id === '') {
-      showToast('A feedback category must be selected', 'error');
+      errorAlert('A feedback category must be selected');
       return;
     }
 
     // no empty feedback
     if (values.feedback === '') {
-      showToast('Feedback must not be empty', 'error');
+      errorAlert('Feedback must not be empty');
       return;
     }
 
@@ -68,13 +49,13 @@ const FeedbackSetting = function FeedbackSettingFunc(props) {
     })
       .then((res) => {
         if (res.status === 201) {
-          showToast('Feedback submitted successfully!', 'success');
+          successAlert('Feedback submitted successfully!');
         } else {
-          showToast('Unable to submit feedback', 'error');
+          errorAlert('Unable to submit feedback');
         }
       })
       .catch((err) => {
-        showToast('Unexpected error', 'error');
+        errorAlert('Unexpected error');
         console.log(err);
       });
   };
@@ -151,16 +132,6 @@ const FeedbackSetting = function FeedbackSettingFunc(props) {
           >
             Submit
           </Button>
-          <Snackbar
-            open={snackbarOpen}
-            autoHideDuration={3000}
-            onClose={handleSnackbarClose}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          >
-            <Alert variant="filled" elevation={6} onClose={handleSnackbarClose} severity={alert.severity} sx={{ width: '100%' }}>
-              {alert.message}
-            </Alert>
-          </Snackbar>
         </Box>
       </Card>
     </form>
