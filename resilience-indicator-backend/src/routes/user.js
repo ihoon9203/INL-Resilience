@@ -281,4 +281,33 @@ router.post(
   },
 );
 
+/**
+ * @openapi
+ * /api/delete_account:
+ *   delete:
+ *     security:
+ *       - cookieAuth: []
+ *     tags:
+ *     - User
+ *     summary: Delete user's account
+ *     responses:
+ *       200:
+ *         description: Account deleted
+ */
+router.delete(
+  '/delete_account',
+  ensureLoggedIn(),
+  async (req, res) => {
+    const user = await User.findOne({
+      where: { email: req.user.email },
+    }).catch((err) => req.res.status(500).json(err));
+
+    if (!user) return res.status(404).json({ message: 'User does not exist!' });
+
+    req.logout();
+    await user.destroy();
+    return res.status(200).json({ message: 'User account deleted' });
+  },
+);
+
 module.exports = router;

@@ -10,7 +10,7 @@ import {
   TextField,
 } from '@mui/material';
 import Axios from 'axios';
-import { errorAlert, successAlert } from '../../../resources/swal-inl';
+import { errorAlert, warningAlert, successAlert } from '../../../resources/swal-inl';
 
 const AccountSetting = function AccountSettingFunc(props) {
   const [user, setUser] = useState({
@@ -48,6 +48,28 @@ const AccountSetting = function AccountSettingFunc(props) {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handleDeleteAccount = () => {
+    warningAlert("This will delete your account and all its data. You won't be able to revert this!", 'Yes, delete!').then((result) => {
+      if (result.isConfirmed) {
+        Axios({
+          method: 'DELETE',
+          withCredentials: true,
+          url: '/api/delete_account',
+        })
+          .then((res) => {
+            if (res.status === 200) {
+              window.location = '/login';
+            } else {
+              console.log('failed to delete account');
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    });
   };
 
   const handleUpdate = (event) => {
@@ -145,10 +167,21 @@ const AccountSetting = function AccountSettingFunc(props) {
             variant="contained"
             sx={{
               width: 100,
+              marginRight: 2,
             }}
             onClick={handleLogout}
           >
             Logout
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              width: 100,
+              backgroundColor: 'red',
+            }}
+            onClick={handleDeleteAccount}
+          >
+            Delete
           </Button>
         </Box>
       </Card>

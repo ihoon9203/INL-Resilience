@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
         {
           foreignKey: 'userId',
           onUpdate: 'CASCADE',
-          onDelete: 'CASCADE',
+          onDelete: 'SET NULL',
           allowNull: true,
         },
       );

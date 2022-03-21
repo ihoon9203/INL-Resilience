@@ -212,7 +212,8 @@ router.post(
     });
 
     // Get percentage score
-    userScore = surveyTotalScore === 0 ? 100 : (userScore / surveyTotalScore) * 100;
+    // eslint-disable-next-line eqeqeq
+    userScore = surveyTotalScore.toFixed() == 0 ? 100 : (userScore / surveyTotalScore) * 100;
     userScore = userScore.toFixed();
 
     // Save user score only if logged in
