@@ -96,24 +96,27 @@ const AchievementCard = function AchievementCardFunc(props) {
       setNewGoal(props.goal.goal);
       setNewDate(props.goal.dueDate);
       setNewTitle(props.goal.title);
-      setNewCat(props.goal.surveyId);
       const cat = props.goal.surveyId;
       switch (cat) {
       case 1:
         setImg('./assets/finance_badge.png');
+        setNewCat('Finance');
         setCategory('Finance');
         break;
       case 2:
         setImg('./assets/emergency_badge.png');
         setCategory('Emergency');
+        setNewCat('Emergency');
         break;
       case 3:
         setImg('./assets/health_badge.png');
         setCategory('Health');
+        setNewCat('Health');
         break;
       case 4:
         setImg('./assets/cyber_badge.png');
         setCategory('Cyber Security');
+        setNewCat('Cyber');
         break;
       default:
         setImg('./assets/nocat_badge.png');
@@ -123,11 +126,9 @@ const AchievementCard = function AchievementCardFunc(props) {
     }
     if (props.modify) {
       setModify(true);
-      console.log(modify);
     }
     if (props.cp) {
       setCP(true);
-      console.log(cp);
     }
   }, [props]);
   const handleClickOpen = () => {
@@ -151,6 +152,11 @@ const AchievementCard = function AchievementCardFunc(props) {
     handleClose();
     handleUpdateOpen();
   };
+  const toggleComplete = () => {
+    Axios.post('/api/complete-goal', { goalID });
+    handleClose();
+    window.location.reload(false);
+  };
   const handleUpdate = () => {
     const newData = {
       currentTitle: title,
@@ -162,7 +168,6 @@ const AchievementCard = function AchievementCardFunc(props) {
       currentSurvey: category, // 4 category
       newSurvey: newCat,
     };
-    console.log(newData);
     Axios.post('/api/update-goal', { newData })
       .then((res) => {
         if (res.status === 200) {
@@ -278,14 +283,17 @@ const AchievementCard = function AchievementCardFunc(props) {
             </Box>
           </DialogContent>
           <DialogActions className="return-button">
-            <Button autoFocus onClick={handleClose}>
+            <Button onClick={handleClose}>
               Return
             </Button>
-            <Button autoFocus onClick={handleDelete}>
-              Delete
-            </Button>
-            <Button autoFocus onClick={toggleUpdate}>
+            <Button onClick={toggleUpdate}>
               Update
+            </Button>
+            <Button color="warning" onClick={toggleComplete}>
+              Mark Completed
+            </Button>
+            <Button color="error" onClick={handleDelete}>
+              Delete
             </Button>
           </DialogActions>
         </BootstrapDialog>
@@ -385,10 +393,10 @@ const AchievementCard = function AchievementCardFunc(props) {
                         setNewCat(newValue.target.value);
                       }}
                     >
-                      <MenuItem value="health">Health</MenuItem>
-                      <MenuItem value="finance">Finance</MenuItem>
-                      <MenuItem value="emergency">Emergency</MenuItem>
-                      <MenuItem value="cyber">Cyber Security</MenuItem>
+                      <MenuItem value="Health">Health</MenuItem>
+                      <MenuItem value="Finance">Finance</MenuItem>
+                      <MenuItem value="Emergency">Emergency</MenuItem>
+                      <MenuItem value="Cyber">Cyber Security</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>

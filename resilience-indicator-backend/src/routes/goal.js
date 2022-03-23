@@ -195,6 +195,7 @@ router.post('/create-goal', async (req, res) => {
   Goal.create(newGoal)
     .then((data) => res.send(data))
     .catch((err) => {
+      console.log(err);
       res.status(500).send({
         message:
             err.message || 'Error occurred while creating the goal.',
@@ -247,6 +248,51 @@ router.post('/remove-goal', async (req, res) => {
     });
 });
 
+/**
+ * @openapi
+ * /api/complete-goal:
+ *   post:
+ *     tags:
+ *     - Goal
+ *     summary: Sets goal from in progress to complete
+ *     requestBody:
+ *       description: The goal to complete
+ *       required: true
+ *
+ *     responses:
+ *       201:
+ *         description: Goal set to Completed
+ *
+ */
+router.post('/complete-goal', async (req, res) => {
+  const { goalID } = req.body;
+  await Goal.findOne({
+    where: {
+      id: goalID,
+      userId: req.user.id,
+    },
+  })
+    .then((record) => {
+      if (!record) {
+        throw new Error('No record found');
+      }
+
+      const values = {
+        completed: 1,
+      };
+
+      record.update(values)
+        .then((updatedRecord) => {
+          res.status(200).json(updatedRecord);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 /**
  * @openapi
  * /api/update-goal:

@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4ThemesAnimated from '@amcharts/amcharts4/themes/animated';
 
 am4core.useTheme(am4ThemesAnimated);
 
-class Gauge extends Component {
-  componentDidMount() {
-    const { score } = this.props;
+const Gauge = function GaugeFunc(props) {
+  const [style, setStyle] = useState(null);
+  const [score, setScore] = useState(0);
+  useEffect(() => {
+    setScore(props.score);
+    setStyle(props.style);
     const chart = am4core.create('chartdiv', am4charts.GaugeChart);
     const axis = chart.xAxes.push(new am4charts.ValueAxis());
     const userScore = score;
@@ -76,20 +79,10 @@ class Gauge extends Component {
         am4core.ease.cubicOut,
       ).start(); // Times taken to move to 70
     }, 2000);
-
-    this.chart = chart;
-  }
-
-  componentWillUnmount() {
-    if (this.chart) {
-      this.chart.dispose();
-    }
-  }
-
-  render() {
-    const { style } = this.props || {};
-    return <div id="chartdiv" style={style} />;
-  }
-}
+  });
+  return (
+    <div id="chartdiv" style={style} />
+  );
+};
 
 export default Gauge;

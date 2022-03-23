@@ -119,7 +119,7 @@ const GoalsPage = function AchievementsPageFunc() {
         <Row>
           <div className="achievements-title">GOALS</div>
         </Row>
-        <Row mb={2} className="center-container">
+        <Row className="center-container mb-2">
           <Col xs={2}>
             <div className="newgoal-button"><Button variant="outlined" size="small" onClick={handleOpen}>+ New Goals</Button></div>
           </Col>
