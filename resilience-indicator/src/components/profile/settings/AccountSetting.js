@@ -60,7 +60,10 @@ const AccountSetting = function AccountSettingFunc(props) {
         })
           .then((res) => {
             if (res.status === 200) {
-              window.location = '/login';
+              successAlert('Account deleted')
+                .then(() => {
+                  window.location = '/login';
+                });
             } else {
               console.log('failed to delete account');
             }

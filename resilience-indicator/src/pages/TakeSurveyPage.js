@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import List from '@mui/material/List';
 import {
-  Box, Button, CssBaseline, Grid, Typography,
+  Box, CssBaseline, Grid, Typography,
 } from '@material-ui/core';
+import {
+  Dialog, DialogTitle, DialogActions, DialogContent, Button,
+} from '@mui/material';
 import Axios from 'axios';
 import NotFoundPage from './NotFoundPage';
 import surveyDescriptions from '../resources/survey-descriptions';
@@ -19,6 +22,19 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
   const [subcategories, setSubcategories] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [naSubcategories, setNaSubcategories] = useState([]);
+  const [consentOpen, setConsentOpen] = useState(false);
+
+  const handleConsentCloseAgree = () => {
+    setConsentOpen(false);
+  };
+
+  const handleConsentCloseDisagree = () => {
+    setConsentOpen(false);
+    errorAlert('You must agree to the consent form to take a survey.')
+      .then(() => {
+        window.location = '/home';
+      });
+  };
 
   useEffect(() => {
     Axios
@@ -31,6 +47,8 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
       .then((res) => {
         if (res.data.user) {
           setLoggedIn(res.data.loggedIn);
+        } else {
+          setConsentOpen(true);
         }
       });
   }, [name]);
@@ -124,6 +142,35 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
 
   return (
     <>
+      <Dialog
+        open={consentOpen}
+        onClose={handleConsentCloseDisagree}
+        fullWidth
+        maxWidth="md"
+      >
+        <DialogTitle textAlign="center">
+          Consent Form
+        </DialogTitle>
+        <DialogContent
+          style={{
+            height: '600px',
+          }}
+        >
+          <embed
+            src="../assets/consent-form.pdf"
+            style={{
+              width: '100%',
+              height: '100%',
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleConsentCloseDisagree} color="error">Disagree</Button>
+          <Button onClick={handleConsentCloseAgree} color="primary" autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
       <CssBaseline />
       <Typography
         variant="h4"
