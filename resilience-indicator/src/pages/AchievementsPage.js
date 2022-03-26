@@ -10,20 +10,16 @@ import CPGoals from '../components/CPGoals';
 import '../styles/achievements.css';
 
 const AchievementsPage = function AchievementsPageFunc() {
-  // will be used in the future
-  // const [healthScore, setHealthScore] = useState(0);
-  // const [cyberScore, setCyberScore] = useState(0);
-  // const [emergencyScore, setEmergencyScore] = useState(0);
-  // const [financeScore, setFinanceScore] = useState(0);
   const [total, setTotal] = useState(0);
   const [mstate, setMstate] = useState(null);
   const [cpGoal, setCPGoal] = useState([]);
   const [ipGoal, setIPGoal] = useState([]);
   const bullets = document.getElementsByTagName('li');
+
   // from all-scores
   useEffect(() => {
     Axios
-      .get('/api/all-scores', { withCredentials: true })
+      .get('/api/latest-scores', { withCredentials: true })
       .then((res) => {
         let length = 1;
         if (Object.keys(res.data).length !== 0) {
@@ -36,10 +32,6 @@ const AchievementsPage = function AchievementsPageFunc() {
         const financeScore = typeof (res.data.finance) !== 'undefined' ? res.data.finance : 0;
         value = Math.round((healthScore + emergencyScore + cyberScore + financeScore) / length);
         setTotal(value);
-        // setHealthScore(res.data.health);
-        // setCyberScore(res.data.cyber);
-        // setEmergencyScore(res.data.emergency);
-        // setFinanceScore(res.data.finance);
         if (value / 20 < 1) {
           setMstate('Bad');
         } else if (value / 20 < 2) {

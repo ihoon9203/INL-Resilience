@@ -15,10 +15,10 @@ const AnalysisPanel = function AnalysisPanelFunc(props) {
         <div className="column">
           <Container className="panel">
             <h3 className="bargraph-title">Improve your Resiliency Now!</h3>
-            <Link to="/description/health" state={{ score: props.health }}><BarGraph className="panel-item health" category="Health" score={props.health} /></Link>
-            <Link to="/description/emergency" state={{ score: props.emergency }}><BarGraph className="panel-item emergency" category="Emergency" score={props.emergency} /></Link>
-            <Link to="/description/cyber" state={{ score: props.cyber }}><BarGraph className="panel-item cyber" category="Cyber Security" score={props.cyber} /></Link>
-            <Link to="/description/finance" state={{ score: props.finance }}><BarGraph className="panel-item finance" category="Finance" score={props.finance} /></Link>
+            <Link to="/description/health"><BarGraph className="panel-item health" category="Health" score={props.health} /></Link>
+            <Link to="/description/emergency"><BarGraph className="panel-item emergency" category="Emergency" score={props.emergency} /></Link>
+            <Link to="/description/cyber"><BarGraph className="panel-item cyber" category="Cyber Security" score={props.cyber} /></Link>
+            <Link to="/description/finance"><BarGraph className="panel-item finance" category="Finance" score={props.finance} /></Link>
           </Container>
         </div>
       </section>

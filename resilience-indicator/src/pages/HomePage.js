@@ -17,7 +17,7 @@ const HomePage = function HomePageFunc() {
   const [login, setLogin] = useState(false);
   useEffect(() => {
     Axios
-      .get('/api/all-scores', { withCredentials: true })
+      .get('/api/latest-scores', { withCredentials: true })
       .then((res) => {
         let length = 1;
         if (Object.keys(res.data).length !== 0) {

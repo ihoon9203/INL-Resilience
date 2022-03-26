@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Box, Button, Typography } from '@material-ui/core';
 import { Container } from 'react-bootstrap';
 import Grid from '@mui/material/Grid';
@@ -13,8 +13,7 @@ import useStyles from '../styles';
 const DescriptionPage = function DescriptionPageFunc() {
   const classes = useStyles();
   const { name } = useParams();
-  const location = useLocation();
-  const { score } = location.state;
+  const [score, setScore] = useState(0);
   const [hasTakenSurvey, setHasTakenSurvey] = useState(false);
 
   const survey = surveyDescriptions.find((s) => s.name === name);
@@ -33,6 +32,7 @@ const DescriptionPage = function DescriptionPageFunc() {
       .then((res) => {
         if (res.status === 200) {
           setHasTakenSurvey(true);
+          setScore(res.data.score);
         } else if (res.status === 404) {
           setHasTakenSurvey(false);
         }
@@ -115,6 +115,7 @@ const DescriptionPage = function DescriptionPageFunc() {
                   className={classes.surveyButtons}
                   variant="contained"
                   color="primary"
+                  disabled={!hasTakenSurvey}
                 >
                   Review Survey
                 </Button>

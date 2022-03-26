@@ -224,21 +224,6 @@ router.post(
       });
       const surveyId = survey.id;
 
-      // Check for pre-existing score
-      const preExistingScore = await Score.findOne({
-        where: { userId: req.user.id, surveyId },
-      }).catch((err) => {
-        console.log('Error: ', err);
-      });
-
-      // Update pre-existing score if one exists
-      if (preExistingScore) {
-        preExistingScore.score = userScore;
-        const savedNewScore = await preExistingScore.save();
-        if (!savedNewScore) return res.status(500).json({ error: 'Cannot save new score at the moment!' });
-        return res.status(200).json(savedNewScore);
-      }
-
       // Otherwise save new score
       const newScore = new Score({
         score: userScore, surveyId, userId,
@@ -247,7 +232,7 @@ router.post(
         console.log('Error: ', err);
         res.status(500).json({ error: 'Cannot save new score at the moment!' });
       });
-      if (!savedNewScore) return res.status(500).json({ error: 'Cannot register user at the moment!' });
+      if (!savedNewScore) return res.status(500).json({ error: 'Cannot save new score at the moment!' });
       return res.status(200).json(savedNewScore);
     }
 
