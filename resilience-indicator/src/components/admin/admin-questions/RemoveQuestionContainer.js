@@ -32,16 +32,14 @@ const RemoveQuestionContainer = function RemoveQuestionContainer({ survey }) {
     warningAlert("You won't be able to revert this!", 'Yes, delete!').then((result) => {
       if (result.isConfirmed) {
         Axios({
-          method: 'POST',
+          method: 'DELETE',
           data,
           withCredentials: true,
-          url: '/api/remove-question',
+          url: '/api/delete-question',
         })
           .then((res) => {
             if (res.status === 200) {
               successAlert('Question deleted.');
-            } else {
-              errorAlert('Something went wrong!');
             }
           })
           .catch((err) => {

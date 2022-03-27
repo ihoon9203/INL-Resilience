@@ -14,14 +14,29 @@ const defaultValues = {
   question: '',
   weight: 0.0,
   information: '',
+  survey: '',
+  improvementPlanValues: [],
+  possibleAnswers: [],
+  correctAnswer: '',
 };
 
 const AddQuestionContainer = function AddQuestionContainer({ survey }) {
   const [formValues, setFormValues] = useState(defaultValues);
   const [possibleAnswers, setPossibleAnswers] = useState('');
+  const [improvementPlan, setImprovementPlan] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('');
   const [subcategories, setSubcategories] = useState({});
   const [chosenSubcategory, setChosenSubcategory] = useState('');
+
+  function findPriority(abbr) {
+    if (abbr === 'H') {
+      return 'High';
+    }
+    if (abbr === 'M') {
+      return 'Medium';
+    }
+    return 'Low';
+  }
 
   useEffect(() => {
     Axios
@@ -45,6 +60,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
     setFormValues({
       ...formValues,
       [name]: value,
+      survey,
     });
   };
 
@@ -72,69 +88,73 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
     setCorrectAnswer(e.target.value);
   };
 
+  // TODO: either add some more validation to make sure the
+  // user used the right format for the improvement plan,
+  // or change it to use buttons and dropdowns as well
+  const handleImprovementPlanChange = (e) => {
+    setImprovementPlan(e.target.value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // change string of possible answers to an array
-    const possibleAnswersArray = possibleAnswers.split(',');
-
-    const possibleAnswerValues = {
-      question: formValues.question,
-      possibleAnswers: possibleAnswersArray,
-    };
-
-    const correctAnswerValues = {
-      question: formValues.question,
-      correctAnswer,
-    };
-
-    Axios({
-      method: 'POST',
-      data: formValues,
-      withCredentials: true,
-      url: '/api/create-question',
-    })
-      .then((res) => {
-        if (res.status === 200) {
-          Axios({
-            method: 'POST',
-            data: possibleAnswerValues,
-            withCredentials: true,
-            url: '/api/create-possible-answer',
-          })
-            // eslint-disable-next-line no-shadow
-            .then((res) => {
-              if (res.status === 200) {
-                Axios({
-                  method: 'POST',
-                  data: correctAnswerValues,
-                  withCredentials: true,
-                  url: '/api/create-correct-answer',
-                })
-                // eslint-disable-next-line no-shadow
-                  .then((res) => {
-                    if (res.status === 200) {
-                      successAlert('Question added.');
-                    } else {
-                      errorAlert('Something went wrong!');
-                    }
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                    errorAlert('Unexpected error.');
-                  });
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-              errorAlert('Unexpected error.');
-            });
+    if (formValues.score <= 0) {
+      errorAlert('Please enter a score greater than 0.');
+    } else {
+      const improvementPlanValues = [];
+      if (improvementPlan !== '') {
+        try {
+          const improvementList = improvementPlan.split(',');
+          improvementList.forEach((item) => {
+            const improveItem = item.split(':');
+            const possibleAnswer = improveItem[0];
+            // get the task without the priority
+            const task = improveItem[1].slice(0, -4);
+            // get the priority
+            const priorityAbbr = improveItem[1].slice(-1);
+            const priority = findPriority(priorityAbbr);
+            const planItem = {
+              task,
+              possibleAnswer,
+              priority,
+            };
+            improvementPlanValues.push(planItem);
+          });
+        } catch (err) {
+          errorAlert('Please format the improvement task correctly.');
         }
+      }
+      // TODO: set the improvement plan using other form
+      formValues.improvementPlanValues = improvementPlanValues;
+      // setFormValues({
+      //   ...formValues,
+      //   improvementPlanValues,
+      // });
+
+      // change string of possible answers to an array
+      const possibleAnswersArray = possibleAnswers.split(',');
+      formValues.possibleAnswers = possibleAnswersArray;
+
+      formValues.correctAnswer = correctAnswer;
+
+      Axios({
+        method: 'POST',
+        data: formValues,
+        withCredentials: true,
+        url: '/api/create-question',
       })
-      .catch((err) => {
-        console.log(err);
-        errorAlert('Unexpected error.');
-      });
+        .then((res) => {
+          if (res.status === 200) {
+            successAlert('Question added.');
+          } else {
+            errorAlert('Something went wrong!');
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          errorAlert('Unexpected error.');
+        });
+    }
   };
 
   return (
@@ -215,7 +235,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
             id="possible-answers-input"
             name="possibleAnswers"
             label="Answer Bank"
-            helperText="Please enter a comma-separated list of answers."
+            helperText="Please enter a comma-separated list of answers. (e.g., Yes,No,Not Applicable)"
             type="text"
             value={possibleAnswers}
             multiline
@@ -240,6 +260,23 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
             maxRows={3}
             variant="filled"
             onChange={handleCorrectAnswerChange}
+            style={{ width: 400 }}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            required
+            id="improvement-plan-input"
+            name="improvementPlan"
+            label="Improvement Plan Task"
+            helperText="Please enter one or more tasks associated with an answer and a priority of High (H), Medium (M), or Low (L). (e.g., Yes: Task 1 - H, No: Task 2 - M)"
+            type="text"
+            value={improvementPlan}
+            multiline
+            minRows={2}
+            maxRows={3}
+            variant="filled"
+            onChange={handleImprovementPlanChange}
             style={{ width: 400 }}
           />
         </Grid>

@@ -7,10 +7,10 @@ import Select from '@mui/material/Select';
 import {
   Button, Grid, TextField, Typography,
 } from '@material-ui/core';
+import PossibleAnswerInputWrapper from './PossibleAnswerInputWrapper';
 import { errorAlert, successAlert } from '../../../resources/swal-inl';
 
 const defaultValues = {
-  subcategoryId: 0,
   newQuestion: '',
   currentQuestion: '',
   weight: 0.0,
@@ -19,18 +19,13 @@ const defaultValues = {
 
 const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
   const [questions, setQuestions] = useState({});
+  const [chosenQuestion, setChosenQuestion] = useState('');
   const [formValues, setFormValues] = useState(defaultValues);
-  const [possibleAnswers, setPossibleAnswers] = useState('');
+  const [shouldUpdateAnswers, setShouldUpdateAnswers] = useState(false);
+  const [taskValues, setTaskValues] = useState([]);
   const [correctAnswer, setCorrectAnswer] = useState('');
-  const [subcategories, setSubcategories] = useState({});
-  const [chosenSubcategory, setChosenSubcategory] = useState('');
 
   useEffect(() => {
-    Axios
-      .get(`/api/subcategories/${survey}`, { withCredentials: true })
-      .then((res) => {
-        setSubcategories(res.data);
-      });
     Axios
       .get(`/api/questions/${survey}`, { withCredentials: true })
       .then((res) => {
@@ -38,16 +33,31 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
       });
   }, [survey]);
 
-  const handleSubcategoryChange = (e) => {
-    setChosenSubcategory(e.target.value);
+  useEffect(() => {
+    if (chosenQuestion !== '') {
+      const id = questions[chosenQuestion];
+      Axios
+        .get(`/api/answers-and-tasks/${id}`, { withCredentials: true })
+        .then((res) => {
+          setTaskValues(res.data);
+        });
+    }
+  }, [chosenQuestion]);
+
+  const handleInputChange = (index, e) => {
+    setShouldUpdateAnswers(true);
     const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: subcategories[value],
-    });
+    const taskValuesCopy = [...taskValues];
+    const tempTaskValue = {
+      ...taskValuesCopy[index],
+      [name]: value,
+    };
+    taskValuesCopy[index] = tempTaskValue;
+    setTaskValues(taskValuesCopy);
   };
 
   const handleQuestionChange = (e) => {
+    setChosenQuestion(e.target.value);
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
@@ -79,27 +89,15 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
     });
   };
 
-  const handlePossibleAnswerChange = (e) => {
-    setPossibleAnswers(e.target.value);
-  };
-
   const handleCorrectAnswerChange = (e) => {
     setCorrectAnswer(e.target.value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    // format possible answers and correct answers if not empty
-    let possibleAnswersValues = {};
-    if (possibleAnswers !== '') {
-      const possibleAnswersArray = possibleAnswers.split(',');
-      possibleAnswersValues = {
-        question: formValues.currentQuestion,
-        possibleAnswers: possibleAnswersArray,
-      };
-    }
-
+    console.log(shouldUpdateAnswers);
+    console.log(taskValues);
+    const answersData = { taskValues, survey };
     Axios({
       method: 'POST',
       data: formValues,
@@ -107,31 +105,7 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
       url: '/api/update-question',
     })
       .then((res) => {
-        const questionId = { questionId: res.data.id };
-        if (res.status === 200 && possibleAnswers !== '') {
-          Axios({
-            method: 'POST',
-            data: questionId,
-            withCredentials: true,
-            url: '/api/remove-possible-answer',
-          })
-          // eslint-disable-next-line no-shadow
-            .then((res) => {
-              if (res.status === 200) {
-                Axios({
-                  method: 'POST',
-                  data: possibleAnswersValues,
-                  withCredentials: true,
-                  url: '/api/create-possible-answer',
-                })
-                // eslint-disable-next-line no-shadow
-                  .catch((err) => {
-                    console.log(err);
-                    errorAlert('Unexpected error.');
-                  });
-              }
-            });
-        }
+        // update correct answer if user specified
         if (res.status === 200 && correctAnswer !== '') {
           const correctAnswerValues = {
             questionId: res.data.id,
@@ -143,7 +117,7 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
             withCredentials: true,
             url: '/api/update-correct-answer',
           })
-          // eslint-disable-next-line no-shadow
+            // eslint-disable-next-line no-shadow
             .catch((err) => {
               console.log(err);
               errorAlert('Unexpected error.');
@@ -154,6 +128,19 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
         console.log(err);
         errorAlert('Unexpected error.');
       });
+
+    if (shouldUpdateAnswers) {
+      Axios({
+        method: 'POST',
+        data: answersData,
+        withCredentials: true,
+        url: '/api/update-answer',
+      })
+        .catch((err) => {
+          console.log(err);
+          errorAlert('Unexpected error.');
+        });
+    }
     successAlert('Question updated.');
   };
 
@@ -165,25 +152,8 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
             Update a question
           </Typography>
           <Typography color="primary" variant="subtitle2" id="update-caption">
-            Choose the subcategory and question. Enter in the values you want to change, and leave the rest blank.
+            Choose the question you want to update. Enter in the values you want to change, and leave the rest blank.
           </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <FormControl style={{ minWidth: 400 }}>
-            <InputLabel id="subcategory-select-label">Subcategory</InputLabel>
-            <Select
-              autoWidth
-              required
-              labelId="subcategory-select-label"
-              id="subcategory-select"
-              name="subcategoryId"
-              value={chosenSubcategory}
-              label="Subcategory"
-              onChange={handleSubcategoryChange}
-            >
-              {Object.keys(subcategories).map((subcategory) => <MenuItem key={subcategory} value={subcategory}>{subcategory}</MenuItem>)}
-            </Select>
-          </FormControl>
         </Grid>
         <Grid item xs={12}>
           <FormControl style={{ minWidth: 400 }}>
@@ -197,7 +167,7 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
               label="Question"
               onChange={handleQuestionChange}
             >
-              {Object.keys(questions).map((question) => <MenuItem key={question} value={question}>{question}</MenuItem>)}
+              {Object.keys(questions).map((question, index) => <MenuItem key={index} value={question}>{question}</MenuItem>)}
             </Select>
           </FormControl>
         </Grid>
@@ -246,20 +216,16 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField
-            id="possible-answers-input"
-            name="possibleAnswers"
-            label="Updated Answer Bank"
-            helperText="Please enter a comma-separated list of answers."
-            type="text"
-            value={possibleAnswers}
-            multiline
-            minRows={2}
-            maxRows={4}
-            variant="filled"
-            onChange={handlePossibleAnswerChange}
-            style={{ width: 400 }}
-          />
+          <Typography color="primary" variant="subtitle2">
+            Here you can update the answers and their improvement plan tasks, as well as the priority of those tasks.
+          </Typography>
+          {taskValues.map((value, index) => (
+            <PossibleAnswerInputWrapper
+              index={index}
+              taskValues={value}
+              handleInputChange={handleInputChange}
+            />
+          ))}
         </Grid>
         <Grid item xs={12}>
           <TextField
