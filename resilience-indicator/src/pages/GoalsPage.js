@@ -26,6 +26,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import '../styles/goals.css';
 import AchievementCard from '../components/AchievementCard';
+import { errorAlert } from '../resources/swal-inl';
 
 const GoalsPage = function AchievementsPageFunc() {
   const [snack, setSnack] = useState(false);
@@ -95,6 +96,10 @@ const GoalsPage = function AchievementsPageFunc() {
           setSnack(true);
         }
         console.log(res.status);
+      })
+      .catch((err) => {
+        errorAlert('Something went wrong!');
+        console.log(err);
       });
     window.location.reload(false);
   };
@@ -105,7 +110,7 @@ const GoalsPage = function AchievementsPageFunc() {
     } else {
       setAddable(false);
     }
-  }, [date, newCat, newTitle]);
+  }, [date, newCat, newTitle, newGoal]);
   useEffect(() => {
     Axios.get('/api/goal', { withCredentials: true })
       .then((res) => {

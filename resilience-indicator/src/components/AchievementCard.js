@@ -25,6 +25,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { Container } from 'react-bootstrap';
+import { errorAlert } from '../resources/swal-inl';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -173,6 +174,10 @@ const AchievementCard = function AchievementCardFunc(props) {
         if (res.status === 200) {
           handleUpdateClose();
         }
+      })
+      .catch((err) => {
+        errorAlert('Something went wrong!');
+        console.log(err);
       });
     window.location.reload(false);
   };

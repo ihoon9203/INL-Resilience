@@ -156,9 +156,9 @@ router.post('/create-goal', async (req, res) => {
   const userId = req.user.id;
 
   // Validate request
-  if (!title) {
+  if (!title || !goal || !dueDate) {
     return res.status(400).send({
-      message: 'Goal title cannot be empty!',
+      message: 'Goal information cannot be empty!',
     });
   }
 
@@ -198,7 +198,7 @@ router.post('/create-goal', async (req, res) => {
       console.log(err);
       res.status(500).send({
         message:
-            err.message || 'Error occurred while creating the goal.',
+          err.message || 'Error occurred while creating the goal.',
       });
     });
 
@@ -293,6 +293,7 @@ router.post('/complete-goal', async (req, res) => {
       console.log(err);
     });
 });
+
 /**
  * @openapi
  * /api/update-goal:
@@ -323,7 +324,7 @@ router.post('/update-goal', async (req, res) => {
   } = req.body.newData;
 
   // Validate request
-  if (!currentTitle) {
+  if (!currentTitle || !currentGoal || !currentDueDate) {
     res.status(400).send({
       message: 'Goal to update cannot be empty!',
     });
@@ -351,7 +352,7 @@ router.post('/update-goal', async (req, res) => {
       if (!record) {
         throw new Error('No record found');
       }
-
+      
       const values = {
         title: newTitle === '' ? record.title : newTitle,
         goal: newGoal === '' ? record.goal : newGoal,
