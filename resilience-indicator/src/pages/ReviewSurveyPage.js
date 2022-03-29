@@ -14,18 +14,26 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
   const survey = surveyDescriptions.find((s) => s.name === name);
 
   const [surveyAnswers, setSurveyAnswers] = useState([]);
+  const [showNotFound, setNotFound] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line consistent-return
     const fetchData = async () => {
       const result = await fetch(`/api/survey-answers/${name}`);
       const body = await result.json();
       console.log('Answers object:');
       console.log(body);
       setSurveyAnswers(body);
+      if (body.length === 0) {
+        setNotFound(true);
+      }
     };
     fetchData().catch((err) => console.log(err));
   }, [name]);
-  if (!survey || surveyAnswers.length === 0) return <NotFoundPage />;
+
+  if (!survey || showNotFound) {
+    return <NotFoundPage />;
+  }
 
   return (
     <>
@@ -44,21 +52,27 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
       <container>
         <AnswerList answers={surveyAnswers} />
         <Grid container justifyContent="center" alignItems="center">
-          <Grid item xs={4} md={5}>
+          <Grid item xs={4} md={2}>
             <Link className="review-survey-button" to={`/take-survey/${survey.name}`}>
               <Button
                 className={classes.button}
                 variant="contained"
-                color="testsecondary"
               >
                 Retake Survey
               </Button>
             </Link>
           </Grid>
-          <Grid item xs={4} md={4}>
-            <Link to="../home">
+          <Grid item xs={4} md={2}>
+            <Link className="review-survey-button" to="../home">
               <Button className={classes.button} variant="contained" color="primary">
                 Back to Home
+              </Button>
+            </Link>
+          </Grid>
+          <Grid item xs={4} md={2}>
+            <Link className="review-survey-button" to={`/improvement-plan/${survey.name}`}>
+              <Button className={classes.button} variant="contained">
+                Improvement Plan
               </Button>
             </Link>
           </Grid>
