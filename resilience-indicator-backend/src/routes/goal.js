@@ -352,7 +352,7 @@ router.post('/update-goal', async (req, res) => {
       if (!record) {
         throw new Error('No record found');
       }
-      
+
       const values = {
         title: newTitle === '' ? record.title : newTitle,
         goal: newGoal === '' ? record.goal : newGoal,

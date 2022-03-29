@@ -75,10 +75,10 @@ const Gauge = function GaugeFunc(props) {
           property: 'value',
           to: userScore,
         },
-        1500,
+        1000,
         am4core.ease.cubicOut,
       ).start(); // Times taken to move to 70
-    }, 2000);
+    }, 500);
   });
   return (
     <div id="chartdiv" style={style} />

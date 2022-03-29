@@ -13,8 +13,6 @@ const router = express.Router();
  * @openapi
  * /api/survey-questions/{survey}:
  *   get:
- *     security:
- *       bearerAuth: []
  *     tags:
  *     - Survey
  *     summary: Get survey questions for specified survey
@@ -36,6 +34,45 @@ router.get(
       where: { category: req.params.survey },
       include: [{ model: Subcategory, include: [{ model: Question }] }],
     });
+    if (!results) return res.status(404).send(`Survey "${req.params.survey}" Not Found`);
+    return res.status(200).json(results);
+  },
+);
+
+/**
+ * @openapi
+ * /api/survey-questions-guest/{survey}:
+ *   get:
+ *     tags:
+ *     - Survey
+ *     summary: Get survey question in guest format for specified survey
+ *     parameters:
+ *     - name: survey
+ *       description: short-name for survey
+ *       in: path
+ *       required: true
+ *       type: string
+ *       enum: [health, cyber, finance, emergency]
+ *     responses:
+ *       200:
+ *         description: Returns list of survey questions in guest format
+ */
+router.get(
+  '/survey-questions-guest/:survey',
+  async (req, res) => {
+    const results = await Question.findAll({
+      attributes: ['id', 'weight', 'question', 'information'],
+      include: [{
+        model: Subcategory,
+        attributes: ['subcategory'],
+        include: [{
+          model: Survey,
+          attributes: [],
+        }],
+      }],
+      where: { '$Subcategory->Survey.category$': req.params.survey },
+    });
+
     if (!results) return res.status(404).send(`Survey "${req.params.survey}" Not Found`);
     return res.status(200).json(results);
   },

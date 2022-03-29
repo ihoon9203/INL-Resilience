@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import List from '@mui/material/List';
 import {
   Box, CssBaseline, Grid, Typography,
@@ -18,6 +18,8 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
   const classes = useStyles();
   const { name } = useParams();
   const survey = surveyDescriptions.find((s) => s.name === name);
+
+  const navigate = useNavigate();
 
   const [subcategories, setSubcategories] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
@@ -108,34 +110,23 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
       userScore = res.data.score;
     });
 
-    // TODO: remove me once we use the score for guest download
-    console.log(userScore);
-
-    if (!loggedIn) {
-      // guest user
-      surveySubmitAlert('Back to Home', 'Download Results')
-        .then((result) => {
-          if (result.isConfirmed) {
-            window.location = '../home';
-          } else {
-            // TODO: download survey results
-            console.log('Download Results');
-          }
-        });
-    } else {
-      // logged in user
-      surveySubmitAlert('Back to Home', 'View Results')
-        .then((result) => {
-          if (result.isConfirmed) {
-            console.log('Back to Home');
-            window.location = '../home';
-            // window.location = `../description/${name}`; TODO: need to pass state or refactor
-          } else {
-            console.log('View Results');
-            window.location = `../review-survey/${name}`;
-          }
-        });
-    }
+    surveySubmitAlert('Back to Home', 'View Results', userScore)
+      .then((result) => {
+        if (result.isConfirmed) {
+          navigate(
+            '/home',
+          );
+        } else if (!loggedIn) {
+          navigate(
+            `/review-survey/${name}`,
+            { state: { userAnswers, userScore } },
+          );
+        } else {
+          navigate(
+            `/review-survey/${name}`,
+          );
+        }
+      });
   };
 
   if (!survey) return <NotFoundPage />;

@@ -29,11 +29,11 @@ class SwalINL {
     });
   }
 
-  static surveySubmitAlert(confirmButtonText, cancelButtonText) {
+  static surveySubmitAlert(confirmButtonText, cancelButtonText, score) {
     return Swal.fire({
       icon: 'success',
-      title: 'Congrats!',
-      text: "You've completed the survey!",
+      title: `Your resilience score is ${score}/100`,
+      text: 'Congratulations on completing the survey!',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: 'green',
