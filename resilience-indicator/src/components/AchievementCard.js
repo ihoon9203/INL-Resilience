@@ -184,7 +184,7 @@ const AchievementCard = function AchievementCardFunc(props) {
   if (!completed) {
     return (
 
-      <Container>
+      <Container className="goal-card">
         {modify ? (
           <Row className="badge-container" onClick={handleClickOpen}>
             <Col sm={2}>

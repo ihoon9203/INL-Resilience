@@ -105,9 +105,6 @@
   margin: 0 auto;
   user-select: none;  
 }
-.panel:hover .panel-item {
-  opacity: 0.2;
-}
 .panel:hover .panel-item:hover {
   opacity: 1;
   transform: scale(1.1);

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
+import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,6 +9,7 @@ import MSTimeline from '../components/MSTimeline';
 import CircularMilestone from '../components/CircularMilestone';
 import IPGoals from '../components/IPGoals';
 import CPGoals from '../components/CPGoals';
+import Timeseries from '../components/Timeseries';
 import '../styles/achievements.css';
 
 const AchievementsPage = function AchievementsPageFunc() {
@@ -14,6 +17,10 @@ const AchievementsPage = function AchievementsPageFunc() {
   const [mstate, setMstate] = useState(null);
   const [cpGoal, setCPGoal] = useState([]);
   const [ipGoal, setIPGoal] = useState([]);
+  const [healthSeries, setHealthSeries] = useState([]);
+  const [emergencySeries, setEmergencySeries] = useState([]);
+  const [financeSeries, setFinanceSeries] = useState([]);
+  const [cyberSeries, setCyberSeries] = useState([]);
   const bullets = document.getElementsByTagName('li');
 
   // from all-scores
@@ -54,6 +61,27 @@ const AchievementsPage = function AchievementsPageFunc() {
       .then((res) => {
         setCPGoal(res.data);
       });
+    // timeseries data for health
+    Axios
+      .get('/api/user-score/health', { withCredentials: true })
+      .then((res) => {
+        setHealthSeries(res.data);
+      });
+    Axios
+      .get('/api/user-score/emergency', { withCredentials: true })
+      .then((res) => {
+        setEmergencySeries(res.data);
+      });
+    Axios
+      .get('/api/user-score/finance', { withCredentials: true })
+      .then((res) => {
+        setFinanceSeries(res.data);
+      });
+    Axios
+      .get('/api/user-score/cyber', { withCredentials: true })
+      .then((res) => {
+        setCyberSeries(res.data);
+      });
   }, []);
   useEffect(() => {
     // eslint-disable-next-line prefer-const, no-restricted-syntax
@@ -64,7 +92,7 @@ const AchievementsPage = function AchievementsPageFunc() {
         bullet.classList.remove('current');
       }
     }
-  }, []);
+  });
   // Goals
   // you get list of most recent two goals for each completed and in-progress in this axios request
   // and pass them to IPGoals and CPGoals respectively
@@ -79,7 +107,7 @@ const AchievementsPage = function AchievementsPageFunc() {
             <div className="achievements-sub-title">Current Milestone</div>
           </Row>
           <Row>
-            <div className="content"><MSTimeline score={mstate} /></div>
+            <div className="content"><MSTimeline value={total} score={mstate} /></div>
           </Row>
         </Col>
         <Col className="center-content">
@@ -112,6 +140,18 @@ const AchievementsPage = function AchievementsPageFunc() {
             <div className="content"><CPGoals goal={cpGoal} /></div>
           </Row>
         </Col>
+      </Row>
+      <Row className="center-child">
+        <Link to="/goals" className="no-blue-underline">
+          <Button className="goal-button">Goals Page</Button>
+        </Link>
+      </Row>
+      <div className="divbreak" />
+      <Row className="mtop">
+        <div className="achievements-title">TIMELINE</div>
+      </Row>
+      <Row className="nopadding">
+        <Timeseries emergency={emergencySeries} health={healthSeries} finance={financeSeries} cyber={cyberSeries} />
       </Row>
     </Container>
   );

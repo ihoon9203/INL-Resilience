@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import AchievementCard from './AchievementCard';
 
 const IPGoals = function IPGoalsFunc(props) {
-  console.log(props);
   const goals = props.goal;
   return (
     <div className="nopadding">

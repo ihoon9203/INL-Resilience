@@ -48,4 +48,31 @@
     background-color: rgba(255, 255, 255, 0.99);
     box-shadow: inset   1px 1px 2px 3px #ccc;
 }
+.goal-button{
+    border: 0;
+    outline: none;
+    background: linear-gradient(
+      to right,
+      rgba(83, 200, 239, 0.8) 0%,
+      rgba(81, 106, 204, 0.8) 96%
+    );
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    color: #fff !important;
+    padding: 12px 16px;
+    width: 70%;
+    border-radius: 5px;
+    margin-top: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: "Jost", sans-serif !important;
+    text-decoration: none !important;
+    transition: 0.3s;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+.no-blue-underline{
+    text-decoration: none;
+}
 @import url('https://fonts.googleapis.com/css2?family=PT+Sans&display=swap');

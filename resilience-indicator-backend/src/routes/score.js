@@ -94,4 +94,39 @@ router.get(
   },
 );
 
+/**
+ * @openapi
+ * /api/user-score/{survey}:
+ *   get:
+ *     tags:
+ *     - Score
+ *     summary: Get all user scores record for each categories
+ *     parameters:
+ *     - name: survey
+ *       description: short-name for survey
+ *       in: path
+ *       required: true
+ *       type: string
+ *       enum: [health, cyber, finance, emergency]
+ *     responses:
+ *       200:
+ *         description: Returns all user scores record for each categories
+ */
+router.get(
+  '/user-score/:survey',
+  async (req, res) => {
+    const results = await Score.findAll({
+      attributes: ['score', 'createdAt'],
+      include: [{ model: Survey, attributes: [] }],
+      where: { userId: req.user.id, '$Survey.category$': req.params.survey },
+      order: [['createdAt']],
+    }).catch((err) => {
+      console.log('DB_ERROR: ', err);
+      return res.status(500).send('INTERNAL_ERROR: ', err);
+    });
+    if (!results) return res.status(404).send(`Survey Score for "${req.params.survey}" Not Found`);
+    return res.status(200).json(results);
+  },
+);
+
 module.exports = router;

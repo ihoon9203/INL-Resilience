@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import Container from 'react-bootstrap/Container';
+import { Grid } from '@mui/material';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from '@mui/material/Button';
@@ -117,25 +118,23 @@ const GoalsPage = function AchievementsPageFunc() {
         setGoals(res.data);
       });
   }, []);
-  const getGoalCards = goals.map((goal) => <AchievementCard goal={goal} modify />);
+  const getGoalCards = goals.map((goal) => <AchievementCard goal={goal} className="ml-auto" modify />);
   return (
     <div>
       <Container>
-        <Row>
+        <Grid>
           <div className="achievements-title">GOALS</div>
-        </Row>
-        <Row className="center-container mb-2">
-          <Col xs={2}>
+        </Grid>
+        <Grid container className="center-container mb-2">
+          <Grid item xs={2}>
             <div className="newgoal-button"><Button variant="outlined" size="small" onClick={handleOpen}>+ New Goals</Button></div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <div className="goals-list">
-              {getGoalCards}
-            </div>
-          </Col>
-        </Row>
+          </Grid>
+        </Grid>
+        <Grid>
+          <div className="goals-list no-ml">
+            {getGoalCards}
+          </div>
+        </Grid>
       </Container>
       <Modal
         aria-labelledby="transition-modal-title"
