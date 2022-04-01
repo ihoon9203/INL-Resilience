@@ -4,7 +4,7 @@ const { ensureLoggedIn } = require('connect-ensure-login');
 const passport = require('../auth/passport');
 const sequelize = require('../models/index');
 
-const { User } = sequelize.models;
+const { User, NotificationSetting } = sequelize.models;
 const router = express.Router();
 
 /**
@@ -72,8 +72,31 @@ router.post('/register', async (req, res) => {
     console.log('Error: ', err);
     res.status(500).json({ error: 'Cannot register user at the moment!' });
   });
-
   if (!savedUser) return res.status(500).json({ error: 'Cannot register user at the moment!' });
+
+  // Create default notification settings
+  const settings = [
+    'General',
+    'Financial',
+    'Cyber',
+    'Health',
+    'Emergency',
+  ];
+  settings.forEach(async (s) => {
+    const newNotificationSetting = new NotificationSetting({
+      setting: s,
+      enabled: true,
+      userId: savedUser.id,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+    const savedNotificationSetting = await newNotificationSetting.save().catch((err) => {
+      console.log('Error: ', err);
+      res.status(500).json({ error: 'Cannot save new notification setting at the moment!' });
+    });
+    if (!savedNotificationSetting) res.status(500).json({ error: 'Cannot save new notification setting at the moment!' });
+  });
+
   return res.status(201).json({ message: 'Thanks for registering!' });
 });
 

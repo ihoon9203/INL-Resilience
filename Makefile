@@ -26,6 +26,7 @@ lint:
 test:
 	@echo "Running backend unit tests..." \
 	 && cd ./resilience-indicator-backend/ \
+	 && source ./sendgrid.env \
 	 && node node_modules/jest/bin/jest.js .
 
 local-db-darwin: # create a local mysql docker db server and seed it

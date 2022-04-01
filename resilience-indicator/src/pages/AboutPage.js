@@ -9,7 +9,7 @@ const AboutPage = function AboutPageFunc() {
         INL Personal Resilience Mission
       </Typography>
       <Typography component="span" variant="body1">
-        Idaho National Laboratories is working towards a safer America.
+        Idaho National Laboratory is working towards a more resilient America.
         Advancing resilience is a long-term process, but can be coordinated around visible,
         short-term goals that allow individuals and organizations to measure or mark their
         progress toward becoming resilient and overcoming these gaps.

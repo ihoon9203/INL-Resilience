@@ -23,6 +23,7 @@ const AdminNav = function AdminNavFunc({ handlePickerValueChange }) {
     >
       <ToggleButton value="Feedback">Feedback</ToggleButton>
       <ToggleButton value="FeedbackCategories">Feedback Categories</ToggleButton>
+      <ToggleButton value="EmailNotifications">Email Notifications</ToggleButton>
       <ToggleButton value="Questions">Survey Questions</ToggleButton>
     </ToggleButtonGroup>
   );

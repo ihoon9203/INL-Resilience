@@ -224,7 +224,7 @@ function AdminFeedbackCategories() {
         </Grid>
         <Grid item xs={1.5}>
           <Button
-            color="secondary"
+            color="error"
             variant="contained"
             disabled={selectionModel.length === 0}
             onClick={handleDeleteButtonClick}

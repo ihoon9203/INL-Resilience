@@ -31,6 +31,8 @@ const modelDefiners = [
   require('./ImprovementPlan'),
   require('./FeedbackCategory'),
   require('./Feedback'),
+  require('./NotificationSetting'),
+  require('./EmailNotification'),
 ];
 
 // We define all models according to their files.

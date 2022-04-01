@@ -1,11 +1,11 @@
 image: node
 
 stages:
-  - test
-  - deploy
+  - lint
+  - unit-test
 
 lint:
-  stage: test
+  stage: lint
   script:
     - cd resilience-indicator-backend && npm_config_loglevel=silent npm i eslint
     - node_modules/eslint/bin/eslint.js .
@@ -13,7 +13,7 @@ lint:
     - node_modules/eslint/bin/eslint.js .
 
 unit-test:
-  stage: test
+  stage: unit-test
   services:
     - mysql:5.7.24
   variables:
@@ -30,9 +30,3 @@ unit-test:
     - (cd src/ && sequelize db:create --env test && sequelize db:migrate --env test && sequelize db:seed:all --env test)
     - npm_config_loglevel=silent npm i jest
     - node_modules/jest/bin/jest.js .
-
-deploy-to-stage:
-  stage: deploy
-  script:
-    - echo "Deploying to stage environment after test stage has passed ..."
-    - exit 0

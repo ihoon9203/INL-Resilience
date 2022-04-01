@@ -156,7 +156,7 @@ function AdminFeedback() {
         </Grid>
         <Grid item xs={1}>
           <Button
-            color="secondary"
+            color="error"
             variant="contained"
             disabled={selectionModel.length === 0}
             onClick={handleDeleteButtonClick}
