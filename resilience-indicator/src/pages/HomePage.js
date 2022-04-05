@@ -5,6 +5,7 @@ import INLCarousel from '../components/Carousel';
 import CategoryCard from '../components/CategoryCard';
 import useStyles from '../styles';
 import AnalysisPanel from '../components/AnalysisPanel';
+import Tutorial from '../components/tutorial/Tutorial';
 import '../styles/analysistab.css';
 
 const HomePage = function HomePageFunc() {
@@ -15,6 +16,31 @@ const HomePage = function HomePageFunc() {
   const [financeScore, setFinanceScore] = useState(0);
   const [total, setTotal] = useState(0);
   const [login, setLogin] = useState(false);
+
+  // Tutorial stuff
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  const [tutorialIdx, setTutorialIdx] = useState(0);
+
+  useEffect(() => {
+    const tutorialStatus = sessionStorage.getItem('tutorialStatus');
+    if (!tutorialStatus) {
+      Axios
+        .get('/api/times-visited', { withCredentials: true })
+        .then((res) => {
+          console.log(res.data);
+          if (res.data <= 2) {
+            setShow(true);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      sessionStorage.setItem('tutorialStatus', 1);
+    }
+  }, []);
+
   useEffect(() => {
     Axios
       .get('/api/latest-scores', { withCredentials: true })
@@ -44,6 +70,7 @@ const HomePage = function HomePageFunc() {
   return (
     <>
       <INLCarousel />
+      <Tutorial show={show} handleClose={handleClose} handleShow={handleShow} index={tutorialIdx} setIndex={setTutorialIdx} setShow={setShow} />
       <Container maxWidth="xl">
         <h1 className="title">Resilience Indicator</h1>
         <h2 className="inl">idaho national laboratory</h2>
