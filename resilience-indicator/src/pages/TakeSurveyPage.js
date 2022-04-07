@@ -198,37 +198,43 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
       </Dialog>
       <CssBaseline />
       <Typography
-        variant="h4"
-        align="center"
         color="primary"
+        variant="h3"
+        align="center"
         fontWeight="bolder"
-        style={{ width: '100%', height: '90%' }}
+        style={{
+          width: '100%', height: '90%', paddingTop: '16px',
+        }}
       >
         {survey.title}
         {' '}
         Survey
       </Typography>
       <Box className={classes.divider2} />
-      <List>
-        {subcategories.map((subcatObj, key) => {
-          let surveyAnswers;
-          if (subcategoryAnswers.length > 0) {
-            /* eslint-disable no-restricted-syntax */
-            for (const item of subcategoryAnswers) {
-              console.log(item);
-              if (item.subcategory === subcatObj.subcategory) {
-                surveyAnswers = item.answers;
-                break;
-              }
-            }
-          }
-          return <SubcategoryLabel key={key} subcatObj={subcatObj} handleNaSubcategoryChange={handleNaSubcategoryChange} surveyAnswers={surveyAnswers} />;
-        })}
-      </List>
       <Grid container justifyContent="center" alignItems="center">
         <Grid item>
+          <List>
+            {subcategories.map((subcatObj, key) => {
+              let surveyAnswers;
+              if (subcategoryAnswers.length > 0) {
+                /* eslint-disable no-restricted-syntax */
+                for (const item of subcategoryAnswers) {
+                  console.log(item);
+                  if (item.subcategory === subcatObj.subcategory) {
+                    surveyAnswers = item.answers;
+                    break;
+                  }
+                }
+              }
+              return <SubcategoryLabel key={key} subcatObj={subcatObj} handleNaSubcategoryChange={handleNaSubcategoryChange} surveyAnswers={surveyAnswers} />;
+            })}
+          </List>
+        </Grid>
+      </Grid>
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid item style={{ marginTop: '18px' }}>
           <Button
-            className={classes.button}
+            className="button"
             variant="contained"
             color="primary"
             onClick={handleSubmit}

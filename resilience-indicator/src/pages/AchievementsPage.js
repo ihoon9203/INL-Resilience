@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -153,6 +153,13 @@ const AchievementsPage = function AchievementsPageFunc() {
       <Row className="nopadding">
         <Timeseries emergency={emergencySeries} health={healthSeries} finance={financeSeries} cyber={cyberSeries} />
       </Row>
+      <Grid item style={{ marginTop: '160px', alignitems: 'right' }}>
+        <Link className="review-survey-button" to="/home">
+          <Button className="button" variant="contained" color="primary">
+            Return Home
+          </Button>
+        </Link>
+      </Grid>
     </Container>
   );
 };

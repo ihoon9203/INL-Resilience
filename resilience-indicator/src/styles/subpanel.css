@@ -23,6 +23,11 @@
     cursor: pointer;
     transition: 0.2s;
 }
+.tool-tip-index {
+    cursor: pointer;
+    color: rgba(81, 106, 204);
+    opacity: 0.9;
+}
 .level-card {
     background: linear-gradient(
         45deg,

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
+// eslint-disable-next-line import/no-unresolved
 import ReactToPrint from 'react-to-print';
 import {
   Button, Box, CssBaseline, Grid, Typography,
@@ -26,9 +27,7 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
   const getPageMargins = () => '@media print { body { -webkit-print-color-adjust: exact; } @page { size: A4; margin: 20mm !important }}';
 
   const reactToPrintTrigger = React.useCallback(() => (
-    <Button className={classes.button} variant="contained" color="default">
-      Download
-    </Button>
+    <button type="button" className="review-survey">DOWNLOAD SURVEY</button>
   ), []);
 
   const reactToPrintContent = React.useCallback(() => componentRef.current, [componentRef.current]);
@@ -85,10 +84,13 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
       <div ref={componentRef}>
         <CssBaseline />
         <Typography
-          variant="h4"
-          align="center"
           color="primary"
-          style={{ width: '100%', height: '90%' }}
+          variant="h3"
+          align="center"
+          fontWeight="bolder"
+          style={{
+            width: '100%', height: '90%', paddingTop: '16px',
+          }}
         >
           {survey.title}
           {' '}
@@ -97,7 +99,7 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
         <Box className={classes.divider2} />
         <Grid container justifyContent="center" alignItems="center">
           <Grid item xs={4} md={2} style={{ paddingRight: '20px' }}>
-            <h3 className="text-center">Your Resilience Score</h3>
+            <h3 className="text-center">Resilience Score:</h3>
           </Grid>
           <Grid item xs={4} md={2}>
             <Gauge
@@ -111,46 +113,24 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
           </Grid>
         </Grid>
         <Box className={classes.divider2} style={{ marginBottom: '50px' }} />
-        <AnswerList answers={surveyAnswers} />
-      </div>
-      <Grid container justifyContent="center" alignItems="center">
-        <Grid item xs={4} md={2}>
-          <Link className="review-survey-button" to={`/take-survey/${survey.name}`}>
-            <Button
-              className={classes.button}
-              variant="contained"
-              style={{
-                backgroundColor: 'green',
-                color: 'white',
-              }}
-            >
-              Retake Survey
-            </Button>
-          </Link>
+        <Grid container justifyContent="center" alignItems="center">
+          <Grid item xs={12} sm={12} md={10} lg={8}>
+            <AnswerList answers={surveyAnswers} />
+          </Grid>
         </Grid>
-        <Grid item xs={4} md={2}>
-          <Link className="review-survey-button" to="../home">
-            <Button className={classes.button} variant="contained" color="primary">
-              Back to Home
-            </Button>
+      </div>
+      <Grid container spacing={1} justifyContent="center" alignItems="center">
+        <Grid item xs={5} md={2}>
+          <Link className="review-survey-button" to={`/take-survey/${survey.name}`}>
+            <button type="button" className="take-survey">RETAKE SURVEY</button>
           </Link>
         </Grid>
         {loggedIn && (
-          <Grid item xs={4} md={2}>
-            <Link className="review-survey-button" to={`/improvement-plan/${survey.name}`}>
-              <Button
-                className={classes.button}
-                variant="contained"
-                style={{
-                  backgroundColor: 'rgb(247, 68, 68, 0.30)',
-                }}
-              >
-                Improvement Plan
-              </Button>
-            </Link>
+          <Grid item xs={5} md={2}>
+            <button type="button" className="update-survey">UPDATE SURVEY</button>
           </Grid>
         )}
-        <Grid item xs={4} md={2}>
+        <Grid item xs={10} md={3} lg={2}>
           <ReactToPrint
             content={reactToPrintContent}
             documentTitle={`${name}-survey-results`}
@@ -158,6 +138,24 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
             trigger={reactToPrintTrigger}
             pageStyle={getPageMargins}
           />
+        </Grid>
+      </Grid>
+      <Grid container spacing={1} style={{ marginTop: '80px', marginLeft: '48px', alignitems: 'right' }}>
+        <Grid item style={{ marginTop: '24px' }}>
+          <Link className="review-survey-button" to="/home">
+            <Button className="button" variant="contained" color="primary">
+              RETURN HOME
+            </Button>
+          </Link>
+        </Grid>
+        <Grid item>
+          {loggedIn && (
+            <Link className="review-survey-button" to={`/improvement-plan/${survey.name}`}>
+              <button type="button" className="improvment-plan">
+                VIEW IMPROVEMENT PLAN
+              </button>
+            </Link>
+          )}
         </Grid>
       </Grid>
     </>

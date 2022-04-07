@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Grid } from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
+import InfoIcon from '@mui/icons-material/Info';
 import { Col, Row } from 'react-bootstrap';
 import { Container } from '@material-ui/core';
 import Gauge from './Gauge';
@@ -34,7 +36,12 @@ const AnalysisPanel = function AnalysisPanelFunc(props) {
     return (
       <section className="columns">
         <div className="column">
-          <h1 className="text-center bargraph-title">Your Overall Resilience Score</h1>
+          <Grid container justifyContent="center" alignItems="center">
+            <h1 className="bargraph-title2">Your Overall Resilience Index</h1>
+            <Tooltip title="Your Overall Resilience Index is calculated from your completed surveys. Uncompleted surveys do not impact the overall score.">
+              <InfoIcon className="tool-tip-index" />
+            </Tooltip>
+          </Grid>
           <Gauge score={props.total} style={{ width: '100%', height: '500px' }} size={60} />
         </div>
         {(() => { // currently right panel is deprecated.

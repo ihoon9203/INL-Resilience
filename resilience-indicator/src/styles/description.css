@@ -1,3 +1,13 @@
+.cat-text {
+    font-size: 24px;
+    white-space: nowrap;
+    font-weight: 500;
+    opacity: 0.6;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0;
+  }
+  
 .panel-item {
     padding: 8px 4px;
     transition: opacity 0.2s ease, transform 0.2s ease;

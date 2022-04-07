@@ -41,7 +41,7 @@ const CategoryCard = function CategoryCardFunc({
         card.setAttribute('data-state', targetSection);
 
         sections.forEach((s) => {
-          if (s.getAttribute('cardID') === cardid) {
+          if (s.getAttribute('cardid') === cardid) {
             s.classList.remove('is-active');
           }
         });
@@ -53,7 +53,7 @@ const CategoryCard = function CategoryCardFunc({
 
         e.target.classList.add('is-active');
         displaySections.forEach((display) => {
-          if (display.getAttribute('cardID') === cardid) {
+          if (display.getAttribute('cardid') === cardid) {
             const section = display;
             section.classList.add('is-active');
           }
@@ -86,13 +86,13 @@ const CategoryCard = function CategoryCardFunc({
       </div>
 
       <div className="card-main">
-        <div className="card-section is-active" cardID={cardCat} id="about">
+        <div className="card-section is-active" cardid={cardCat} id="about">
           <div className="card-content">
             <div className="card-subtitle">ABOUT</div>
             <p className="card-desc">{description}</p>
             {(() => {
-              // guest user
-              if (!login) {
+              // If survey not taken or guest user
+              if (cardscore === 0 || !login) {
                 return (
                   <>
                   </>
@@ -107,7 +107,7 @@ const CategoryCard = function CategoryCardFunc({
           </div>
         </div>
 
-        <div className="card-section" cardID={cardCat} id="experience">
+        <div className="card-section" cardid={cardCat} id="experience">
           <div className="card-content">
             {(() => {
               // survey not completed yet.
@@ -121,9 +121,9 @@ const CategoryCard = function CategoryCardFunc({
                       <img src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/50/000000/external-alert-warehouse-xnimrodx-lineal-gradient-xnimrodx.png" alt="alert icon" />
                       SURVEY INCOMPLETE.
                     </div>
-                    <body className="card-incomplete-txt">
+                    <p className="card-incomplete-txt">
                       Please click on the button below to take and complete this survey.
-                    </body>
+                    </p>
                     <Link className="take-survey-button" to={`/take-survey/${cardCat}`}>
                       <button type="button" className="take-survey">TAKE SURVEY</button>
                     </Link>
@@ -143,6 +143,9 @@ const CategoryCard = function CategoryCardFunc({
                       <Link className="review-survey-button" to={`/take-survey/${cardCat}`} state={{ shouldUpdate: true }}>
                         <button type="button" className="update-survey">UPDATE SURVEY</button>
                       </Link>
+                      <Link className="review-survey-button" to={`/review-survey/${cardCat}`}>
+                        <button type="button" className="review-survey">REVIEW SURVEY</button>
+                      </Link>
                       <div className="card-subtitle" style={{ paddingTop: '40px' }}>IMPROVEMENT PLAN</div>
                       <Link className="review-survey-button" to={`/improvement-plan/${cardCat}`}>
                         <button type="button" className="improvment-plan">VIEW IMPROVEMENT PLAN</button>
@@ -155,7 +158,7 @@ const CategoryCard = function CategoryCardFunc({
           </div>
         </div>
 
-        <div className="card-section" cardID={cardCat} id="contact">
+        <div className="card-section" cardid={cardCat} id="goals">
           <div className="card-content">
             {(() => {
               if (!Object.prototype.hasOwnProperty.call(goals, 'message') && Object.keys(goals).length > 0) {
@@ -163,9 +166,9 @@ const CategoryCard = function CategoryCardFunc({
                   <>
                     <h1 className="card-score-sm" style={{ paddingLeft: '40px' }}>{cardscore}</h1>
                     <div className="card-subtitle">GOALS</div>
-                    <div className="card-contact-wrapper">
+                    <div>
                       {Object.keys(goals).slice(0, 3).map((goal) => (
-                        <div className="card-contact">
+                        <div className="card-goals">
                           <img src="https://img.icons8.com/nolan/64/benzene-ring.png" alt="hexagon icon" />
                           {goal}
                         </div>
@@ -200,31 +203,20 @@ const CategoryCard = function CategoryCardFunc({
               return (
                 <>
                   <h1 className="card-score-sm" style={{ paddingLeft: '40px' }}>{cardscore}</h1>
-                  <div className="card-subtitle">GOALS</div>
-                  <div className="card-contact-wrapper">
-                    <div
-                      className="card-incomplete-txt"
-                      style={
-                        {
-                          fontSize: '14px',
-                          fontWeight: 'bolder',
-                          color: 'rgb(80,80,80)',
-                        }
-                      }
-                    >
-                      You have not set any goals for this category yet!
-                    </div>
-                    <div className="card-incomplete-txt" style={{ fontSize: '14px' }}>
-                      Click the button below to create your first
-                      { ' '}
-                      {cardcatid}
-                      { ' ' }
-                      goal.
-                    </div>
-                    <Link className="review-survey-button" to="/goals">
-                      <button type="button" className="improvment-plan">GO TO GOALS</button>
-                    </Link>
+                  <div className="card-incomplete">
+                    <img src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/50/000000/external-alert-warehouse-xnimrodx-lineal-gradient-xnimrodx.png" alt="alert icon" />
+                    NO GOALS EXIST YET.
                   </div>
+                  <p className="card-incomplete-txt">
+                    Click the button below to create your first
+                    { ' '}
+                    {cardcatid}
+                    { ' ' }
+                    goal.
+                  </p>
+                  <Link className="review-survey-button" to="/goals">
+                    <button type="button" className="improvment-plan">GO TO GOALS</button>
+                  </Link>
                 </>
               );
             })()}
@@ -234,7 +226,7 @@ const CategoryCard = function CategoryCardFunc({
         <div className="card-buttons">
           <button type="button" id={cardCat} data-section="#about" className="is-active" onClick={(e) => toggleClass(e, cardCat)}>ABOUT</button>
           <button type="button" id={cardCat} data-section="#experience" onClick={(e) => toggleClass(e, cardCat)}>EXPERIENCE</button>
-          <button type="button" id={cardCat} data-section="#contact" onClick={(e) => toggleClass(e, cardCat)}>GOALS</button>
+          <button type="button" id={cardCat} data-section="#goals" onClick={(e) => toggleClass(e, cardCat)}>GOALS</button>
         </div>
       </div>
     </div>

@@ -8,51 +8,52 @@ import Answer from './Answer';
 const AnswerList = function AnswerListFunc({ answers }) {
   return (
     <Grid>
-      <List class="flex-container">
-        <ListItem>
-          <ListItemIcon>
-            <Chip
-              variant="outlined"
-              size="big"
-              style={{
-                backgroundColor: 'rgb(132, 132, 132, 0.26)',
-              }}
+      <Grid container justifyContent="center" alignItems="center">
+        <List className="flex-container">
+          <ListItem>
+            <ListItemIcon>
+              <Chip
+                variant="outlined"
+                size="medium"
+                style={{
+                  backgroundColor: 'rgb(132, 132, 132, 0.26)',
+                }}
+              />
+            </ListItemIcon>
+            <ListItemText
+              primary="Points not counted"
             />
-          </ListItemIcon>
-          <ListItemText
-            primary="Points not counted"
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <Chip
-              variant="outlined"
-              size="big"
-              style={{
-                backgroundColor: 'white',
-              }}
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <Chip
+                variant="outlined"
+                size="medium"
+                style={{
+                  backgroundColor: 'white',
+                }}
+              />
+            </ListItemIcon>
+            <ListItemText
+              primary="Full points gained"
             />
-          </ListItemIcon>
-          <ListItemText
-            primary="Full points gained"
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <Chip
-              variant="outlined"
-              size="big"
-              style={{
-                backgroundColor: 'rgb(247, 68, 68, 0.30)',
-              }}
+          </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <Chip
+                variant="outlined"
+                size="medium"
+                style={{
+                  backgroundColor: 'rgb(247, 68, 68, 0.30)',
+                }}
+              />
+            </ListItemIcon>
+            <ListItemText
+              primary="Full points missed"
             />
-          </ListItemIcon>
-          <ListItemText
-            primary="Full points missed"
-          />
-        </ListItem>
-      </List>
-
+          </ListItem>
+        </List>
+      </Grid>
       <List>
         {answers.map((answer, key) => (
           <Answer key={key} answer={answer} />

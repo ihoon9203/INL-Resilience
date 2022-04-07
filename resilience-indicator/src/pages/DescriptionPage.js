@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { Box, Button, Typography } from '@material-ui/core';
-import { Container } from 'react-bootstrap';
 import Grid from '@mui/material/Grid';
 import Axios from 'axios';
-import MilestoneBar from '../components/MilestoneBar';
 import NotFoundPage from './NotFoundPage';
 import Gauge from '../components/Gauge';
 import surveyDescriptions from '../resources/survey-descriptions';
 import useStyles from '../styles';
+import '../styles/description.css';
 
 const DescriptionPage = function DescriptionPageFunc() {
   const classes = useStyles();
@@ -58,72 +57,50 @@ const DescriptionPage = function DescriptionPageFunc() {
           <h3>Category Score</h3>
           <Gauge score={score} style={{ width: '100%', height: '500px' }} size={60} />
         </div>
-        <div className="column small-column">
+        <div className="column small-column" style={{ paddingBottom: '40px' }}>
           <div className="empty-space-2" />
-          <Typography id="milestone-progress-title">
-            {' '}
-            Progress to next milestone:
-          </Typography>
-          <Container className="panel">
-            <Link to=".">
-              <MilestoneBar className="panel-item health milestone" category={survey.title} score={score} />
-            </Link>
-          </Container>
-          <Grid container spacing={1}>
-            <Grid item xs={6}>
+          <Grid container spacing={1} justifyContent="center" alignItems="center">
+            <Grid item xs={5}>
               <Link style={hasTakenSurvey ? {} : { pointerEvents: 'none' }} className="review-survey-button" to={`/improvement-plan/${survey.name}`}>
-                <Button
-                  className={classes.featureButtons}
-                  variant="contained"
-                  color="primary"
+                <button
+                  type="button"
+                  className="improvment-plan"
                   disabled={!hasTakenSurvey}
                 >
-                  Plan
-                </Button>
+                  IMPROVEMENT PLAN
+                </button>
               </Link>
             </Grid>
-            <Grid item xs={6}>
-              <Button
-                className={classes.featureButtons}
-                variant="contained"
-                color="primary"
+            <Grid item xs={5}>
+              <button
+                type="button"
+                className="improvment-plan"
                 disabled={!hasTakenSurvey}
               >
-                Goals
-              </Button>
+                GOALS
+              </button>
             </Grid>
-          </Grid>
-        </div>
-      </section>
-      <section className="columns center-column">
-        <div className="column center-column">
-          <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <Link className="take-survey-button" to={`/take-survey/${survey.name}`}>
-                <Button
-                  className={classes.surveyButtons}
-                  variant="contained"
-                  color="primary"
-                >
-                  Take Survey
-                </Button>
-              </Link>
+            <Grid item xs={5}>
+              <button type="button" className="take-survey">UPDATE SURVEY</button>
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <Link className="review-survey-button" to={`/review-survey/${survey.name}`}>
-                <Button
-                  className={classes.surveyButtons}
-                  variant="contained"
-                  color="primary"
-                  disabled={!hasTakenSurvey}
-                >
-                  Review Survey
-                </Button>
+                <button type="button" className="update-survey">REVIEW SURVEY</button>
               </Link>
+            </Grid>
+            <Grid item xs={10}>
+              <button type="button" className="download-survey">DOWNLOAD SURVEY RESULTS</button>
             </Grid>
           </Grid>
         </div>
       </section>
+      <Grid item style={{ marginTop: '40px', marginLeft: '40px', alignitems: 'right' }}>
+        <Link className="review-survey-button" to="/home">
+          <Button className="button" variant="contained" color="primary">
+            Return Home
+          </Button>
+        </Link>
+      </Grid>
     </>
   );
 };

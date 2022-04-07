@@ -53,7 +53,7 @@ body {
 }
 
 
-.card[data-state="#contact"] {
+.card[data-state="#goals"] {
   height: 430px;
 }
 
@@ -182,8 +182,6 @@ body {
   min-height: 45px;
 }
 
-
-
 .card-categoryname {
   position: absolute;
   bottom: 4px;
@@ -231,7 +229,7 @@ body {
   line-height: 1.6;
   color: #636b6f;
   font-size: 14px;
-  margin: 0;
+  margin-top: 10px;
   font-weight: 400;
   font-family: "DM Sans", sans-serif;
 }
@@ -361,11 +359,7 @@ body {
   font-family: "DM Sans", sans-serif;
 }
 
-.card-contact-wrapper {
-  margin-top: 20px;
-}
-
-.card-contact {
+.card-goals {
   display: flex;
   align-items: center;
   font-size: 13px;
@@ -375,11 +369,11 @@ body {
   cursor: pointer;
 }
 
-.card-contact + .card-contact {  
+.card-goals + .card-goals {  
   margin-top: 16px;  
 }
 
-.card-contact img {
+.card-goals img {
   flex-shrink: 0;
   width: 50px;
   min-height: 34px;
@@ -409,7 +403,13 @@ body {
 }
 
 .card-incomplete-txt {
+  flex-wrap: wrap;
   margin-top: 20px;
+  line-height: 1.6;
+  color: #636b6f;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "DM Sans", sans-serif;
 }
 
 .improvment-plan {
@@ -454,6 +454,44 @@ body {
   border: 0;
   outline: none;
   background: rgba(81, 106, 204, 0.8);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  color: #fff;
+  padding: 12px 16px;
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+}
+
+.review-survey {
+  border: 0;
+  outline: none;
+  background: rgba(63, 55, 139, 0.863);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  color: #fff;
+  padding: 12px 16px;
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: "Jost", sans-serif;
+  transition: 0.3s;
+}
+
+.download-survey {
+  border: 0;
+  outline: none;
+  background: linear-gradient(
+    to right,
+    rgba(81, 106, 204, 0.8) 0%,
+    rgba(62, 54, 136, 0.8) 98%
+  );
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
   color: #fff;
   padding: 12px 16px;

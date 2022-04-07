@@ -1,8 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Carousel from 'react-material-ui-carousel';
 import {
-  Box, Button, Card, CardMedia, Grid, Typography,
+  Box, Card, CardMedia, Grid,
 } from '@mui/material';
 import useStyles from '../styles';
 
@@ -17,7 +16,7 @@ const INLCarousel = function INLCarouselFunc() {
         stopAutoPlayOnHover
         cycleNavigation
         duration="1000"
-        interval="7000"
+        interval="70000"
         navButtonsProps={{
           style: {
             backgroundColor: '#808080',
@@ -43,34 +42,17 @@ const INLCarousel = function INLCarouselFunc() {
               <CardMedia
                 component="img"
                 height="600"
-                image="./assets/health.png"
-                title="Public Health"
-                alt="Family in fields"
+                image="./assets/satellites.jpg"
+                title="Cyber Security"
+                alt="Satellites with blue sky background"
               />
-              <Box
-                className={classes.carouselBox}
-                bottom="150"
-              >
-                <Typography variant="h3" color="primary.dark">Public Health</Typography>
-                <br />
-                <Typography variant="body2" color="primary.dark" maxWidth="400px">
-                  Complete the Public Health Survey to view your health index
-                  and take steps to improve your Resilience.
-                </Typography>
-                <Link className="take-survey-button" to="/take-survey/health">
-                  <Box component="span" m={2} className={classes.smallbox}>
-                    <Button
-                      className={classes.carouselButtons}
-                      variant="outlined"
-                      color="primary"
-                      style={{
-                        border: '2px solid',
-                      }}
-                    >
-                      Take Survey
-                    </Button>
-                  </Box>
-                </Link>
+              <Box className={classes.carouselBackground} sx={{ borderRadius: '50%' }}> </Box>
+              <Box className={classes.carouselBox}>
+                <p className={classes.carouselTitle} style={{ fontSize: '80px' }}>Cyber Security</p>
+                <p className={classes.carouselText} style={{ maxWidth: '500px' }}>
+                  Over 50% of all consumers have experienced a cybercrime.
+                  Take the Cyber Security Survey and receive your impovement plan to better protect yourself today!
+                </p>
               </Box>
             </Box>
           </Card>
@@ -83,34 +65,57 @@ const INLCarousel = function INLCarouselFunc() {
                 component="img"
                 height="600"
                 image="./assets/cyber.png"
-                title="Cyber Security"
+                title="Account Creation"
                 alt="User logging into online account"
               />
-              <Box
-                className={classes.carouselBox}
-                bottom="130px"
-                color="white"
-              >
-                <Typography variant="h3">Cyber Security</Typography>
-                <br />
-                <Typography variant="body2" maxWidth="400px">
-                  Take the Cyber Security Survey to view your cyber index
-                  and take steps to improve your Resilience with your own curated Improvement Plan!
-                </Typography>
-                <Link className="take-survey-button" to="/take-survey/cyber">
-                  <Box component="span" m={2} className={classes.smallbox}>
-                    <Button
-                      className={classes.carouselButtons}
-                      variant="outlined"
-                      style={{
-                        border: '2px solid',
-                        color: '#ffffff',
-                      }}
-                    >
-                      Take Survey
-                    </Button>
-                  </Box>
-                </Link>
+              <Box className={classes.carouselBox}>
+                <p className={classes.carouselTitle} style={{ fontSize: '65px' }}>Create an Account</p>
+                <p className={classes.carouselText} style={{ maxWidth: '500px' }}>
+                  Make sure to create a resilience account to unlock features such as an analysis panel,
+                  a personal improvement plan, achieving goals, sharing to social media and more!
+                </p>
+              </Box>
+            </Box>
+          </Card>
+        </Grid>
+
+        <Grid item>
+          <Card>
+            <Box sx={{ position: 'relative' }}>
+              <CardMedia
+                component="img"
+                height="600"
+                image="./assets/mountain.jpg"
+                title="Goals"
+                alt="mountain"
+              />
+              <Box className={classes.carouselBox}>
+                <p className={classes.carouselTitle} style={{ fontSize: '65px' }}>Resilience Goals</p>
+                <p className={classes.carouselText} style={{ maxWidth: '500px' }}>
+                  You can create custom goals or utilize the system goals curated from your improvement plan
+                  to increase your resiliency.
+                </p>
+              </Box>
+            </Box>
+          </Card>
+        </Grid>
+
+        <Grid item>
+          <Card>
+            <Box sx={{ position: 'relative' }}>
+              <CardMedia
+                component="img"
+                height="600"
+                image="./assets/rocket.jpg"
+                title="Improvement Plan"
+                alt="Rocket launching off of mars"
+              />
+              <Box className={classes.carouselBox}>
+                <p className={classes.carouselTitle} style={{ fontSize: '65px' }}>Improvement Plan</p>
+                <p className={classes.carouselText} style={{ maxWidth: '500px' }}>
+                  Complete a survey to receive a personally curated improvement plan to help you
+                  launch into a more resilient life today!
+                </p>
               </Box>
             </Box>
           </Card>

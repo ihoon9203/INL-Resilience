@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
-  Box, Container, Grid, Typography,
+  Box, Button, Container, Grid, Typography,
 } from '@mui/material';
 import Axios from 'axios';
 import AdminNav from '../components/admin/AdminNav';
@@ -65,6 +66,16 @@ const AdminPage = function AdminPageFunc() {
               <AdminPicker pickerValue={pickerValue} />
             </Grid>
           </Grid>
+          <Link className="review-survey-button" to="/home">
+            <Button
+              className="button"
+              variant="contained"
+              color="primary"
+              style={{ marginTop: '150px' }}
+            >
+              Return Home
+            </Button>
+          </Link>
         </Container>
       </Box>
     );

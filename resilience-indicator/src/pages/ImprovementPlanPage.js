@@ -28,7 +28,6 @@ const ImprovementPlan = function ImprovementPlaFunc() {
     <>
       <CssBaseline />
       <Typography
-        className="title"
         variant="h3"
         align="center"
         color="primary"
@@ -45,8 +44,7 @@ const ImprovementPlan = function ImprovementPlaFunc() {
       <Box style={{ paddingLeft: '10%', paddingRight: '10%' }}>
         <Grid
           containerdirection="column"
-          justifyContent="space-evenly"
-          alignItem="center"
+          alignitem="center"
         >
           <Card className="priority-card" style={{ backgroundColor: 'rgba(255, 0, 0, 0.1)' }}>
             <Typography
@@ -83,7 +81,7 @@ const ImprovementPlan = function ImprovementPlaFunc() {
             </Typography>
             <TaskList tasks={surveyTasks} priority="Low" />
           </Card>
-          <Grid style={{ marginTop: '64px', alignItems: 'right' }}>
+          <Grid style={{ marginTop: '64px', alignitems: 'right' }}>
             <Link className="review-survey-button" to="/home">
               <Button className="button" variant="contained" color="primary">
                 Return Home

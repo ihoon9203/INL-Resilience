@@ -13,7 +13,7 @@ const Answer = function AnswerFunc({ answer }) {
         backgroundColor: `${answer.answer !== 'Yes' ? answer.answer === 'Not applicable' ? 'rgb(132, 132, 132, 0.26)' : 'rgb(247, 68, 68, 0.30)' : 'white'}`,
       }}
       >
-        <Grid container spacing={1} justifyAlign="flex-start">
+        <Grid container spacing={1} justifyalign="flex-start">
           <Grid item xs={10}>
             <Typography>{answer.Question.question}</Typography>
           </Grid>
