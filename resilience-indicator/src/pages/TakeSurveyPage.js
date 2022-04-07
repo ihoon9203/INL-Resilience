@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import List from '@mui/material/List';
 import {
   Box, CssBaseline, Grid, Typography,
@@ -15,28 +15,20 @@ import SubcategoryLabel from '../components/SubcategoryLabel';
 import { surveySubmitAlert, errorAlert } from '../resources/swal-inl';
 
 const TakeSurveyPage = function TakeSurveyPageFunc() {
+  const { state } = useLocation();
   const classes = useStyles();
   const { name } = useParams();
   const survey = surveyDescriptions.find((s) => s.name === name);
 
   const navigate = useNavigate();
 
+  const [showNotFound, setShowNotFound] = useState(false);
+  const [subcategoryAnswers, setSubcategoryAnswers] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
   const [naSubcategories, setNaSubcategories] = useState([]);
   const [consentOpen, setConsentOpen] = useState(false);
-
-  const handleConsentCloseAgree = () => {
-    setConsentOpen(false);
-  };
-
-  const handleConsentCloseDisagree = () => {
-    setConsentOpen(false);
-    errorAlert('You must agree to the consent form to take a survey.')
-      .then(() => {
-        window.location = '/home';
-      });
-  };
+  const [buttonText, setButtonText] = useState('Submit Survey');
 
   useEffect(() => {
     Axios
@@ -54,6 +46,46 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
         }
       });
   }, [name]);
+
+  useEffect(() => {
+    // user is updating the survey
+    if (state !== null && state.shouldUpdate) {
+      setButtonText('Update Survey');
+      Axios
+        .get(`/api/survey-answers/${name}`)
+        .then((res) => {
+          if (res.data.length === 0) {
+            setShowNotFound(true);
+          }
+          const subcategoryAnswer = [];
+          subcategories.forEach((subcategoryItem) => {
+            const answers = [];
+            res.data.forEach((questionItem) => {
+              if (questionItem.Question.Subcategory.subcategory === subcategoryItem.subcategory) {
+                answers.push({ questionId: questionItem.Question.id, answer: questionItem.answer });
+              }
+            });
+            subcategoryAnswer.push({ subcategory: subcategoryItem.subcategory, answers });
+          });
+          setSubcategoryAnswers(subcategoryAnswer);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [subcategories]);
+
+  const handleConsentCloseAgree = () => {
+    setConsentOpen(false);
+  };
+
+  const handleConsentCloseDisagree = () => {
+    setConsentOpen(false);
+    errorAlert('You must agree to the consent form to take a survey.')
+      .then(() => {
+        window.location = '/home';
+      });
+  };
 
   const handleNaSubcategoryChange = async (subCat, add) => {
     if (add) {
@@ -129,7 +161,9 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
       });
   };
 
-  if (!survey) return <NotFoundPage />;
+  if (!survey || showNotFound) {
+    return <NotFoundPage />;
+  }
 
   return (
     <>
@@ -176,9 +210,20 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
       </Typography>
       <Box className={classes.divider2} />
       <List>
-        {subcategories.map((subcatObj, key) => (
-          <SubcategoryLabel key={key} subcatObj={subcatObj} handleNaSubcategoryChange={handleNaSubcategoryChange} />
-        ))}
+        {subcategories.map((subcatObj, key) => {
+          let surveyAnswers;
+          if (subcategoryAnswers.length > 0) {
+            /* eslint-disable no-restricted-syntax */
+            for (const item of subcategoryAnswers) {
+              console.log(item);
+              if (item.subcategory === subcatObj.subcategory) {
+                surveyAnswers = item.answers;
+                break;
+              }
+            }
+          }
+          return <SubcategoryLabel key={key} subcatObj={subcatObj} handleNaSubcategoryChange={handleNaSubcategoryChange} surveyAnswers={surveyAnswers} />;
+        })}
       </List>
       <Grid container justifyContent="center" alignItems="center">
         <Grid item>
@@ -188,7 +233,7 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
             color="primary"
             onClick={handleSubmit}
           >
-            Submit Survey
+            {buttonText}
           </Button>
         </Grid>
       </Grid>

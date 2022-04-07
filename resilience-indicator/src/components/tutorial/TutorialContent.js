@@ -7,7 +7,7 @@ const TutorialContent = function TutorialContent({ page }) {
     <Container fluid>
       <Row className="justify-content-md-center">
         <Col md="auto">
-          <img src={page.image} alt="analysis panel" />
+          <img className="tutorial-img" src={page.image} alt="analysis panel" />
         </Col>
       </Row>
       <Row className="justify-content-md-center">

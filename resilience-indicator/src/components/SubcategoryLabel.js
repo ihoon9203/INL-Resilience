@@ -11,9 +11,8 @@ const cardStyle = {
   },
 };
 
-const SubcategoryLabel = function SubcategoryLabelFunc({ subcatObj, handleNaSubcategoryChange }) {
+const SubcategoryLabel = function SubcategoryLabelFunc({ subcatObj, handleNaSubcategoryChange, surveyAnswers }) {
   const [naSelected, setNaFlag] = useState(false);
-
   const handleChange = () => {
     if (!naSelected) {
       setNaFlag(true);
@@ -51,7 +50,7 @@ const SubcategoryLabel = function SubcategoryLabelFunc({ subcatObj, handleNaSubc
           </Typography>
 
           {!naSelected && (
-            <QuestionList questions={subcatObj.Questions} />
+            <QuestionList questions={subcatObj.Questions} answers={surveyAnswers} />
           )}
         </div>
       </CardContent>

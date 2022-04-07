@@ -140,7 +140,9 @@ const CategoryCard = function CategoryCardFunc({
                   </Link>
                   {login && (
                     <div>
-                      <button type="button" className="update-survey">UPDATE SURVEY</button>
+                      <Link className="review-survey-button" to={`/take-survey/${cardCat}`} state={{ shouldUpdate: true }}>
+                        <button type="button" className="update-survey">UPDATE SURVEY</button>
+                      </Link>
                       <div className="card-subtitle" style={{ paddingTop: '40px' }}>IMPROVEMENT PLAN</div>
                       <Link className="review-survey-button" to={`/improvement-plan/${cardCat}`}>
                         <button type="button" className="improvment-plan">VIEW IMPROVEMENT PLAN</button>
