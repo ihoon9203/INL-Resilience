@@ -345,20 +345,20 @@ router.delete(
  *         description: Returns a number that is times visted of a user
  *
  */
- router.get('/times-visited', async (req, res) => {
-   // Always show the tutorial for guest users
+router.get('/times-visited', async (req, res) => {
+  // Always show the tutorial for guest users
   if (req.user == null) return res.status(200).json(0);
-  
+
   // Never show tutorial for admin
   if (req.user.isAdmin) return res.status(200).json(3);
 
   const result = await User.findOne({
-    where: { id: req.user.id }
+    where: { id: req.user.id },
   }).catch((err) => res.status(500).send('INTERNAL_ERROR: ', err));
 
   if (!result) return res.status(404).send('User not found');
 
   return res.status(200).json(result.timesVisited);
- })    
+});
 
 module.exports = router;

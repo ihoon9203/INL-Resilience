@@ -15,6 +15,9 @@ The primary forum for technical and architectural discussion is GitLab issues an
 - Inside of the `resilience-indicator-backend` directory run `npm install` to install the node module dependencies.
 - You can start the server by running `npm start`.
 - Note: Upon making changes, you do not need to restart the server. We are using `nodemon` to watch for saved changes and restart the server automatically.
+- You will need to export the following environment variables: `DB_ENV`, `SENDGRID_API_KEY`, and `SENDGRID_FROM_EMAIL` (e.g. `export SENDGRID_FROM_EMAIL='$senderEmail'`).
+
+> :warning: **IMPORTANT**: Please follow this [section](#setup-sendgrid) to generate a SendGrid API Key if you don't already have one.
 
 > :warning: **IMPORTANT**: Please follow this [section](#setup-local-db) to get a localhost test db server running.
 
@@ -23,6 +26,16 @@ The primary forum for technical and architectural discussion is GitLab issues an
 - Inside of the `resilience-indicator` directory run `npm install` to install the node module dependencies.
 - You can start the frontend react app by running `npm start`.
 - You can now migrate to `http://localhost:<frontend-port>` to view the application.
+
+#### Setup SendGrid
+1. Create a free account with [SendGrid](https://signup.sendgrid.com/).
+    - Please use whatever email you'd like to act as an administrator of the application to sign up. However, you *can* use another email and add the admin email later as another authenticated sender.
+    - If it asks for what type of application, then choose: "Node.js". You don't need to follow any of the steps to actually running the test they propose you do from the application. You can simply skip past those parts as we have already verified integration from the app with SendGrid on our own.
+    - IMPORTANT: we require the API_KEY that gets generated for your account. Once generated, please save it to a secure location to be exported as an environment variable later to run the application.
+
+2. Once the account is created follow the steps [here](https://docs.sendgrid.com/ui/sending-email/sender-verification) to create a single sender identity using the administrator email you'd like.
+
+3. Once that sender shows as "verified" in SendGrid's UI you will be able to send emails using that email.
 
 #### Setup local db
 
@@ -110,6 +123,7 @@ Paste output of:
 - Install `forever` with `npm -g install forever`
 - Change directory to the `resilience-indicator-backend` directory.
 - Run `export DB_ENV=production`
+- Run commands to export needed SendGrid environment variables: `SENDGRID_API_KEY` and `SENDGRID_FROM_EMAIL` (e.g. `export SENDGRID_API_KEY='$apiKey'`)
 - Ensure you can run it with `npm run run-prod`. Install any missing modules. Then stop the process.
 - Then run `forever start -c "node src/server.js" .` to start the server and keep it running forever.
 - Then map port 80 to port 8000 so that we access our app at the default http port: `sudo iptables -t nat -A PREROUTING -p tcp --dport 80 -j REDIRECT --to-ports 8000`

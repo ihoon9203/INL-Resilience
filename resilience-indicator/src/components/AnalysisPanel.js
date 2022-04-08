@@ -45,6 +45,7 @@ const AnalysisPanel = function AnalysisPanelFunc(props) {
           <Gauge score={props.total} style={{ width: '100%', height: '500px' }} size={60} />
         </div>
         {(() => { // currently right panel is deprecated.
+          // eslint-disable-next-line no-constant-condition
           if (false) {
             <div className="column">
               <Container className="panel">
