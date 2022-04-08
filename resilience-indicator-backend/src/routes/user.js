@@ -1,11 +1,19 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const { ensureLoggedIn } = require('connect-ensure-login');
+const crypto = require('crypto');
+const sendGridEmail = require('@sendgrid/mail');
+const { Sequelize } = require('sequelize');
 const passport = require('../auth/passport');
 const sequelize = require('../models/index');
 
+const { Op } = Sequelize;
+
 const { User, NotificationSetting } = sequelize.models;
 const router = express.Router();
+
+const fromEmail = process.env.SENDGRID_FROM_EMAIL;
+sendGridEmail.setApiKey(process.env.SENDGRID_API_KEY);
 
 /**
  * @openapi
@@ -159,7 +167,7 @@ router.post('/logout', (req, res) => {
 
 /**
  * @openapi
- * /api/logged_in:
+ * /api/logged-in:
  *   get:
  *     security:
  *       - cookieAuth: []
@@ -178,7 +186,7 @@ router.post('/logout', (req, res) => {
  *       name: session
  */
 router.get(
-  '/logged_in',
+  '/logged-in',
   async (req, res) => {
     let loggedIn = true;
     if (!req.isAuthenticated || !req.isAuthenticated()) {
@@ -190,7 +198,7 @@ router.get(
 
 /**
  * @openapi
- * /api/change_password:
+ * /api/change-password:
  *   post:
  *     security:
  *       - cookieAuth: []
@@ -224,7 +232,7 @@ router.get(
  *           description: The user's new password
  */
 router.post(
-  '/change_password',
+  '/change-password',
   ensureLoggedIn(),
   async (req, res) => {
     const { password } = req.body;
@@ -247,7 +255,7 @@ router.post(
 
 /**
  * @openapi
- * /api/change_username:
+ * /api/change-username:
  *   post:
  *     security:
  *       - cookieAuth: []
@@ -281,7 +289,7 @@ router.post(
  *           description: The user's new username
  */
 router.post(
-  '/change_username',
+  '/change-username',
   ensureLoggedIn(),
   async (req, res) => {
     const { username } = req.body;
@@ -306,7 +314,190 @@ router.post(
 
 /**
  * @openapi
- * /api/delete_account:
+ * /api/recover-password:
+ *   post:
+ *     tags:
+ *     - User
+ *     summary: Recover password
+ *     requestBody:
+ *       description: User's username
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/RecoverPasswordInSchema'
+ *           examples:
+ *             bob:
+ *               summary: Bob
+ *               value:
+ *                 username: bob@mail.com
+ *     responses:
+ *       200:
+ *         description: Reset link generated and sent to user's email
+ *
+ * components:
+ *   schemas:
+ *     RecoverPasswordInSchema:
+ *       title: RecoverPasswordInSchema
+ *       type: object
+ *       properties:
+ *         password:
+ *           type: string
+ *           description: The user's username
+ */
+router.post(
+  '/recover-password',
+  async (req, res) => {
+    const { username } = req.body;
+
+    const user = await User.findOne({
+      where: { email: username },
+    }).catch((err) => req.res.status(500).json(err));
+
+    if (!user) return res.status(404).json({ message: 'User does not exist!' });
+
+    // generate reset token and expiry date
+    user.resetPasswordToken = crypto.randomBytes(20).toString('hex');
+    user.resetPasswordExpires = Date.now() + 3600000; // expires in an hour
+
+    // save updated user object
+    const savedUser = await user.save();
+    if (!savedUser) return res.status(500).json({ error: 'Cannot save user reset token at the moment!' });
+
+    // send reset link
+    const link = `${req.protocol}://${req.headers.host}/recover-password/${savedUser.resetPasswordToken}`;
+    const message = {
+      to: savedUser.email,
+      from: fromEmail,
+      subject: 'INL Resilience password change request',
+      text: `Hi ${savedUser.email} \n\nPlease click on the following link to reset your password for the INL Resilience application.\n\n${link}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.\n`,
+    };
+
+    try {
+      await sendGridEmail.send(message);
+      return res.status(200).json({ message: 'Reset link sent successfully!' });
+    } catch (error) {
+      console.error('Error sending email');
+      console.error(error);
+      if (error.response) {
+        console.error(error.response.body);
+      }
+      return res.status(500).json({ message: 'Error sending reset link email' });
+    }
+  },
+);
+
+/**
+ * @openapi
+ * /api/validate-reset-token:
+ *   post:
+ *     tags:
+ *     - User
+ *     summary: Validate the reset token
+ *     requestBody:
+ *       description: The reset token
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ResetTokenInSchema'
+ *           examples:
+ *             example1:
+ *               summary: Example1
+ *               value:
+ *                 username: 12345678
+ *     responses:
+ *       200:
+ *         description: The token is valid
+ *
+ * components:
+ *   schemas:
+ *     ResetTokenInSchema:
+ *       title: ResetTokenInSchema
+ *       type: object
+ *       properties:
+ *         password:
+ *           type: string
+ *           description: The reset token
+ */
+router.post(
+  '/validate-reset-token',
+  async (req, res) => {
+    const { resetToken } = req.body;
+
+    const user = await User.findOne({
+      where: { resetPasswordToken: resetToken, resetPasswordExpires: { [Op.gt]: Date.now() } },
+    }).catch((err) => req.res.status(500).json(err));
+
+    if (!user) return res.status(404).json({ message: 'Password reset token is invalid or expired' });
+
+    return res.status(200).json({ message: 'Reset token is valid!' });
+  },
+);
+
+/**
+ * @openapi
+ * /api/reset-password:
+ *   post:
+ *     tags:
+ *     - User
+ *     summary: Reset password
+ *     requestBody:
+ *       description: The new password
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ResetPasswordInSchema'
+ *           examples:
+ *             example1:
+ *               summary: Example1
+ *               value:
+ *                 password: newPassword
+ *                 resetToken: 12345678
+ *     responses:
+ *       200:
+ *         description: Password has been reset
+ *
+ * components:
+ *   schemas:
+ *     ResetPasswordInSchema:
+ *       title: ResetPasswordInSchema
+ *       type: object
+ *       properties:
+ *         password:
+ *           type: string
+ *           description: The new password
+ *         resetToken:
+ *           type: string
+ *           description: The user's reset token
+ */
+router.post(
+  '/reset-password',
+  async (req, res) => {
+    const { password, resetToken } = req.body;
+
+    const user = await User.findOne({
+      where: { resetPasswordToken: resetToken },
+    }).catch((err) => req.res.status(500).json(err));
+
+    if (!user) return res.status(404).json({ message: 'Password reset token is invalid' });
+
+    // reset password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+
+    // save updated user object
+    const savedUser = await user.save();
+    if (!savedUser) return res.status(500).json({ error: 'Cannot save new password at the moment!' });
+
+    return res.status(200).json({ message: 'Password reset!' });
+  },
+);
+
+/**
+ * @openapi
+ * /api/delete-account:
  *   delete:
  *     security:
  *       - cookieAuth: []
@@ -318,7 +509,7 @@ router.post(
  *         description: Account deleted
  */
 router.delete(
-  '/delete_account',
+  '/delete-account',
   ensureLoggedIn(),
   async (req, res) => {
     const user = await User.findOne({

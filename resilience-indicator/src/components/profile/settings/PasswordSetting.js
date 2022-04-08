@@ -41,7 +41,7 @@ const PasswordSetting = function PasswordSettingFunc(props) {
       method: 'POST',
       data: body,
       withCredentials: true,
-      url: '/api/change_password',
+      url: '/api/change-password',
     })
       .then((res) => {
         if (res.status === 200) {

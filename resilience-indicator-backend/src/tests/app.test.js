@@ -551,7 +551,7 @@ describe('Test user API endpoints', () => {
   test('POST change password', async () => {
     const newPassword = 'newpassword';
     await request(app)
-      .post('/api/change_password')
+      .post('/api/change-password')
       .send({ password: newPassword })
       .set('cookie', cookie)
       .then(async (response) => {
@@ -581,7 +581,7 @@ describe('Test user API endpoints', () => {
 
     // change password back for other tests
     await request(app)
-      .post('/api/change_password')
+      .post('/api/change-password')
       .send({ password: superUser.password })
       .set('cookie', cookie)
       .then(async (response) => {
@@ -592,7 +592,7 @@ describe('Test user API endpoints', () => {
   test('POST change username', async () => {
     const newUsername = 'newUsername@mail.com';
     await request(app)
-      .post('/api/change_username')
+      .post('/api/change-username')
       .send({ username: newUsername })
       .set('cookie', cookie)
       .then(async (response) => {
@@ -622,7 +622,7 @@ describe('Test user API endpoints', () => {
 
     // change back for other tests
     await request(app)
-      .post('/api/change_username')
+      .post('/api/change-username')
       .send({ username: superUser.username })
       .set('cookie', cookie)
       .then(async (response) => {
@@ -656,7 +656,7 @@ describe('Test user API endpoints', () => {
 
   test('GET logged in status (true)', async () => {
     await request(app)
-      .get('/api/logged_in')
+      .get('/api/logged-in')
       .set('cookie', cookie)
       .then(async (response) => {
         expect(response.statusCode).toBe(200);
@@ -667,7 +667,7 @@ describe('Test user API endpoints', () => {
 
   test('GET logged in status (false)', async () => {
     await request(app)
-      .get('/api/logged_in')
+      .get('/api/logged-in')
       .set('cookie', 'fake_cookie')
       .then(async (response) => {
         expect(response.statusCode).toBe(200);

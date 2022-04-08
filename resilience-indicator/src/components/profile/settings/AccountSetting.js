@@ -19,7 +19,7 @@ const AccountSetting = function AccountSettingFunc(props) {
 
   useEffect(() => {
     Axios
-      .get('/api/logged_in', { withCredentials: true })
+      .get('/api/logged-in', { withCredentials: true })
       .then((res) => {
         setUser(res.data.user);
       });
@@ -56,7 +56,7 @@ const AccountSetting = function AccountSettingFunc(props) {
         Axios({
           method: 'DELETE',
           withCredentials: true,
-          url: '/api/delete_account',
+          url: '/api/delete-account',
         })
           .then((res) => {
             if (res.status === 200) {
@@ -92,7 +92,7 @@ const AccountSetting = function AccountSettingFunc(props) {
       method: 'POST',
       data: body,
       withCredentials: true,
-      url: '/api/change_username',
+      url: '/api/change-username',
     })
       .then((res) => {
         if (res.status === 200) {

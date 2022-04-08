@@ -21,7 +21,7 @@ const AdminPage = function AdminPageFunc() {
 
   useEffect(() => {
     Axios
-      .get('/api/logged_in', { withCredentials: true })
+      .get('/api/logged-in', { withCredentials: true })
       .then((res) => {
         if (res.data.user) {
           setUser(res.data.user);

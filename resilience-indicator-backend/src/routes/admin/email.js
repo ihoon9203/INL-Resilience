@@ -511,7 +511,6 @@ function getMessage(toEmailList, emailParams) {
  */
 router.post(
   '/admin/send-email',
-  // eslint-disable-next-line consistent-return
   async (req, res) => {
     const { emailNotificationId } = req.body;
 
@@ -551,18 +550,18 @@ router.post(
 
       const savedEmailNotification = await emailNotification.save().catch((err) => {
         console.log('Error: ', err);
-        res.status(500).json({ error: 'Cannot update email notification sent value at the moment!' });
+        return res.status(500).json({ error: 'Cannot update email notification sent value at the moment!' });
       });
 
       if (!savedEmailNotification) return res.status(500).json({ error: 'Cannot update email notification sent value at the moment!' });
-      res.status(200).json({ message: 'Email sent successfully' });
+      return res.status(200).json({ message: 'Email sent successfully' });
     } catch (error) {
       console.error('Error sending email');
       console.error(error);
       if (error.response) {
         console.error(error.response.body);
       }
-      res.status(500).json({ message: 'Error sending email' });
+      return res.status(500).json({ message: 'Error sending email' });
     }
   },
 );

@@ -248,7 +248,7 @@
 					"response": []
 				},
 				{
-					"name": "/api/logged_in",
+					"name": "/api/logged-in",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -265,7 +265,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8000/api/logged_in",
+							"raw": "http://localhost:8000/api/logged-in",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -273,14 +273,14 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"logged_in"
+								"logged-in"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/api/change_password",
+					"name": "/api/change-password",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -301,7 +301,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/change_password",
+							"raw": "http://localhost:8000/api/change-password",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -309,14 +309,14 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"change_password"
+								"change-password"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "/api/change_username",
+					"name": "/api/change-username",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -337,7 +337,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8000/api/change_username",
+							"raw": "http://localhost:8000/api/change-username",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -345,7 +345,7 @@
 							"port": "8000",
 							"path": [
 								"api",
-								"change_username"
+								"change-username"
 							]
 						}
 					},

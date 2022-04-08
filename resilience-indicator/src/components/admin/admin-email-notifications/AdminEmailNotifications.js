@@ -357,8 +357,6 @@ function AdminEmailNotifications() {
       secondParagraph: escapeHtml(updateSecondParagraph),
     };
 
-    console.log(body);
-
     Axios({
       method: 'PUT',
       data: body,

@@ -37,7 +37,7 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
         setSubcategories(res.data.Subcategories);
       });
     Axios
-      .get('/api/logged_in', { withCredentials: true })
+      .get('/api/logged-in', { withCredentials: true })
       .then((res) => {
         if (res.data.user) {
           setLoggedIn(res.data.loggedIn);

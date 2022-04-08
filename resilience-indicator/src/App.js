@@ -14,6 +14,7 @@ import ImprovementPlanPage from './pages/ImprovementPlanPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
+import RecoverPasswordPage from './pages/RecoverPasswordPage';
 import NavBar from './components/NavBar';
 import GoalsPage from './pages/GoalsPage';
 import './App.css';
@@ -53,6 +54,7 @@ const App = function AppFunc() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/recover-password/:resetToken" element={<RecoverPasswordPage />} />
           <Route path="*" element={<DefaultContainer />} />
         </Routes>
       </div>

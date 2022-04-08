@@ -16,7 +16,7 @@ const NavBar = function NavBarFunc() {
 
   useEffect(() => {
     Axios
-      .get('/api/logged_in', { withCredentials: true })
+      .get('/api/logged-in', { withCredentials: true })
       .then((res) => {
         setLoggedInStatus(res.data.loggedIn);
         if (res.data.user) {

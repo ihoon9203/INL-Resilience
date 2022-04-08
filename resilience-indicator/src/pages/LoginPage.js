@@ -3,12 +3,12 @@
  */
 import * as React from 'react';
 import {
-  Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Grid, Typography,
+  Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Grid, Typography, Dialog, DialogTitle, DialogContent, DialogActions,
 } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Axios from 'axios';
-import { errorAlert } from '../resources/swal-inl';
+import { errorAlert, successAlert } from '../resources/swal-inl';
 
 const Copyright = function CopyrightFunc(props) {
   return (
@@ -27,6 +27,55 @@ const Copyright = function CopyrightFunc(props) {
 const theme = createTheme();
 
 const LoginPage = function LoginPageFunc() {
+  const [forgotPasswordOpen, setForgotPasswordOpen] = React.useState(false);
+  const [forgotPasswordEmail, setForgotPasswordEmail] = React.useState('');
+  const [forgotPasswordEmailError, setForgotPasswordEmailError] = React.useState(false);
+
+  const handleForgotPassword = (event) => {
+    event.preventDefault();
+    setForgotPasswordOpen(true);
+  };
+
+  const handleForgotPasswordSubmit = () => {
+    if (forgotPasswordEmail === '') {
+      setForgotPasswordEmailError(true);
+      return;
+    }
+
+    const body = {
+      username: forgotPasswordEmail,
+    };
+
+    Axios({
+      method: 'POST',
+      data: body,
+      url: '/api/recover-password',
+      validateStatus: (status) => status < 500,
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          successAlert('Forgot Password Link Sent!');
+        } else if (res.status === 404) {
+          errorAlert('No such username with that email exists');
+        } else {
+          errorAlert('Something went wrong!');
+        }
+      })
+      .catch((err) => {
+        errorAlert('Unexpected error!');
+        console.log(err);
+      })
+      .finally(() => {
+        setForgotPasswordOpen(false);
+      });
+  };
+
+  const onTFChange = (event) => {
+    if (event.target.id === 'email') {
+      setForgotPasswordEmail(event.target.value);
+    }
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const creds = {
@@ -52,97 +101,117 @@ const LoginPage = function LoginPageFunc() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Grid className="login-shift" container component="main" sx={{ height: '100vh' }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: 'url(./assets/resilient.jpg)',
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Box
+    <>
+      <ThemeProvider theme={theme}>
+        <Grid className="login-shift" container component="main" sx={{ height: '100vh' }}>
+          <CssBaseline />
+          <Grid
+            item
+            xs={false}
+            sm={4}
+            md={7}
             sx={{
-              my: 8,
-              mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
+              backgroundImage: 'url(./assets/resilient.jpg)',
+              backgroundRepeat: 'no-repeat',
+              backgroundColor: (t) => (t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900]),
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
             }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              Sign in
-            </Typography>
-            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                style={{ marginBottom: 2, marginTop: 10 }}
-              >
-                Sign In
-              </Button>
-              <Link href="/home">
+          />
+          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+            <Box
+              sx={{
+                my: 8,
+                mx: 4,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Sign in
+              </Typography>
+              <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
                 <Button
+                  type="submit"
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
-                  style={{ marginTop: 2, backgroundColor: 'green' }}
+                  style={{ marginBottom: 2, marginTop: 10 }}
                 >
-                  Continue As Guest
+                  Sign In
                 </Button>
-              </Link>
-              <Grid container>
-                <Grid item xs>
-                  {/* TODO: Add this back */}
-                  {/* <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link> */}
+                <Link href="/home">
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    style={{ marginTop: 2, backgroundColor: 'green' }}
+                  >
+                    Continue As Guest
+                  </Button>
+                </Link>
+                <Grid container>
+                  <Grid item xs>
+                    <Link href="#" variant="body2" onClick={handleForgotPassword}>
+                      Forgot password?
+                    </Link>
+                  </Grid>
+                  <Grid item>
+                    <Link href="/register" variant="body2">
+                      Do not have an account? Sign Up
+                    </Link>
+                  </Grid>
                 </Grid>
-                <Grid item>
-                  <Link href="/register" variant="body2">
-                    Do not have an account? Sign Up
-                  </Link>
-                </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
+                <Copyright sx={{ mt: 5 }} />
+              </Box>
             </Box>
-          </Box>
+          </Grid>
         </Grid>
-      </Grid>
-    </ThemeProvider>
+      </ThemeProvider>
+      <Dialog open={forgotPasswordOpen} onClose={() => setForgotPasswordOpen(false)} fullWidth>
+        <DialogTitle textAlign="center">Forgot Password?</DialogTitle>
+        <DialogContent>
+          <TextField
+            error={forgotPasswordEmailError}
+            helperText="Enter your username email to receive a password reset link"
+            margin="dense"
+            id="email"
+            onChange={onTFChange}
+            label="Email"
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setForgotPasswordOpen(false)}>Cancel</Button>
+          <Button onClick={handleForgotPasswordSubmit}>Send</Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 

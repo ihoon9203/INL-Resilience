@@ -60,7 +60,7 @@ const HomePage = function HomePageFunc() {
         setFinanceScore(thisFinanceScore);
       });
     Axios
-      .get('/api/logged_in', { withCredentials: true })
+      .get('/api/logged-in', { withCredentials: true })
       .then((res) => {
         if (res.data.loggedIn) {
           setLogin(true);
