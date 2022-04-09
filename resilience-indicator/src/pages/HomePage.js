@@ -114,7 +114,7 @@ const HomePage = function HomePageFunc() {
               cardscore={emergencyScore}
               icon="../assets/emergency_icon.png"
               login={login}
-              description="Serious, unexpected, and often dangerous situations resulting in a state that requires immediate action and or intervention."
+              description="Serious, unexpected, and often dangerous situations resulting in a state that requires immediate action and/or intervention."
             />
           </Grid>
           <Grid item xs={12} sm={6} md={5} lg={3}>
@@ -124,7 +124,7 @@ const HomePage = function HomePageFunc() {
               cardscore={financeScore}
               icon="../assets/finance_icon2.png"
               login={login}
-              description="The management, creation, and study of money and investments. Money management and the process of acquiring needed funds."
+              description="The creation and study of money and investments. Money management and the process of acquiring needed funds."
             />
           </Grid>
           <Grid item xs={12} sm={6} md={5} lg={3}>

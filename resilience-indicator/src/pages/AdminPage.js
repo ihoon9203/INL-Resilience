@@ -43,7 +43,7 @@ const AdminPage = function AdminPageFunc() {
             sx={{ mb: 3 }}
             variant="h4"
           >
-            Admin ------------
+            Administration
           </Typography>
           <Grid
             container

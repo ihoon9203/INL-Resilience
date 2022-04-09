@@ -24,7 +24,7 @@ const QuestionList = function QuestionListFunc({ questions, answers }) {
   return (
     <List>
       {questions.map((question, key) => (
-        <Question key={key} question={question} answer={null} />
+        <Question key={key} question={question} answer="" />
       ))}
     </List>
   );

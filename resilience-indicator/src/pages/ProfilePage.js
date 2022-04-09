@@ -41,7 +41,7 @@ const ProfilePage = function ProfilePageFunc() {
             sx={{ mb: 3 }}
             variant="h4"
           >
-            Settings ------------
+            Settings
           </Typography>
           <Grid
             container

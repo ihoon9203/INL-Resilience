@@ -18,7 +18,7 @@ const Question = function QuestionFunc({ question, answer }) {
 
   useEffect(() => {
     setAnswerVal(answer);
-    question.answer = answer === '' ? null : answer; // eslint-disable-line no-param-reassign
+    question.answer = answer; // eslint-disable-line no-param-reassign
   }, [answer]);
 
   const myChangeHandler = (event) => {
