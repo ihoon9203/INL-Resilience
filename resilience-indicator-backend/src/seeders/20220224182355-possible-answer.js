@@ -229,6 +229,9 @@ module.exports = {
       [76, 'Yes', null],
       [76, 'No', 76],
       [76, 'Not applicable', null],
+      [77, 'Yes', null],
+      [77, 'No', 77],
+      [77, 'Not applicable', null],
     ];
     const possibleAnswerObjectList = [];
     possibleAnswers.forEach((a) => {
