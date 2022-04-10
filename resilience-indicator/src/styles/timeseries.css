@@ -2,3 +2,7 @@
     height: 30rem;
     width: 60rem;
 }
+.tl-categorical-chart{
+    width: 100%;
+    min-height: 20rem;
+}

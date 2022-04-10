@@ -7,11 +7,12 @@ import Axios from 'axios';
 import ProfileSettingNav from '../components/profile/ProfileSettingNav';
 import ProfileSettingPicker from '../components/profile/ProfileSettingPicker';
 import NotFoundPage from './NotFoundPage';
+import '../styles/description.css';
 
 const ProfilePage = function ProfilePageFunc() {
   const [setting, setSetting] = useState('Account');
-
   const [loggedIn, setLoggedIn] = useState(false);
+  const [mobileView, setMobileView] = useState({ justifyContent: 'flex', margin: '40px', class: '' });
 
   const handleSettingChange = (newSetting) => {
     setSetting(newSetting);
@@ -26,7 +27,11 @@ const ProfilePage = function ProfilePageFunc() {
         }
       });
   }, []);
-
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobileView({ margin: '0', class: 'center-horizontal' });
+    }
+  });
   if (loggedIn) {
     return (
       <Box
@@ -64,16 +69,13 @@ const ProfilePage = function ProfilePageFunc() {
               <ProfileSettingPicker setting={setting} />
             </Grid>
           </Grid>
-          <Link className="review-survey-button" to="/home">
-            <Button
-              className="button"
-              variant="contained"
-              color="primary"
-              style={{ marginTop: '150px' }}
-            >
-              Return Home
-            </Button>
-          </Link>
+          <Grid item style={{ marginTop: '40px', marginLeft: mobileView.margin, alignitems: 'right' }}>
+            <Link className="review-survey-button" to="/home">
+              <Button className={`button ${mobileView.class}`} variant="contained" color="primary">
+                Return Home
+              </Button>
+            </Link>
+          </Grid>
         </Container>
       </Box>
     );

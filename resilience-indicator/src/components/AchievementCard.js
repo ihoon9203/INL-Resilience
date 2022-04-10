@@ -1,7 +1,4 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Axios from 'axios';
 import '../styles/goals.css';
 import Button from '@mui/material/Button';
@@ -24,7 +21,6 @@ import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { Container } from 'react-bootstrap';
 import { errorAlert } from '../resources/swal-inl';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -79,11 +75,19 @@ const AchievementCard = function AchievementCardFunc(props) {
   // eslint-disable-next-line no-unused-vars
   const [updateDate, setUpdateDate] = useState('');
   const [createDate, setCreateDate] = useState('');
+  const [windowState, setWindowState] = useState(null);
+  const [maxTitleLength, setMaxTitleLength] = useState(33);
   const parseDateReadable = (date) => {
     const dates = date.split('T');
     return dates[0];
   };
   useEffect(() => {
+    if (window.innerWidth < 600) {
+      setWindowState('mobile');
+      setMaxTitleLength(20);
+    } else {
+      setWindowState('desktop');
+    }
     if (props.goal !== undefined) {
       setUpdateDate(parseDateReadable(props.goal.updatedAt));
       setCreateDate(parseDateReadable(props.goal.createdAt));
@@ -181,45 +185,341 @@ const AchievementCard = function AchievementCardFunc(props) {
       });
     window.location.reload(false);
   };
+  const displayTitle = (dpTitle) => {
+    let shortTitle = dpTitle;
+    if (dpTitle !== null) {
+      if (dpTitle.length > maxTitleLength) {
+        shortTitle = dpTitle.substring(0, maxTitleLength);
+        shortTitle = shortTitle.concat('...');
+      }
+    }
+    return shortTitle;
+  };
+  if (windowState === 'mobile') {
+    if (!completed) {
+      return (
+        <div>
+          <Grid container className="badge-container ml-auto goal-card" onClick={handleClickOpen}>
+            <Grid item xs={3}>
+              <img src={img} alt="cyber" className="badge" />
+            </Grid>
+            <Grid item xs={9}>
+              <div className="badge-desc">{displayTitle(title)}</div>
+            </Grid>
+          </Grid>
+          {/* goal description */}
+          <BootstrapDialog
+            onClose={handleClose}
+            aria-labelledby="customized-dialog-title"
+            open={open}
+            fullWidth="sm"
+            maxWidth="sm"
+          >
+            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+              <Box sx={{ width: '100%' }}>
+                <Grid
+                  container
+                  spacing={0}
+                  align="center"
+                  justify="center"
+                  className="center-container"
+                >
+                  <Grid item xs>
+                    <img src={img} alt="cyber" className="badge" />
+                  </Grid>
+                  <Grid item xs={10}>
+                    <div className="badge-desc">{displayTitle(title)}</div>
+                  </Grid>
+                </Grid>
+              </Box>
+            </BootstrapDialogTitle>
+            <DialogContent dividers className="center-container">
+              <Box sx={{ width: '100%' }}>
+                <Grid
+                  container
+                  spacing={2}
+                  align="center"
+                  justify="center"
+                  className="center-container"
+                >
+                  <Grid item xs={4}>
+                    Description:
+                  </Grid>
+                  <Grid item xs={8} className="left-align">
+                    {goal}
+                  </Grid>
+                  <Grid item xs={4}>
+                    Category:
+                  </Grid>
+                  <Grid item xs={8} className="left-align">
+                    {category}
+                  </Grid>
+                  <Grid item xs={6}>
+                    Created At:
+                  </Grid>
+                  <Grid item xs={6}>
+                    Due Date:
+                  </Grid>
+                  <Grid item xs={6}>
+                    {createDate}
+                  </Grid>
+                  <Grid item xs={6}>
+                    {dueDate}
+                  </Grid>
+                </Grid>
+              </Box>
+            </DialogContent>
+            <DialogActions className="return-button">
+              <Button onClick={toggleUpdate}>
+                Update
+              </Button>
+              <Button color="warning" onClick={toggleComplete}>
+                Complete
+              </Button>
+              <Button color="error" onClick={handleDelete}>
+                Delete
+              </Button>
+            </DialogActions>
+          </BootstrapDialog>
+          {/* goal update */}
+          <BootstrapDialog
+            onClose={handleUpdateClose}
+            aria-labelledby="customized-dialog-title"
+            open={updateOpen}
+            fullWidth="sm"
+            maxWidth="sm"
+          >
+            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleUpdateClose}>
+              <Box sx={{ width: '100%' }}>
+                <Grid
+                  container
+                  spacing={0}
+                  align="center"
+                  justify="center"
+                  className="center-container"
+                >
+                  <Grid item xs>
+                    <img src={img} alt="cyber" className="badge" />
+                  </Grid>
+                  <Grid item xs={10}>
+                    <div className="badge-desc">{goal}</div>
+                  </Grid>
+                </Grid>
+              </Box>
+            </BootstrapDialogTitle>
+            <DialogContent dividers className="center-container">
+              <Box sx={{ width: '100%' }}>
+                <Grid
+                  container
+                  spacing={2}
+                  align="center"
+                  justify="center"
+                  className="center-container"
+                >
+                  <Grid item xs={4}>
+                    New Title:
+                  </Grid>
+                  <Grid item xs={8} className="left-align">
+                    <TextField
+                      id="outlined-basic"
+                      label={title}
+                      variant="outlined"
+                      onChange={(newValue) => {
+                        setNewTitle(newValue.target.value);
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    New Description:
+                  </Grid>
+                  <Grid item xs={8} className="left-align">
+                    <FormControl fullWidth>
+                      <TextField
+                        id="outlined-basic"
+                        label={goal}
+                        variant="outlined"
+                        multiline
+                        rows={4}
+                        onChange={(newValue) => {
+                          setNewGoal(newValue.target.value);
+                        }}
+                      />
+                    </FormControl>
+
+                  </Grid>
+                  <Grid item xs={4}>
+                    New Due Date:
+                  </Grid>
+                  <Grid item xs={8} className="left-align">
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <DesktopDatePicker
+                        label="mm/dd/yyyy"
+                        inputFormat="MM/dd/yyyy"
+                        disablePast
+                        onChange={(newValue) => {
+                          setNewDate(newValue);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
+                  <Grid item xs={4}>
+                    New Category:
+                  </Grid>
+                  <Grid item xs={8} className="left-align">
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">{category}</InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        label={category}
+                        fullWidth="sm"
+                        onChange={(newValue) => {
+                          setNewCat(newValue.target.value);
+                        }}
+                      >
+                        <MenuItem value="General">General</MenuItem>
+                        <MenuItem value="Health">Health</MenuItem>
+                        <MenuItem value="Finance">Finance</MenuItem>
+                        <MenuItem value="Emergency">Emergency</MenuItem>
+                        <MenuItem value="Cyber">Cyber Security</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                </Grid>
+              </Box>
+            </DialogContent>
+            <DialogActions className="return-button">
+              <Button onClick={handleClose}>
+                Return
+              </Button>
+              <Button onClick={handleUpdate}>
+                Apply
+              </Button>
+            </DialogActions>
+          </BootstrapDialog>
+        </div>
+      );
+    }
+    return (
+      <div>
+        <Grid container className="badge-cp-container ml-auto goal-card" onClick={handleClickOpen} style={{ disply: 'flex', justifyContent: 'left' }}>
+          <Grid item xs={3}>
+            <img src={img} alt="cyber" className="badge" />
+          </Grid>
+          <Grid item xs={9}>
+            <div className="badge-desc">{displayTitle(title)}</div>
+          </Grid>
+        </Grid>
+        {/* goal description */}
+        <BootstrapDialog
+          onClose={handleClose}
+          aria-labelledby="customized-dialog-title"
+          open={open}
+          fullWidth="sm"
+          maxWidth="sm"
+        >
+          <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+            <Box sx={{ width: '100%' }}>
+              <Grid
+                container
+                spacing={0}
+                align="center"
+                justify="center"
+                className="center-container"
+              >
+                <Grid item xs>
+                  <img src={img} alt="cyber" className="badge" />
+                </Grid>
+                <Grid item xs={10}>
+                  <div className="badge-desc">{displayTitle(title)}</div>
+                </Grid>
+              </Grid>
+            </Box>
+          </BootstrapDialogTitle>
+          <DialogContent dividers className="center-container">
+            <Box sx={{ width: '100%' }}>
+              <Grid
+                container
+                spacing={2}
+                align="center"
+                justify="center"
+                className="center-container"
+              >
+                <Grid item xs={4}>
+                  Description:
+                </Grid>
+                <Grid item xs={8} className="left-align">
+                  {goal}
+                </Grid>
+                <Grid item xs={4}>
+                  Category:
+                </Grid>
+                <Grid item xs={8} className="left-align">
+                  {category}
+                </Grid>
+                <Grid item xs={6}>
+                  Created At:
+                </Grid>
+                <Grid item xs={6}>
+                  Due Date:
+                </Grid>
+                <Grid item xs={6}>
+                  {createDate}
+                </Grid>
+                <Grid item xs={6}>
+                  {dueDate}
+                </Grid>
+              </Grid>
+            </Box>
+          </DialogContent>
+          <DialogActions className="return-button center-container">
+            <Button autoFocus onClick={handleClose}>
+              Return
+            </Button>
+          </DialogActions>
+        </BootstrapDialog>
+      </div>
+    );
+  }
   if (!completed) {
     return (
-
-      <Container className="goal-card">
+      <div>
         {modify ? (
-          <Row className="badge-container" onClick={handleClickOpen}>
-            <Col sm={2}>
+          <Grid container className="badge-container ml-auto goal-card" onClick={handleClickOpen}>
+            <Grid item xs={2}>
               <img src={img} alt="cyber" className="badge" />
-            </Col>
-            <Col xs={5}>
+            </Grid>
+            <Grid item xs={5}>
               <div className="badge-desc">{title}</div>
-            </Col>
-            <Col xs={3} className="date">
+            </Grid>
+            <Grid item xs={3} className="date">
               <div className="badge-date">{dueDate}</div>
-            </Col>
-            <Col xs={1} className="date">
+            </Grid>
+            <Grid item xs={1} className="date">
               <IconButton className="custom-button">
                 <CreateIcon />
               </IconButton>
-            </Col>
-            <Col xs={1} className="date">
+            </Grid>
+            <Grid item xs={1} className="date">
               <IconButton className="custom-button">
                 <DeleteOutlineIcon />
               </IconButton>
-            </Col>
-          </Row>
+            </Grid>
+          </Grid>
         )
           : (
-            <Row xs={9} className="badge-container" onClick={handleClickOpen}>
-              <Col sm={3}>
+            <Grid container className="badge-container" onClick={handleClickOpen}>
+              <Grid item sm={3}>
                 <img src={img} alt="cyber" className="badge" />
-              </Col>
-              <Col xs={5}>
+              </Grid>
+              <Grid item xs={5}>
                 <div className="badge-desc">{title}</div>
-              </Col>
-              <Col xs={4} className="date">
+              </Grid>
+              <Grid item xs={4} className="date">
                 <div className="badge-date">{dueDate}</div>
-              </Col>
-            </Row>
+              </Grid>
+            </Grid>
           )}
         {/* goal description */}
         <BootstrapDialog
@@ -242,7 +542,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                   <img src={img} alt="cyber" className="badge" />
                 </Grid>
                 <Grid item xs={10}>
-                  <div className="badge-desc">{title}</div>
+                  <div className="badge-desc">{displayTitle(title)}</div>
                 </Grid>
               </Grid>
             </Box>
@@ -376,6 +676,8 @@ const AchievementCard = function AchievementCardFunc(props) {
                     <DesktopDatePicker
                       label="mm/dd/yyyy"
                       inputFormat="MM/dd/yyyy"
+                      disablePast
+                      value={newDate}
                       onChange={(newValue) => {
                         setNewDate(newValue);
                       }}
@@ -398,6 +700,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                         setNewCat(newValue.target.value);
                       }}
                     >
+                      <MenuItem value="General">General</MenuItem>
                       <MenuItem value="Health">Health</MenuItem>
                       <MenuItem value="Finance">Finance</MenuItem>
                       <MenuItem value="Emergency">Emergency</MenuItem>
@@ -409,44 +712,41 @@ const AchievementCard = function AchievementCardFunc(props) {
             </Box>
           </DialogContent>
           <DialogActions className="return-button">
-            <Button onClick={handleClose}>
-              Return
-            </Button>
             <Button onClick={handleUpdate}>
               Apply
             </Button>
           </DialogActions>
         </BootstrapDialog>
-      </Container>
+      </div>
     );
   }
   return (
-    <Container>
+    <div>
       {cp ? (
-        <Row className="badge-cp-container" onClick={handleClickOpen}>
-          <Col sm={3}>
+        <Grid container className="badge-cp-container ml-auto goal-card" onClick={handleClickOpen}>
+          <Grid item sm={2}>
             <img src={img} alt="cyber" className="badge" />
-          </Col>
-          <Col xs={5}>
-            <div className="badge-desc">{title}</div>
-          </Col>
-          <Col xs={4} className="date">
+          </Grid>
+          <Grid item xs={5}>
+            <div className="badge-desc">{displayTitle(title)}</div>
+          </Grid>
+          <Grid item xs={3} className="date">
             <div className="badge-date">{dueDate}</div>
-          </Col>
-        </Row>
+          </Grid>
+        </Grid>
       )
         : (
-          <Row xs="auto" className="badge-cp-container" onClick={handleClickOpen} style={{ disply: 'flex', justifyContent: 'left' }}>
-            <Col sm={2}>
+          <Grid container xs="auto" className="badge-cp-container np" onClick={handleClickOpen} style={{ disply: 'flex', justifyContent: 'left' }}>
+            <Grid item sm={3}>
               <img src={img} alt="cyber" className="badge" />
-            </Col>
-            <Col xs={5}>
+            </Grid>
+            <Grid item xs={5}>
               <div className="badge-desc">{title}</div>
-            </Col>
-            <Col xs={3} className="date">
+            </Grid>
+            <Grid item xs={4} className="date">
               <div className="badge-date">{dueDate}</div>
-            </Col>
-          </Row>
+            </Grid>
+          </Grid>
         )}
       <BootstrapDialog
         onClose={handleClose}
@@ -468,7 +768,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                 <img src={img} alt="cyber" className="badge" />
               </Grid>
               <Grid item xs={10}>
-                <div className="badge-desc">{title}</div>
+                <div className="badge-desc">{displayTitle(title)}</div>
               </Grid>
             </Grid>
           </Box>
@@ -519,7 +819,7 @@ const AchievementCard = function AchievementCardFunc(props) {
           </Button>
         </DialogActions>
       </BootstrapDialog>
-    </Container>
+    </div>
   );
 };
 

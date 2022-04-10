@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid';
 import Axios from 'axios';
 import NotFoundPage from './NotFoundPage';
 import Gauge from '../components/Gauge';
+import TimeseriesCategorical from '../components/TimeseriesCategorical';
 import surveyDescriptions from '../resources/survey-descriptions';
 import useStyles from '../styles';
 import '../styles/description.css';
@@ -13,15 +14,16 @@ const DescriptionPage = function DescriptionPageFunc() {
   const classes = useStyles();
   const { name } = useParams();
   const [score, setScore] = useState(0);
+  const [scoreSeries, setScoreSeries] = useState([]);
+  const [mobileButton, setMobileButton] = useState('');
   const [hasTakenSurvey, setHasTakenSurvey] = useState(false);
 
   const survey = surveyDescriptions.find((s) => s.name === name);
   if (!survey) return <NotFoundPage />;
 
   useEffect(() => {
-    if (window.innerWidth < 800) {
-      const voidspace = document.querySelector('.empty-space-2');
-      voidspace.style.display = 'none';
+    if (window.innerWidth < 600) {
+      setMobileButton('mobile-button');
     }
     Axios
       .get(`/api/score/${survey.name}`, {
@@ -35,6 +37,11 @@ const DescriptionPage = function DescriptionPageFunc() {
         } else if (res.status === 404) {
           setHasTakenSurvey(false);
         }
+      });
+    Axios
+      .get(`/api/user-score/${survey.name}`, { withCredentials: true })
+      .then((res) => {
+        setScoreSeries(res.data);
       });
   }, []);
 
@@ -55,16 +62,19 @@ const DescriptionPage = function DescriptionPageFunc() {
       <section className="columns center-column">
         <div className="column">
           <h3>Category Score</h3>
-          <Gauge score={score} style={{ width: '100%', height: '500px' }} size={60} />
+          <Gauge id="gauge" score={score} style={{ width: '100%', height: '500px' }} size={60} />
         </div>
-        <div className="column small-column" style={{ paddingBottom: '40px' }}>
-          <div className="empty-space-2" />
+        <div className="column" style={{ paddingBottom: '40px' }}>
+          <h3>
+            Resiliency Progress
+          </h3>
+          <TimeseriesCategorical score={scoreSeries} category={survey.title} />
           <Grid container spacing={1} justifyContent="center" alignItems="center">
             <Grid item xs={5}>
               <Link style={hasTakenSurvey ? {} : { pointerEvents: 'none' }} className="review-survey-button" to={`/improvement-plan/${survey.name}`}>
                 <button
                   type="button"
-                  className="improvment-plan"
+                  className={`update-survey ${mobileButton}`}
                   disabled={!hasTakenSurvey}
                 >
                   IMPROVEMENT PLAN
@@ -74,7 +84,7 @@ const DescriptionPage = function DescriptionPageFunc() {
             <Grid item xs={5}>
               <button
                 type="button"
-                className="improvment-plan"
+                className={`update-survey ${mobileButton}`}
                 disabled={!hasTakenSurvey}
               >
                 GOALS
@@ -82,23 +92,23 @@ const DescriptionPage = function DescriptionPageFunc() {
             </Grid>
             <Grid item xs={5}>
               <Link className="review-survey-button" to={`/take-survey/${survey.name}`} state={{ shouldUpdate: true }}>
-                <button type="button" className="take-survey">UPDATE SURVEY</button>
+                <button type="button" className={`take-survey ${mobileButton}`}>UPDATE SURVEY</button>
               </Link>
             </Grid>
             <Grid item xs={5}>
               <Link className="review-survey-button" to={`/review-survey/${survey.name}`}>
-                <button type="button" className="update-survey">REVIEW SURVEY</button>
+                <button type="button" className={`update-survey ${mobileButton}`}>REVIEW SURVEY</button>
               </Link>
             </Grid>
             <Grid item xs={10}>
-              <button type="button" className="download-survey">DOWNLOAD SURVEY RESULTS</button>
+              <button type="button" className={`download-survey ${mobileButton}`}>DOWNLOAD SURVEY RESULTS</button>
             </Grid>
           </Grid>
         </div>
       </section>
-      <Grid item style={{ marginTop: '40px', marginLeft: '40px', alignitems: 'right' }}>
+      <Grid item style={{ marginTop: '40px', alignitems: 'right' }}>
         <Link className="review-survey-button" to="/home">
-          <Button className="button" variant="contained" color="primary">
+          <Button className="button center-horizontal return-desc-button" variant="contained" color="primary">
             Return Home
           </Button>
         </Link>

@@ -8,11 +8,19 @@
     margin: 0;
   }
   
+.center-horizontal {
+    left: 50% !important;
+    margin-right: -50% !important;
+    transform: translate(-50%, -50%) !important;
+}
 .panel-item {
     padding: 8px 4px;
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
+.mobile-button {
+    height: 59px;
+}
 .progress {
     display: flex;
     align-items: center;
@@ -42,4 +50,7 @@
 .progress-name {
     width: 100px;
     text-align: right;
+}
+.return-desc-button {
+    width: 40% !important;
 }

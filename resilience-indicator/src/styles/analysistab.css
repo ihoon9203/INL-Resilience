@@ -21,10 +21,11 @@
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
   
-.progress {
+.progress-milestone {
   display: flex;
   position: relative;
   align-items: center;
+  height: 2em;
   padding: 20px 24px;
   border-radius: 4px;
   background: linear-gradient(#222328, #18191c);

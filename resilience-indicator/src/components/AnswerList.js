@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   List, Grid, ListItemText, ListItem, ListItemIcon, Chip,
 } from '@material-ui/core';
@@ -6,15 +6,21 @@ import '../App.css';
 import Answer from './Answer';
 
 const AnswerList = function AnswerListFunc({ answers }) {
+  const [layoutStyle, setLayoutStyle] = useState('flex-container');
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setLayoutStyle('flex');
+    }
+  });
   return (
-    <Grid>
-      <Grid container justifyContent="center" alignItems="center">
-        <List className="flex-container">
+    <div>
+      <Grid>
+        <List class={layoutStyle}>
           <ListItem>
             <ListItemIcon>
               <Chip
                 variant="outlined"
-                size="medium"
+                size="big"
                 style={{
                   backgroundColor: 'rgb(132, 132, 132, 0.26)',
                 }}
@@ -59,7 +65,7 @@ const AnswerList = function AnswerListFunc({ answers }) {
           <Answer key={key} answer={answer} />
         ))}
       </List>
-    </Grid>
+    </div>
   );
 };
 

@@ -9,7 +9,7 @@ const IPGoals = function IPGoalsFunc(props) {
     <div className="nopadding">
       {goals.map((goal) => (
         <Link to="/goals" style={{ textDecoration: 'none' }}>
-          <AchievementCard goal={goal} />
+          <AchievementCard goal={goal} className="np" />
         </Link>
       ))}
     </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 import {
@@ -8,6 +8,12 @@ import useStyles from '../styles';
 
 const AboutPage = function AboutPageFunc() {
   const classes = useStyles();
+  const [mobileView, setMobileView] = useState({ justifyContent: 'flex', margin: '40px', class: '' });
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobileView({ margin: '0px', class: 'center-horizontal' });
+    }
+  });
   return (
     <>
       <CssBaseline />
@@ -52,9 +58,9 @@ const AboutPage = function AboutPageFunc() {
           </Typography>
         </Grid>
       </Grid>
-      <Grid item style={{ marginTop: '40px', marginLeft: '40px', alignitems: 'right' }}>
+      <Grid item style={{ marginTop: '40px', marginLeft: mobileView.margin, alignitems: 'right' }}>
         <Link className="review-survey-button" to="/home">
-          <Button className="button" variant="contained" color="primary">
+          <Button className={`button ${mobileView.class}`} variant="contained" color="primary">
             Return Home
           </Button>
         </Link>

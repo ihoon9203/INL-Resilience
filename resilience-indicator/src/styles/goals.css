@@ -1,5 +1,5 @@
 .goal-card {
-    margin: 15px;
+    margin: 15px !important;
     padding: 0 !important;
     display: block;
 }
@@ -19,16 +19,15 @@
     text-align: center;
     justify-content: center;
     align-items: center;
-    padding: 0;
     border-radius: 10px;
     height: 80px;
     width: 100%;
-    margin: 0 !important;
     background-color: #fff;
     border-style: solid;
     transition: 0.3s;
     border-color:rgb(165, 165, 165);
     font-family: 'DM Sans', sans-serif;
+    margin-top: 15px !important;
     cursor: pointer;
     color: black !important;
 }

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import Container from 'react-bootstrap/Container';
@@ -20,9 +19,6 @@ import DesktopDatePicker from '@mui/lab/DatePicker';
 // Input & Select
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
-// Snackbar
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import '../styles/goals.css';
@@ -30,9 +26,8 @@ import AchievementCard from '../components/AchievementCard';
 import { errorAlert } from '../resources/swal-inl';
 
 const GoalsPage = function AchievementsPageFunc() {
-  const [snack, setSnack] = useState(false);
-  const [snackMessage, setSnackMessage] = useState('Adding goal failed');
-  const [snackColor, setSnackColor] = useState('danger');
+  const [newGoalSize, setNewGoalSize] = useState(2);
+  const [newGoalButton, setNewGoalButton] = useState('+ NEW GOALS');
   const [goals, setGoals] = useState([]);
   const [date, setDate] = useState(null);
   const [newCat, setNewCat] = useState(null);
@@ -53,33 +48,13 @@ const GoalsPage = function AchievementsPageFunc() {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 700,
+    width: '80%',
     bgcolor: 'background.paper',
     border: '2px solid rgb(81, 99, 204)',
     borderRadius: '10px',
     boxShadow: 24,
     p: 4,
   };
-  const successSnack = () => {
-    setSnackColor('success');
-    setSnackMessage('Successfully added new goal');
-  };
-  const handleSnackClose = () => {
-    setSnack(false);
-  };
-  const action = (
-    <div>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color={snackColor}
-        onClick={handleSnackClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </div>
-  );
-  // eslint-disable-next-line consistent-return
   const handlePost = () => {
     const newData = {
       goal: newGoal,
@@ -92,9 +67,7 @@ const GoalsPage = function AchievementsPageFunc() {
     Axios.post('/api/create-goal', { newData })
       .then((res) => {
         if (res.status === 200) {
-          successSnack();
           handleClose();
-          setSnack(true);
         }
         console.log(res.status);
       })
@@ -113,12 +86,16 @@ const GoalsPage = function AchievementsPageFunc() {
     }
   }, [date, newCat, newTitle, newGoal]);
   useEffect(() => {
+    if (window.innerWidth < 600) {
+      setNewGoalSize(4);
+      setNewGoalButton('+ NEW');
+    }
     Axios.get('/api/goal', { withCredentials: true })
       .then((res) => {
         setGoals(res.data);
       });
   }, []);
-  const getGoalCards = goals.map((goal) => <AchievementCard goal={goal} className="ml-auto" modify />);
+  const getGoalCards = goals.map((goal) => <AchievementCard goal={goal} className="ml-auto goal-card" modify cp />);
   return (
     <div>
       <Container>
@@ -126,12 +103,12 @@ const GoalsPage = function AchievementsPageFunc() {
           <div className="achievements-title">GOALS</div>
         </Grid>
         <Grid container className="center-container mb-2">
-          <Grid item xs={2}>
-            <div className="newgoal-button"><Button variant="outlined" size="small" onClick={handleOpen}>+ New Goals</Button></div>
+          <Grid item xs={newGoalSize}>
+            <div className="newgoal-button"><Button variant="outlined" size="small" onClick={handleOpen}>{newGoalButton}</Button></div>
           </Grid>
         </Grid>
         <Grid>
-          <div className="goals-list no-ml">
+          <div className="goals-list">
             {getGoalCards}
           </div>
         </Grid>
@@ -182,6 +159,7 @@ const GoalsPage = function AchievementsPageFunc() {
                 label="mm/dd/yyyy"
                 inputFormat="MM/dd/yyyy"
                 value={date}
+                disablePast
                 onChange={(newValue) => {
                   setDate(newValue);
                 }}
@@ -203,6 +181,7 @@ const GoalsPage = function AchievementsPageFunc() {
                     setNewCat(newValue.target.value);
                   }}
                 >
+                  <MenuItem value="general">General</MenuItem>
                   <MenuItem value="health">Health</MenuItem>
                   <MenuItem value="finance">Finance</MenuItem>
                   <MenuItem value="emergency">Emergency</MenuItem>

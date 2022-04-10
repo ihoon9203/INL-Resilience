@@ -10,6 +10,7 @@ import NotFoundPage from './NotFoundPage';
 import AnswerList from '../components/AnswerList';
 import surveyDescriptions from '../resources/survey-descriptions';
 import useStyles from '../styles';
+import '../styles/review.css';
 
 const ReviewSurveyPage = function ReviewSurveyPageFunc() {
   const componentRef = React.useRef(null);
@@ -23,6 +24,7 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
   const [showNotFound, setNotFound] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [score, setScore] = useState(0);
+  const [mobileView, setMobileView] = useState({ justifyContent: 'flex', margin: 'left-margin' });
 
   const getPageMargins = () => '@media print { body { -webkit-print-color-adjust: exact; } @page { size: A4; margin: 20mm !important }}';
 
@@ -33,6 +35,9 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
   const reactToPrintContent = React.useCallback(() => componentRef.current, [componentRef.current]);
 
   useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobileView({ justifyContent: 'center', margin: '' });
+    }
     if (state === null) {
       // logged-in user
       setLoggedIn(true);
@@ -98,12 +103,11 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
         </Typography>
         <Box className={classes.divider2} />
         <Grid container justifyContent="center" alignItems="center">
-          <Grid item xs={4} md={2} style={{ paddingRight: '20px' }}>
-            <h3 className="text-center">Resilience Score:</h3>
-          </Grid>
-          <Grid item xs={4} md={2}>
+          <h3 className="text-center-review">Resilience Score:</h3>
+          <Grid item xs={4} md={2} style={{ padding: '20px', minWidth: '300px' }}>
             <Gauge
               score={score}
+              review
               style={{
                 width: '100%',
                 height: '300px',
@@ -119,7 +123,7 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
           </Grid>
         </Grid>
       </div>
-      <Grid container spacing={1} justifyContent="center" alignItems="center">
+      <Grid container spacing={1} justifyContent="center" alignItems="center" className="width-full">
         <Grid item xs={5} md={2}>
           <Link className="review-survey-button" to={`/take-survey/${survey.name}`}>
             <button type="button" className="take-survey">RETAKE SURVEY</button>
@@ -140,9 +144,9 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
           />
         </Grid>
       </Grid>
-      <Grid container spacing={1} style={{ marginTop: '80px', marginLeft: '48px', alignitems: 'right' }}>
-        <Grid item style={{ marginTop: '24px' }}>
-          <Link className="review-survey-button" to="/home">
+      <Grid container spacing={2} justifyContent={mobileView.justifyContent} alignItems="center" className="width-full top-margin">
+        <Grid item>
+          <Link className={`review-survey-button ${mobileView.margin}`} to="/home">
             <Button className="button" variant="contained" color="primary">
               RETURN HOME
             </Button>

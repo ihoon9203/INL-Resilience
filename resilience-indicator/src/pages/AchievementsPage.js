@@ -155,7 +155,7 @@ const AchievementsPage = function AchievementsPageFunc() {
       </Row>
       <Grid item style={{ marginTop: '160px', alignitems: 'right' }}>
         <Link className="review-survey-button" to="/home">
-          <Button className="button" variant="contained" color="primary">
+          <Button className="button center-horizontal" variant="contained" color="primary">
             Return Home
           </Button>
         </Link>

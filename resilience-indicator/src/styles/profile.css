@@ -1,0 +1,6 @@
+.return-desc-button {
+    left: 50% !important;
+    margin-right: -50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 40% !important;
+}

@@ -84,16 +84,7 @@ const NotificationSetting = function NotificationSettingFunc(props) {
               spacing={6}
               wrap="wrap"
             >
-              <Grid
-                item
-                md={4}
-                sm={6}
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                }}
-                xs={12}
-              >
+              <Grid item>
                 <FormControlLabel
                   control={(
                     <Checkbox

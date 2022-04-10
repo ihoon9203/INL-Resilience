@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
@@ -23,7 +22,7 @@ const Timeseries = function TimeseriesFunc(props) {
   const [financeSeries, setFinanceSeries] = useState([]);
   const [cyberSeries, setCyberSeries] = useState([]);
   useEffect(() => {
-    const chart = am4core.create('chartdiv', am4charts.XYChart);
+    const chart = am4core.create('timeseries', am4charts.XYChart);
     chart.data = [];
     let indicator;
     function showIndicator() {
@@ -203,7 +202,7 @@ const Timeseries = function TimeseriesFunc(props) {
     indicator.hide();
   });
   return (
-    <div id="chartdiv" className="tl-chart" />
+    <div id="timeseries" className="tl-chart" />
   );
 };
 
