@@ -3,62 +3,67 @@ import Modal from 'react-bootstrap/Modal';
 import Button from '@mui/material/Button';
 import TutorialContent from './TutorialContent';
 import '../../styles/tutorial.css';
-import welcomeImg from './images/welcomeINL.png';
-import analysisPanelImg from './images/analysisPanel.png';
 import aboutCardImg from './images/aboutCard.png';
+import analysisPanelImg from './images/analysisPanel.png';
+import cardsImg from './images/cardPanel.png';
+import descriptionImg from './images/descriptionPage.png';
 import experienceCardImg from './images/experienceCard.png';
-import goalsCardImg from './images/goalsCard.png';
+import goalsImg from './images/goals.png';
+import improvementPlanImg from './images/improvementPlan.png';
+import getStartedImg from './images/letsGetStarted.jpg';
+import milestoneImg from './images/milestone.png';
+import welcomeImg from './images/welcomeINL.png';
 
 const content = [
   {
     heading: 'Welcome!',
     image: welcomeImg,
-    caption: 'We are so excited you\'re here! Since this is your first time, we\'ll help you get started with this tutorial.',
+    caption: 'We are so excited you\'re here! Since this is your first time, we\'ll help you get started with this tutorial. If you know you\'re way around already, feel free to skip this tutorial!',
   },
   {
     heading: 'Analyze your Results Fast!',
     image: analysisPanelImg,
-    caption: 'Here on your personal resilience dashboard, you can quickly see the overall score on the left. This score is based only on the surveys you\'ve taken. To the left, this is where you can see the score of each survey.',
+    caption: 'On the home page you will find your personal resilience dashboard. If you have an account, you can quickly see your overall score here. This score is based only on the surveys you\'ve taken.',
   },
   {
     heading: 'Your One-Stop-Shop here!',
+    image: cardsImg,
+    caption: 'At the bottom of your personal resilience dashboard, there will be 4 cards: Cyber Security, Emergency, Financial, and Public Health. Each card gives you access to taking its survey, setting goals, viewing your improvement plan, and more. ',
+  },
+  {
+    heading: 'About Tab',
     image: aboutCardImg,
-    caption: 'At the bottom of your personal resilience dashboard, there will be 4 survey cards. Here, you will be able to read a quick description of each survey.',
+    caption: 'In the \'About\' tab, you will have access to the survey\'s page once you\'ve taken the survey by clicking on View Category Details. This is only available if you have an account.',
   },
   {
     heading: 'Survey Description Page',
-    image: experienceCardImg,
-    caption: 'If you click on View Category Details, this will take you to the description page. Here you can see your score for the survey, and access to other things.',
+    image: descriptionImg,
+    caption: 'The survey page displays your score for the survey, as well as access to other features, like retaking/updating the survey, downloading your results, or viewing your personal improvement plan.',
   },
   {
     heading: 'How to find a Survey:',
-    image: welcomeImg,
-    caption: 'On the Experience tab of the survey cards, this is also where you can take a survey!',
+    image: experienceCardImg,
+    caption: 'On the \'Experience tab\' of the survey cards, this is where you can take a survey for the first time. If you\'ve already taken it, you can retake the survey or update any answers through here.',
   },
   {
-    heading: 'Taking a survey:',
-    image: welcomeImg,
-    caption: 'Now you can click through and take a survey like normal. Some sections may not apply to you, so you can check the \'Not Applicable\' checkbox. Doing this will not count against you in your score!',
+    heading: 'Personal Improvement Plan:',
+    image: improvementPlanImg,
+    caption: 'Once you\'ve taken a survey, you will receive an improvement plan based on your responses. This will give you tasks that will help you improve your scores! You can set pre-determined goals based on these tasks. You can always come back to this through the survey description page or your survey card on your dashboard.',
   },
   {
-    heading: 'Reviewing your Results:',
-    image: welcomeImg,
-    caption: 'Once you\'ve finished the survey, you can view your results right after. This is where you can see your score and what questions you can improve on!',
+    heading: 'Setting Goals:',
+    image: goalsImg,
+    caption: 'If you have an account, you can also set custom goals on the Goals and Achievements page, which is accessible through the Goals tab on the survey cards or the Achievements tab up on the top right of the home page. Click the \'+ New Goals\' to create them with your choice of title and due date!',
   },
   {
-    heading: 'Your Personal Improvement Plan!',
-    image: welcomeImg,
-    caption: 'To help you improve your results, you will get a personally curated improvement plan after each survey you\'ve taken. This will give you tasks in order to improve your score! You can access it through the survey description page or your survey card on your dashboard.',
-  },
-  {
-    heading: 'Setting Goals',
-    image: goalsCardImg,
-    caption: 'You can access your Goals and Achievements page from your survey cards, too! Here you can set personal custom goals to become more resilient!',
+    heading: 'Keep Track of Your Milestones:',
+    image: milestoneImg,
+    caption: 'We also keep track of your score milestone on the Goals and Achievements Page, so you can see if you\'re overall score is in the bad, poor, fair, good, or excellent range.',
   },
   {
     heading: '...and that\'s it!',
-    image: welcomeImg,
-    caption: 'What are you waiting for? Go take your first survey and test your resiliency!',
+    image: getStartedImg,
+    caption: 'What are you waiting for? Get started and take your first survey to test your resiliency! On behalf of Idaho National Laboratories, we hope you enjoy!',
   },
 ];
 
@@ -72,7 +77,7 @@ const Tutorial = function Tutorial(props) {
   };
 
   return (
-    <Modal centered dialogClassName="tutorial-modal" show={props.show} onHide={props.handleClose}>
+    <Modal dialogClassName="modal-fixed-height" onHide={props.handleClose} show={props.show} size="lg">
       <Modal.Header closeButton>
         <Modal.Title>{content[props.index].heading}</Modal.Title>
       </Modal.Header>

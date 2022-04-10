@@ -2,6 +2,7 @@
  * Modified version of: https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-in-side/SignInSide.js
  */
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Avatar, Button, CssBaseline, TextField, Link, Paper, Box, Grid, Typography, Dialog, DialogTitle, DialogContent, DialogActions,
 } from '@mui/material';
@@ -30,6 +31,7 @@ const LoginPage = function LoginPageFunc() {
   const [forgotPasswordOpen, setForgotPasswordOpen] = React.useState(false);
   const [forgotPasswordEmail, setForgotPasswordEmail] = React.useState('');
   const [forgotPasswordEmailError, setForgotPasswordEmailError] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleForgotPassword = (event) => {
     event.preventDefault();
@@ -91,13 +93,23 @@ const LoginPage = function LoginPageFunc() {
       .then((res) => {
         // redirect to home page upon success
         if (res.status === 200) {
-          window.location = res.request.responseURL;
+          navigate(
+            '/home',
+            { state: { checkShowTutorial: true } },
+          );
         }
       })
       .catch((err) => {
         console.log(err);
         errorAlert('Incorrect username or password');
       });
+  };
+
+  const handleGuestSubmit = () => {
+    navigate(
+      '/home',
+      { state: { checkShowTutorial: true } },
+    );
   };
 
   return (
@@ -164,7 +176,7 @@ const LoginPage = function LoginPageFunc() {
                 >
                   Sign In
                 </Button>
-                <Link href="/home">
+                <Link href="/home" onClick={handleGuestSubmit}>
                   <Button
                     fullWidth
                     variant="contained"

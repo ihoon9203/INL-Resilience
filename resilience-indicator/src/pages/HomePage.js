@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Box, Container, Grid } from '@material-ui/core';
 import Axios from 'axios';
 import INLCarousel from '../components/Carousel';
@@ -17,6 +18,8 @@ const HomePage = function HomePageFunc() {
   const [total, setTotal] = useState(0);
   const [login, setLogin] = useState(false);
 
+  const { state } = useLocation();
+
   // Tutorial stuff
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -24,12 +27,10 @@ const HomePage = function HomePageFunc() {
   const [tutorialIdx, setTutorialIdx] = useState(0);
 
   useEffect(() => {
-    const tutorialStatus = sessionStorage.getItem('tutorialStatus');
-    if (!tutorialStatus) {
+    if (state !== null && state.checkShowTutorial) {
       Axios
         .get('/api/times-visited', { withCredentials: true })
         .then((res) => {
-          console.log(res.data);
           if (res.data <= 2) {
             setShow(true);
           }
@@ -37,7 +38,6 @@ const HomePage = function HomePageFunc() {
         .catch((err) => {
           console.log(err);
         });
-      sessionStorage.setItem('tutorialStatus', 1);
     }
   }, []);
 
@@ -75,7 +75,7 @@ const HomePage = function HomePageFunc() {
         <h1 className="title">Resilience Indicator</h1>
         <h2 className="inl">idaho national laboratory</h2>
         <p className="display-text">
-          Welcome to the Personal Resilience Index! It is a simple and an easy-to-use tool providing
+          Welcome to the Personal Resilience Index! It is a simple and easy-to-use tool providing
           an overall resilience score in addition to individual scores for the four most relevant
           categories in disaster situations. This quick and convenient quiz helps users find out their
           resiliency score to natural and man-made disasters.
