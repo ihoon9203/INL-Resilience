@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Box, Card, CardContent, CssBaseline, Grid, Typography,
+  Box, Button, Card, CardContent, CssBaseline, Grid, Typography,
 } from '@material-ui/core';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import SystemGoal from './SystemGoal';
 import '../styles/improvementPlan.css';
 
 const Task = function TaskFunc({
-  taskPriority, text, priority, completed,
+  taskPriority, text, priority, completed, category,
 }) {
+  // Setup for System Goals
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <>
       <CssBaseline />
@@ -20,20 +26,36 @@ const Task = function TaskFunc({
             }}
           >
             <CardContent className="task-card">
-              <Grid container direction="row" justifyalign="flex-start">
+              <Grid container justifyalign="flex-start">
                 {completed === 'true' && (
                   <Grid container direction="row" item xs={8} md={4}>
                     <Typography variant="h5"> Level Completed. </Typography>
                     <CheckCircleIcon fontSize="medium" color="success" />
                   </Grid>
                 )}
-                <Grid item xs={12}>
+                <Grid item xs={12} sm={6} md={7} lg={9}>
                   <Typography variant="body2">
                     {text}
                   </Typography>
                 </Grid>
+                <Grid container item xs={6} md={1}>
+                  <Grid item style={{ marginLeft: '90px' }}>
+                    {completed === 'false' && (
+                      <Button
+                        className="button"
+                        variant="contained"
+                        color="primary"
+                        style={{ width: '150px' }}
+                        onClick={handleOpen}
+                      >
+                        Add Goal
+                      </Button>
+                    )}
+                  </Grid>
+                </Grid>
               </Grid>
             </CardContent>
+            <SystemGoal task={text} category={category} open={open} setOpen={setOpen} handleClose={handleClose} />
           </Card>
         )}
       </Box>

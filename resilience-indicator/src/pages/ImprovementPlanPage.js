@@ -55,7 +55,7 @@ const ImprovementPlan = function ImprovementPlaFunc() {
             >
               HIGH PRIORITY
             </Typography>
-            <TaskList tasks={surveyTasks} priority="High" />
+            <TaskList tasks={surveyTasks} priority="High" category={name} />
           </Card>
 
           <Card className="priority-card" style={{ backgroundColor: 'rgba(255, 150, 0, 0.1)' }}>
@@ -67,7 +67,7 @@ const ImprovementPlan = function ImprovementPlaFunc() {
             >
               MEDIUM PRIORITY
             </Typography>
-            <TaskList tasks={surveyTasks} priority="Medium" />
+            <TaskList tasks={surveyTasks} priority="Medium" category={name} />
           </Card>
 
           <Card className="priority-card" style={{ backgroundColor: 'rgba(0, 0, 255, 0.1)' }}>
@@ -79,7 +79,7 @@ const ImprovementPlan = function ImprovementPlaFunc() {
             >
               LOW PRIORITY
             </Typography>
-            <TaskList tasks={surveyTasks} priority="Low" />
+            <TaskList tasks={surveyTasks} priority="Low" category={name} />
           </Card>
           <Grid style={{ marginTop: '64px', alignitems: 'right' }}>
             <Link className="review-survey-button" to="/home">

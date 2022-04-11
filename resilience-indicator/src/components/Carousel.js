@@ -46,7 +46,6 @@ const INLCarousel = function INLCarouselFunc() {
                 title="Cyber Security"
                 alt="Satellites with blue sky background"
               />
-              <Box className={classes.carouselBackground} sx={{ borderRadius: '50%' }}> </Box>
               <Box className={classes.carouselBox}>
                 <p className={classes.carouselTitle} style={{ fontSize: '80px' }}>Cyber Security</p>
                 <p className={classes.carouselText} style={{ maxWidth: '500px' }}>
