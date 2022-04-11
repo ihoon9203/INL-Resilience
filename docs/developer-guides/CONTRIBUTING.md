@@ -10,6 +10,32 @@ The primary forum for technical and architectural discussion is GitLab issues an
 
 ### Environment setup
 
+#### Create the production database in AWS
+- Sign in to the AWS Management Console and open the Amazon RDS console
+- In the upper-right corner of the Amazon RDS console, choose the AWS Region in which you want to create the DB instance.
+- In the navigation pane, choose "Databases".
+- Choose "Create database".
+- In "Choose a database" creation method, select "Standard Create".
+- In Engine options, choose the engine type: MySQL
+- The Edition will only have one option: MySQLCommunity. Leave it this way.
+- Choose the latest version of MySQL
+- Choose the desired template (Production, Dev/Test, or Free Tier), and the corresponding desired Availability and durability options. 
+  - You will want to choose the Free Tier option if you don't want to pay monthly expenses. Please read the "Estimated Monthly Costs" section at the bottom to see what the Free Tier provides.
+- In settings, choose "inl_database" for the Database instance.
+- Enter credentials for the master username and password. Make sure to keep a record of this information so you can connect to the DB instance later
+- For the remaining sections, specify your DB instance settings.
+- Choose "Create database".
+  - To view the master user name and password for the DB instance, choose View credential details on the Databases page.
+- For "Databases", choose the name of the new DB instance you created.
+  - On the RDS console, the details for the new DB instance appear. The DB instance has a status of Creating until the DB instance is created and ready for use. When the state changes to Available, you can connect to the DB instance. Depending on the DB instance class and storage allocated, it can take several minutes for the new instance to be available.
+  - You can edit the Inbound Rules by clicking on the Security Group with the type "Inbound". It's default is to allow all traffic.
+- In `resilience-indicator-backend/src/config/config.json`, you will need to update the information for `production`.
+  - The `username` and `password` should be the specified master username and master password you chose.
+  - The `database` should be left as "inl_db"
+  - The `host` should be the Endpoint of the database instance you created, which can be found when you click on the database instance on the Databases page. It should start with "inl-database" and end in "rds.amazonaws.com".
+  - The `dialect` should be left as "mysql".
+  - The `logging` should be left as false.
+
 #### Backend
 
 - Inside of the `resilience-indicator-backend` directory run `npm install` to install the node module dependencies.

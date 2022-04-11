@@ -731,18 +731,18 @@ router.post('/update-improvement-plan', async (req, res) => {
 
 /**
  * @openapi
- * /api/update-improvement-plan:
+ * /api/update-answer:
  *   post:
  *     tags:
- *     - ImprovementPlan
- *     summary: Update one or more existing improvement plan tasks
+ *     - PossibleAnswer
+ *     summary: Update one or more existing possible answers and their improvement plan tasks
  *     requestBody:
- *       description: The question id that the improvement plan task is linked to
+ *       description: The survey, possible answer, improvement plan, tasks, and priority for a question
  *       required: true
  *
  *     responses:
  *       201:
- *         description: Improvement plan tasks were updated
+ *         description: Possibel answer was updated
  *
  */
 router.post('/update-answer', async (req, res) => {

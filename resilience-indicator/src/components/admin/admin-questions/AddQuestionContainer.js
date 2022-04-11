@@ -88,9 +88,6 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
     setCorrectAnswer(e.target.value);
   };
 
-  // TODO: either add some more validation to make sure the
-  // user used the right format for the improvement plan,
-  // or change it to use buttons and dropdowns as well
   const handleImprovementPlanChange = (e) => {
     setImprovementPlan(e.target.value);
   };
@@ -124,12 +121,8 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
           errorAlert('Please format the improvement task correctly.');
         }
       }
-      // TODO: set the improvement plan using other form
+
       formValues.improvementPlanValues = improvementPlanValues;
-      // setFormValues({
-      //   ...formValues,
-      //   improvementPlanValues,
-      // });
 
       // change string of possible answers to an array
       const possibleAnswersArray = possibleAnswers.split(',');
