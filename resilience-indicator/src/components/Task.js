@@ -3,6 +3,7 @@ import {
   Box, Button, Card, CardContent, CssBaseline, Grid, Typography,
 } from '@material-ui/core';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import MUILinkify from 'material-ui-linkify';
 import SystemGoal from './SystemGoal';
 import '../styles/improvementPlan.css';
 
@@ -34,9 +35,11 @@ const Task = function TaskFunc({
                   </Grid>
                 )}
                 <Grid item xs={12} sm={6} md={7} lg={9}>
-                  <Typography variant="body2">
-                    {text}
-                  </Typography>
+                  <MUILinkify>
+                    <Typography variant="body2">
+                      {text}
+                    </Typography>
+                  </MUILinkify>
                 </Grid>
                 <Grid container item xs={6} md={1}>
                   <Grid item style={{ marginLeft: '90px' }}>
