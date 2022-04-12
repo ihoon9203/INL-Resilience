@@ -10,19 +10,45 @@ import {
   Divider,
   FormControlLabel,
   Grid,
+  Alert,
+  AlertTitle,
 } from '@mui/material';
 import { successAlert, errorAlert } from '../../../resources/swal-inl';
 
 const NotificationSetting = function NotificationSettingFunc(props) {
   const [notificationSettings, setNotificationSettings] = useState({});
+  const [userEmail, setUserEmail] = useState({});
+  const [isEmailVerified, setEmailVerified] = useState();
 
   useEffect(() => {
     Axios
       .get('/api/notification-settings', { withCredentials: true })
       .then((res) => {
-        setNotificationSettings(res.data);
+        console.log('res obj in NotificationSettings.js ');
+        console.log(res);
+        setNotificationSettings(res.data.returnNotifSettings);
+        setUserEmail(res.data.userObj.email);
+        setEmailVerified(res.data.userObj.emailVerified);
       });
   }, []);
+
+  const handleLogout = () => {
+    Axios({
+      method: 'POST',
+      withCredentials: true,
+      url: '/api/logout',
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          window.location = '/login';
+        } else {
+          console.log('failed to logout');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const handleSave = () => {
     Axios({
@@ -69,9 +95,54 @@ const NotificationSetting = function NotificationSettingFunc(props) {
     setNotificationSettings(notificationSettings);
   };
 
+  const handleEmailVerify = () => {
+    console.log('handleEmailVerify fire off!!');
+    console.log(`User email before sending POST = ${userEmail}`);
+    const body = {
+      email: userEmail,
+    };
+
+    Axios({
+      method: 'POST',
+      data: body,
+      url: '/api/verify-email',
+    })
+      .then((res) => {
+        // redirect to login page upon success
+        if (res.status === 200) {
+          // successAlert('Password reset! Now you can sign in.')
+          console.log('User Email Verification Link Sent Successfully!!!');
+          // .then(() => {
+          //   //window.location = '/login';
+          // });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        // errorAlert('Error trying to reset password');
+        console.log('User Email Verification Send FAILED!');
+      });
+    handleLogout(); // TODO: figure out how to no have to log user out to get banner to go away
+  };
+
   if ('General' in notificationSettings) {
     return (
       <form {...props}>
+        {!isEmailVerified && (
+          <Alert
+            severity="info"
+            action={(
+              <Button color="inherit" size="small" onClick={handleEmailVerify}>
+                Send Verification Link
+              </Button>
+            )}
+          >
+            <AlertTitle>Profile Email Has Not Been Verified</AlertTitle>
+            You will not recieve email notifications until your email is verified.
+            {' '}
+          </Alert>
+        )}
+
         <Card>
           <CardHeader
             subheader="Manage email notifications per category"
@@ -150,6 +221,7 @@ const NotificationSetting = function NotificationSettingFunc(props) {
               color="primary"
               variant="contained"
               onClick={handleSave}
+              disabled={!isEmailVerified}
             >
               Save
             </Button>

@@ -7,6 +7,7 @@ import NotFoundPage from './NotFoundPage';
 import Gauge from '../components/Gauge';
 import TimeseriesCategorical from '../components/TimeseriesCategorical';
 import surveyDescriptions from '../resources/survey-descriptions';
+import SharePanel from '../components/SharePanel';
 import useStyles from '../styles';
 import '../styles/description.css';
 
@@ -110,6 +111,7 @@ const DescriptionPage = function DescriptionPageFunc() {
           </Button>
         </Link>
       </Grid>
+      <SharePanel score={score} surveyName={survey.name.toUpperCase()} />
     </>
   );
 };
