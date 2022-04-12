@@ -15,7 +15,6 @@ import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import RecoverPasswordPage from './pages/RecoverPasswordPage';
-import VerifiedEmailPage from './pages/VerifiedEmailPage';
 import NavBar from './components/NavBar';
 import GoalsPage from './pages/GoalsPage';
 import './App.css';
@@ -56,7 +55,6 @@ const App = function AppFunc() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/recover-password/:resetToken" element={<RecoverPasswordPage />} />
-          <Route path="/validate-email-token/:emailToken" element={<VerifiedEmailPage />} />
           <Route path="*" element={<DefaultContainer />} />
         </Routes>
       </div>

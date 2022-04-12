@@ -27,7 +27,6 @@ module.exports = {
         password: u[1],
         isAdmin: u[2],
         timesVisited: u[3],
-        emailVerified: true,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
