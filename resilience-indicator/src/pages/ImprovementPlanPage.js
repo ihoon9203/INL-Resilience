@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   Box, Button, Card, CssBaseline, Grid, Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import surveyDescriptions from '../resources/survey-descriptions';
 import useStyles from '../styles';
 import TaskList from '../components/TaskList';

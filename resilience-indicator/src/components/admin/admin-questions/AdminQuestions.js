@@ -10,14 +10,25 @@ import UpdateQuestionContainer from './UpdateQuestionContainer';
 
 const AdminQuestionsFunc = function AdminQuestionsFuncFunc() {
   const [survey, setSurvey] = useState('Finance');
-  const [expanded, setExpanded] = React.useState(false);
+  const [surveyChanged, setSurveyChanged] = useState(true);
+  const [expanded, setExpanded] = useState(false);
+  const [shouldUpdate, setShouldUpdate] = useState(true);
 
   const handleAccordionChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
+  const handleSurveyChange = (value) => {
+    setSurveyChanged(value);
+  };
+
   const handleChange = (newValue) => {
     setSurvey(newValue);
+    handleSurveyChange(true);
+  };
+
+  const handleUpdate = (value) => {
+    setShouldUpdate(value);
   };
 
   return (
@@ -44,7 +55,7 @@ const AdminQuestionsFunc = function AdminQuestionsFuncFunc() {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <AddQuestionContainer survey={survey} />
+          <AddQuestionContainer survey={survey} handleUpdate={handleUpdate} setShouldUpdate={setShouldUpdate} />
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel2'} onChange={handleAccordionChange('panel2')}>
@@ -58,7 +69,7 @@ const AdminQuestionsFunc = function AdminQuestionsFuncFunc() {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <RemoveQuestionContainer survey={survey} />
+          <RemoveQuestionContainer survey={survey} handleUpdate={handleUpdate} shouldUpdate={shouldUpdate} setShouldUpdate={setShouldUpdate} surveyChanged={surveyChanged} handleSurveyChange={handleSurveyChange} />
         </AccordionDetails>
       </Accordion>
       <Accordion expanded={expanded === 'panel3'} onChange={handleAccordionChange('panel3')}>
@@ -72,7 +83,7 @@ const AdminQuestionsFunc = function AdminQuestionsFuncFunc() {
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <UpdateQuestionContainer survey={survey} />
+          <UpdateQuestionContainer survey={survey} handleUpdate={handleUpdate} shouldUpdate={shouldUpdate} setShouldUpdate={setShouldUpdate} surveyChanged={surveyChanged} handleSurveyChange={handleSurveyChange} />
         </AccordionDetails>
       </Accordion>
     </Box>

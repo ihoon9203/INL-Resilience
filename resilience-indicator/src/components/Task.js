@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   Box, Button, Card, CardContent, CssBaseline, Grid, Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import MUILinkify from 'material-ui-linkify';
 import SystemGoal from './SystemGoal';

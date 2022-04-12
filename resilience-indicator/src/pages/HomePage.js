@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Box, Container, Grid } from '@material-ui/core';
+import { Box, Container, Grid } from '@mui/material';
 import Axios from 'axios';
 import INLCarousel from '../components/Carousel';
 import CategoryCard from '../components/CategoryCard';

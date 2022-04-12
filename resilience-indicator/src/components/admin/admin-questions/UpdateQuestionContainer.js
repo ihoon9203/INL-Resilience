@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {
   Button, Grid, TextField, Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import PossibleAnswerInputWrapper from './PossibleAnswerInputWrapper';
 import { errorAlert, successAlert } from '../../../resources/swal-inl';
 
@@ -17,7 +17,13 @@ const defaultValues = {
   information: '',
 };
 
-const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
+const UpdateQuestionContainer = function UpdateQuestionContainer({
+  survey,
+  handleUpdate,
+  shouldUpdate,
+  surveyChanged,
+  handleSurveyChange,
+}) {
   const [questions, setQuestions] = useState({});
   const [chosenQuestion, setChosenQuestion] = useState('');
   const [formValues, setFormValues] = useState(defaultValues);
@@ -26,12 +32,16 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
   const [correctAnswer, setCorrectAnswer] = useState('');
 
   useEffect(() => {
-    Axios
-      .get(`/api/questions/${survey}`, { withCredentials: true })
-      .then((res) => {
-        setQuestions(res.data);
-      });
-  }, [survey]);
+    if (shouldUpdate || surveyChanged) {
+      Axios
+        .get(`/api/questions/${survey}`, { withCredentials: true })
+        .then((res) => {
+          handleUpdate(false);
+          handleSurveyChange(false);
+          setQuestions(res.data);
+        });
+    }
+  }, [survey, shouldUpdate, surveyChanged]);
 
   useEffect(() => {
     if (chosenQuestion !== '') {
@@ -95,8 +105,6 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(shouldUpdateAnswers);
-    console.log(taskValues);
     const answersData = { taskValues, survey };
     Axios({
       method: 'POST',
@@ -105,6 +113,7 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({ survey }) {
       url: '/api/update-question',
     })
       .then((res) => {
+        handleUpdate(true);
         // update correct answer if user specified
         if (res.status === 200 && correctAnswer !== '') {
           const correctAnswerValues = {

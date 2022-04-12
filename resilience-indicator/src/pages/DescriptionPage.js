@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Box, Button, Typography } from '@material-ui/core';
+import { Box, Button, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Axios from 'axios';
 import NotFoundPage from './NotFoundPage';
@@ -99,9 +99,6 @@ const DescriptionPage = function DescriptionPageFunc() {
               <Link className="review-survey-button" to={`/review-survey/${survey.name}`}>
                 <button type="button" className={`update-survey ${mobileButton}`}>REVIEW SURVEY</button>
               </Link>
-            </Grid>
-            <Grid item xs={10}>
-              <button type="button" className={`download-survey ${mobileButton}`}>DOWNLOAD SURVEY RESULTS</button>
             </Grid>
           </Grid>
         </div>

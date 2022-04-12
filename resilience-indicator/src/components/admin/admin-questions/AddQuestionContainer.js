@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {
   Button, Grid, TextField, Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import { errorAlert, successAlert } from '../../../resources/swal-inl';
 
 const defaultValues = {
@@ -20,7 +20,7 @@ const defaultValues = {
   correctAnswer: '',
 };
 
-const AddQuestionContainer = function AddQuestionContainer({ survey }) {
+const AddQuestionContainer = function AddQuestionContainer({ survey, handleUpdate }) {
   const [formValues, setFormValues] = useState(defaultValues);
   const [possibleAnswers, setPossibleAnswers] = useState('');
   const [improvementPlan, setImprovementPlan] = useState('');
@@ -139,6 +139,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey }) {
         .then((res) => {
           if (res.status === 200) {
             successAlert('Question added.');
+            handleUpdate(true);
           } else {
             errorAlert('Something went wrong!');
           }

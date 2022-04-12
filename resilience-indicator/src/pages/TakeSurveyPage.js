@@ -2,10 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import List from '@mui/material/List';
 import {
-  Box, CssBaseline, Grid, Typography,
-} from '@material-ui/core';
-import {
-  Dialog, DialogTitle, DialogActions, DialogContent, Button,
+  Box, CssBaseline, Grid, Typography, Dialog, DialogTitle, DialogActions, DialogContent, Button,
 } from '@mui/material';
 import Axios from 'axios';
 import NotFoundPage from './NotFoundPage';

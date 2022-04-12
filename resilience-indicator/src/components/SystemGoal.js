@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import {
   Box, Grid,
-} from '@material-ui/core';
+} from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import InfoIcon from '@mui/icons-material/Info';
 import '../styles/systemGoals.css';

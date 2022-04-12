@@ -6,20 +6,30 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {
   Button, Grid, Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import { errorAlert, successAlert, warningAlert } from '../../../resources/swal-inl';
 
-const RemoveQuestionContainer = function RemoveQuestionContainer({ survey }) {
+const RemoveQuestionContainer = function RemoveQuestionContainer({
+  survey,
+  handleUpdate,
+  shouldUpdate,
+  surveyChanged,
+  handleSurveyChange,
+}) {
   const [questions, setQuestions] = useState({});
   const [chosenQuestion, setChosenQuestion] = useState('');
 
   useEffect(() => {
-    Axios
-      .get(`/api/questions/${survey}`, { withCredentials: true })
-      .then((res) => {
-        setQuestions(res.data);
-      });
-  }, [survey]);
+    if (shouldUpdate || surveyChanged) {
+      Axios
+        .get(`/api/questions/${survey}`, { withCredentials: true })
+        .then((res) => {
+          handleUpdate(false);
+          handleSurveyChange(false);
+          setQuestions(res.data);
+        });
+    }
+  }, [survey, shouldUpdate, surveyChanged]);
 
   const handleQuestionChange = (e) => {
     setChosenQuestion(e.target.value);
@@ -41,6 +51,7 @@ const RemoveQuestionContainer = function RemoveQuestionContainer({ survey }) {
             if (res.status === 200) {
               successAlert('Question deleted.');
             }
+            handleUpdate(true);
           })
           .catch((err) => {
             console.log(err);

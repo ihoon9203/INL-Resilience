@@ -4,7 +4,7 @@ import { Link, useParams, useLocation } from 'react-router-dom';
 import ReactToPrint from 'react-to-print';
 import {
   Button, Box, CssBaseline, Grid, Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import Gauge from '../components/Gauge';
 import NotFoundPage from './NotFoundPage';
 import AnswerList from '../components/AnswerList';

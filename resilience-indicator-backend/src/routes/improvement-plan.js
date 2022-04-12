@@ -100,13 +100,15 @@ router.get(
     incorrectUserAnswers.forEach((incorrectAnswer) => {
       const improvementPlan = possibleAnswers.find(
         (p) => p.Question.id === incorrectAnswer.Question.id
-        && p.possibleAnswer === incorrectAnswer.answer,
+          && p.possibleAnswer === incorrectAnswer.answer,
       );
-      const task = {
-        task: improvementPlan.ImprovementPlan.task,
-        priority: improvementPlan.ImprovementPlan.priority,
-      };
-      improvementPlanTasks.push(task);
+      if (improvementPlan) {
+        const task = {
+          task: improvementPlan.ImprovementPlan.task,
+          priority: improvementPlan.ImprovementPlan.priority,
+        };
+        improvementPlanTasks.push(task);
+      }
     });
 
     return res.status(200).json(improvementPlanTasks);

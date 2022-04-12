@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {
   Card, CardContent, Grid, Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import InfoIcon from '@mui/icons-material/Info';
 import RadioButtonSet from './RadioButtonSet';

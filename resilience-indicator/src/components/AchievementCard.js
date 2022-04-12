@@ -16,8 +16,8 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDatePicker from '@mui/lab/DatePicker';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import CreateIcon from '@material-ui/icons/Create';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import CreateIcon from '@mui/icons-material/Create';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import CloseIcon from '@mui/icons-material/Close';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -48,6 +48,7 @@ function BootstrapDialogTitle(props) {
             top: 8,
             color: (theme) => theme.palette.grey[500],
           }}
+          size="large"
         >
           <CloseIcon />
         </IconButton>
@@ -221,7 +222,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                   container
                   spacing={0}
                   align="center"
-                  justify="center"
+                  justifyContent="center"
                   className="center-container"
                 >
                   <Grid item xs>
@@ -239,7 +240,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                   container
                   spacing={2}
                   align="center"
-                  justify="center"
+                  justifyContent="center"
                   className="center-container"
                 >
                   <Grid item xs={4}>
@@ -295,7 +296,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                   container
                   spacing={0}
                   align="center"
-                  justify="center"
+                  justifyContent="center"
                   className="center-container"
                 >
                   <Grid item xs>
@@ -313,7 +314,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                   container
                   spacing={2}
                   align="center"
-                  justify="center"
+                  justifyContent="center"
                   className="center-container"
                 >
                   <Grid item xs={4}>
@@ -425,7 +426,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                 container
                 spacing={0}
                 align="center"
-                justify="center"
+                justifyContent="center"
                 className="center-container"
               >
                 <Grid item xs>
@@ -443,7 +444,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                 container
                 spacing={2}
                 align="center"
-                justify="center"
+                justifyContent="center"
                 className="center-container"
               >
                 <Grid item xs={4}>
@@ -497,12 +498,12 @@ const AchievementCard = function AchievementCardFunc(props) {
               <div className="badge-date">{dueDate}</div>
             </Grid>
             <Grid item xs={1} className="date">
-              <IconButton className="custom-button">
+              <IconButton className="custom-button" size="large">
                 <CreateIcon />
               </IconButton>
             </Grid>
             <Grid item xs={1} className="date">
-              <IconButton className="custom-button">
+              <IconButton className="custom-button" size="large">
                 <DeleteOutlineIcon />
               </IconButton>
             </Grid>
@@ -535,7 +536,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                 container
                 spacing={0}
                 align="center"
-                justify="center"
+                justifyContent="center"
                 className="center-container"
               >
                 <Grid item xs>
@@ -553,7 +554,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                 container
                 spacing={2}
                 align="center"
-                justify="center"
+                justifyContent="center"
                 className="center-container"
               >
                 <Grid item xs={3} className="modal-title">
@@ -616,7 +617,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                 container
                 spacing={0}
                 align="center"
-                justify="center"
+                justifyContent="center"
                 className="center-container"
               >
                 <Grid item xs>
@@ -634,7 +635,7 @@ const AchievementCard = function AchievementCardFunc(props) {
                 container
                 spacing={2}
                 align="center"
-                justify="center"
+                justifyContent="center"
                 className="center-container"
               >
                 <Grid item xs={4}>
@@ -761,7 +762,7 @@ const AchievementCard = function AchievementCardFunc(props) {
               container
               spacing={0}
               align="center"
-              justify="center"
+              justifyContent="center"
               className="center-container"
             >
               <Grid item xs={2}>
@@ -779,7 +780,7 @@ const AchievementCard = function AchievementCardFunc(props) {
               container
               spacing={2}
               align="center"
-              justify="center"
+              justifyContent="center"
               className="center-container"
             >
               <Grid item xs={3} className="modal-title">

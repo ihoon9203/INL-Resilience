@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 import {
   Button, Card, CardMedia, CssBaseline, Grid, Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import useStyles from '../styles';
 
 const AboutPage = function AboutPageFunc() {

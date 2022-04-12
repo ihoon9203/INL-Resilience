@@ -1,6 +1,6 @@
 /* eslint-disable no-return-assign */
 import React from 'react';
-import { List } from '@material-ui/core';
+import { List } from '@mui/material';
 import Task from './Task';
 
 const TaskList = function TaskListFunc({ tasks, priority, category }) {

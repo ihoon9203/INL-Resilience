@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   List, Grid, ListItem,
-} from '@material-ui/core';
+} from '@mui/material';
 
 import {
   TwitterShareButton,
