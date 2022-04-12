@@ -26,12 +26,15 @@ const SystemGoal = function SystemGoalFunc(props) {
   const [date, setDate] = useState(null);
   const [newTitle, setNewTitle] = useState(null);
   const [addable, setAddable] = useState(false);
+  const [newGoal, setNewGoal] = useState(props.task);
+  const [mobile, setMobile] = useState(false);
   const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '80%',
+    height: 'auto',
     maxWidth: '700px',
     bgcolor: 'background.paper',
     borderRadius: '10px',
@@ -69,7 +72,17 @@ const SystemGoal = function SystemGoalFunc(props) {
       setAddable(false);
     }
   }, [date, newTitle]);
-
+  useEffect(() => {
+    Axios.get('/api/goal', { withCredentials: true })
+      .then((res) => {
+        setNewGoal(res.data);
+      });
+  }, []);
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobile(true);
+    }
+  }, []);
   return (
     <Modal
       open={props.open}
@@ -83,7 +96,7 @@ const SystemGoal = function SystemGoalFunc(props) {
       <Fade in={props.open}>
         <Box sx={style} className="no-animation">
           <Grid container justifyContent="center">
-            <p className="header" mt={2}>
+            <p className={mobile ? 'mobile-header' : 'header'} mt={2}>
               SET TASK GOAL
             </p>
             <Tooltip
@@ -93,8 +106,8 @@ const SystemGoal = function SystemGoalFunc(props) {
               <InfoIcon className="tool-tip-index" />
             </Tooltip>
           </Grid>
-          <Grid container style={{ marginTop: '20px' }}>
-            <p className="subheader" mt={2}>
+          <Grid container style={mobile ? { marginTop: '15px' } : { marginTop: '20px' }}>
+            <p className={mobile ? 'mobile-subheader' : 'subheader'} mt={2}>
               Title:
             </p>
             <TextField
@@ -106,8 +119,8 @@ const SystemGoal = function SystemGoalFunc(props) {
               }}
             />
           </Grid>
-          <Grid container style={{ marginBottom: '20px' }}>
-            <p className="subheader" mt={2}>
+          <Grid container style={mobile ? { marginBottom: '15px' } : { marginBottom: '20px' }}>
+            <p className={mobile ? 'mobile-subheader' : 'subheader'} mt={2}>
               Description:
             </p>
             <TextField
@@ -121,7 +134,7 @@ const SystemGoal = function SystemGoalFunc(props) {
             />
           </Grid>
           <Grid container style={{ marginBottom: '40px' }}>
-            <p className="subheader" mt={2}>
+            <p className={mobile ? 'mobile-subheader' : 'subheader'} mt={2}>
               Due Date:
             </p>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -129,6 +142,7 @@ const SystemGoal = function SystemGoalFunc(props) {
                 label="mm/dd/yyyy"
                 inputFormat="MM/dd/yyyy"
                 value={date}
+                disablePast
                 onChange={(newValue) => {
                   setDate(newValue);
                 }}
@@ -137,11 +151,11 @@ const SystemGoal = function SystemGoalFunc(props) {
             </LocalizationProvider>
           </Grid>
           <Grid container spacing={3} justifyContent="center" alignItems="center">
-            <Grid item xs={3}>
+            <Grid item>
               <button type="button" className="improvment-plan" disabled={!addable} onClick={handlePost}>CREATE GOAL</button>
             </Grid>
             <Grid item>
-              <button type="button" className="download-survey" onClick={props.handleClose}>CANCEL</button>
+              <button type="button" className="improvment-plan" onClick={props.handleClose}>CANCEL</button>
             </Grid>
           </Grid>
         </Box>

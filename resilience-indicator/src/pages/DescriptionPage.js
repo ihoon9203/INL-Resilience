@@ -17,6 +17,7 @@ const DescriptionPage = function DescriptionPageFunc() {
   const [scoreSeries, setScoreSeries] = useState([]);
   const [mobileButton, setMobileButton] = useState('');
   const [hasTakenSurvey, setHasTakenSurvey] = useState(false);
+  const [mobileView, setMobileView] = useState({ justifyContent: 'flex', margin: '40px', class: '' });
 
   const survey = surveyDescriptions.find((s) => s.name === name);
   if (!survey) return <NotFoundPage />;
@@ -24,6 +25,7 @@ const DescriptionPage = function DescriptionPageFunc() {
   useEffect(() => {
     if (window.innerWidth < 600) {
       setMobileButton('mobile-button');
+      setMobileView({ margin: '0', class: 'center-horizontal' });
     }
     Axios
       .get(`/api/score/${survey.name}`, {
@@ -74,7 +76,7 @@ const DescriptionPage = function DescriptionPageFunc() {
               <Link style={hasTakenSurvey ? {} : { pointerEvents: 'none' }} className="review-survey-button" to={`/improvement-plan/${survey.name}`}>
                 <button
                   type="button"
-                  className={`update-survey ${mobileButton}`}
+                  className={`improvment-plan ${mobileButton}`}
                   disabled={!hasTakenSurvey}
                 >
                   IMPROVEMENT PLAN
@@ -84,7 +86,7 @@ const DescriptionPage = function DescriptionPageFunc() {
             <Grid item xs={5}>
               <button
                 type="button"
-                className={`update-survey ${mobileButton}`}
+                className={`improvment-plan ${mobileButton}`}
                 disabled={!hasTakenSurvey}
               >
                 GOALS
@@ -103,9 +105,9 @@ const DescriptionPage = function DescriptionPageFunc() {
           </Grid>
         </div>
       </section>
-      <Grid item style={{ marginTop: '40px', alignitems: 'right' }}>
+      <Grid item style={{ marginTop: '40px', marginLeft: mobileView.margin, alignitems: 'right' }}>
         <Link className="review-survey-button" to="/home">
-          <Button className="button center-horizontal return-desc-button" variant="contained" color="primary">
+          <Button className={`button ${mobileView.class}`} variant="contained" color="primary">
             Return Home
           </Button>
         </Link>

@@ -44,7 +44,7 @@
 }
 .badge-cp-container{
     text-align: center;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
     border-radius: 10px;
     height: 80px;

@@ -7,6 +7,7 @@ import CategoryCard from '../components/CategoryCard';
 import useStyles from '../styles';
 import AnalysisPanel from '../components/AnalysisPanel';
 import Tutorial from '../components/tutorial/Tutorial';
+import MobileWelcome from '../components/MobileWelcome';
 import '../styles/analysistab.css';
 
 const HomePage = function HomePageFunc() {
@@ -17,6 +18,7 @@ const HomePage = function HomePageFunc() {
   const [financeScore, setFinanceScore] = useState(0);
   const [total, setTotal] = useState(0);
   const [login, setLogin] = useState(false);
+  const [mobileView, setMobileView] = useState(false);
 
   const { state } = useLocation();
 
@@ -27,6 +29,9 @@ const HomePage = function HomePageFunc() {
   const [tutorialIdx, setTutorialIdx] = useState(0);
 
   useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobileView(true);
+    }
     if (state !== null && state.checkShowTutorial) {
       Axios
         .get('/api/times-visited', { withCredentials: true })
@@ -69,7 +74,7 @@ const HomePage = function HomePageFunc() {
   }, [healthScore, cyberScore, emergencyScore, financeScore, total]);
   return (
     <>
-      <INLCarousel />
+      { mobileView ? <MobileWelcome /> : <INLCarousel />}
       <Tutorial show={show} handleClose={handleClose} handleShow={handleShow} index={tutorialIdx} setIndex={setTutorialIdx} setShow={setShow} />
       <Container maxWidth="lg">
         <h1 className="title">Resilience Indicator</h1>

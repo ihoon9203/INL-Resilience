@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box, Button, Card, CardContent, CssBaseline, Grid, Typography,
 } from '@mui/material';
@@ -12,9 +12,14 @@ const Task = function TaskFunc({
 }) {
   // Setup for System Goals
   const [open, setOpen] = useState(false);
+  const [mobile, setMobile] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobile(true);
+    }
+  }, []);
   return (
     <>
       <CssBaseline />
@@ -41,14 +46,19 @@ const Task = function TaskFunc({
                     </Typography>
                   </MUILinkify>
                 </Grid>
-                <Grid container item xs={6} md={1}>
-                  <Grid item style={{ marginLeft: '90px' }}>
+                <Grid container item xs={mobile ? 12 : 6} md={1} mt={1}>
+                  <Grid
+                    item
+                    style={mobile ? {
+                      width: '100%', marginTop: '10px', justifyContent: 'center',
+                    } : { marginLeft: '90px' }}
+                  >
                     {completed === 'false' && (
                       <Button
                         className="button"
                         variant="contained"
                         color="primary"
-                        style={{ width: '150px' }}
+                        style={mobile ? { width: '100%' } : { width: '150px' }}
                         onClick={handleOpen}
                       >
                         Add Goal
