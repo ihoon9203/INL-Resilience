@@ -35,7 +35,9 @@ passport.use(
  * the `deserializeUser` function.
  */
 passport.serializeUser((user, done) => {
-  done(null, { id: user.id, email: user.email, isAdmin: user.isAdmin });
+  done(null, {
+    id: user.id, email: user.email, isAdmin: user.isAdmin, emailVerified: user.emailVerified,
+  });
 });
 
 passport.deserializeUser((user, done) => {

@@ -151,6 +151,127 @@ router.post(
 
 /**
  * @openapi
+ * /api/verify-email:
+ *   get:
+ *     tags:
+ *     - User
+ *     summary: Send link to verify email
+ *     responses:
+ *       200:
+ *         description: Reset link generated and sent to user's email
+ */
+router.get(
+  '/verify-email',
+  async (req, res) => {
+    const userEmail = req.user.email;
+
+    const user = await User.findOne({
+      where: { email: userEmail },
+    }).catch((err) => req.res.status(500).json(err));
+
+    if (!user) return res.status(404).json({ message: 'User does not exist!' });
+
+    // generate email token
+    user.emailVerifyToken = crypto.randomBytes(20).toString('hex');
+
+    // save updated user object
+    const savedUser = await user.save();
+    if (!savedUser) return res.status(500).json({ error: 'Cannot save email verify token at the moment!' });
+
+    // send email verification link
+    const link = `${req.protocol}://${req.headers.host}/validate-email-token/${savedUser.emailVerifyToken}`;
+
+    const message = {
+      to: userEmail,
+      from: fromEmail,
+      subject: 'INL Resilience - verify your email',
+      text: `Hello, thanks for registering on the INL Resilience site.\nPlease click on the following link to verify your account.\n\n${link}\n\n`,
+      html: `
+        <h1> Hello, <h1>
+        <p>Thanks for registering on the INL Resilience site.</p>
+        <p>Please click the link below to verify your account.</p>
+        <a href=${link}>Verfiy your account</a>
+      `,
+    };
+
+    try {
+      await sendGridEmail.send(message);
+      return res.status(200).json({ message: 'Verify link sent successfully!' });
+    } catch (error) {
+      console.error('Error sending email');
+      console.error(error);
+      if (error.response) {
+        console.error(error.response.body);
+      }
+      return res.status(500).json({ message: 'Error sending verify link email' });
+    }
+  },
+);
+
+/**
+ * @openapi
+ * /api/validate-email-token:
+ *   post:
+ *     tags:
+ *     - User
+ *     summary: Validate the email token
+ *     requestBody:
+ *       description: The email token
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/EmailTokenInSchema'
+ *           examples:
+ *             example1:
+ *               summary: Example1
+ *               value:
+ *                 username: 12345678
+ *     responses:
+ *       200:
+ *         description: The token is valid
+ *
+ * components:
+ *   schemas:
+ *     EmailTokenInSchema:
+ *       title: EmailTokenInSchema
+ *       type: object
+ *       properties:
+ *         password:
+ *           type: string
+ *           description: The email token
+ */
+router.post(
+  '/validate-email-token',
+  async (req, res) => {
+    const { emailToken } = req.body;
+
+    try {
+      const user = await User.findOne({
+        where: { emailVerifyToken: emailToken },
+      }).catch((err) => req.res.status(500).json(err));
+
+      if (!user) return res.status(404).json({ message: 'Email validation token is invalid!' });
+
+      // refresh user session to pull in new value of emailVerified
+      req.user.emailVerified = true;
+      req.login(req.user, () => {});
+
+      user.emailVerifyToken = null;
+      user.emailVerified = true;
+
+      const savedUser = await user.save();
+      if (!savedUser) return res.status(500).json({ error: 'Cannot save user email verification status at the moment!' });
+
+      return res.status(200).json({ message: 'Email verification token is valid!' });
+    } catch (error) {
+      return res.status(500).json({ message: 'Error verifying email token' });
+    }
+  },
+);
+
+/**
+ * @openapi
  * /api/logout:
  *   post:
  *     tags:

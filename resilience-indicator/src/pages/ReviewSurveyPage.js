@@ -104,7 +104,18 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
         <Box className={classes.divider2} />
         <Grid container justifyContent="center" alignItems="center">
           <h3 className="text-center-review">Resilience Score:</h3>
-          <Grid item xs={4} md={2} style={{ padding: '20px', minWidth: '300px' }}>
+          <Grid item xs={4} md={2} style={{ padding: '20px', minWidth: '300px' }} />
+          <Grid item xs={4} md={2}>
+            <Link className="review-survey-button" to={`/take-survey/${survey.name}`}>
+              <Button
+                className={classes.button}
+                variant="contained"
+              >
+                Retake Survey
+              </Button>
+            </Link>
+          </Grid>
+          <Grid item xs={4} md={2}>
             <Gauge
               score={score}
               review

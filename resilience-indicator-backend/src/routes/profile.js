@@ -37,7 +37,10 @@ router.get(
       returnVal[r.setting] = r.enabled;
     });
 
-    return res.status(200).json(returnVal);
+    return res.status(200).json({
+      returnNotifSettings: returnVal,
+      userObj: req.user,
+    });
   },
 );
 

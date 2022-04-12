@@ -737,7 +737,7 @@ router.post('/update-improvement-plan', async (req, res) => {
  *     - PossibleAnswer
  *     summary: Update one or more existing possible answers and their improvement plan tasks
  *     requestBody:
- *       description: The survey, possible answer, improvement plan, tasks, and priority for a question
+ *       description: Survey, possible answer, improvement plan, tasks, and priority for a question
  *       required: true
  *
  *     responses:

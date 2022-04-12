@@ -10,17 +10,21 @@ import {
   Divider,
   FormControlLabel,
   Grid,
+  Alert,
+  AlertTitle,
 } from '@mui/material';
 import { successAlert, errorAlert } from '../../../resources/swal-inl';
 
 const NotificationSetting = function NotificationSettingFunc(props) {
   const [notificationSettings, setNotificationSettings] = useState({});
+  const [isEmailVerified, setEmailVerified] = useState();
 
   useEffect(() => {
     Axios
       .get('/api/notification-settings', { withCredentials: true })
       .then((res) => {
-        setNotificationSettings(res.data);
+        setNotificationSettings(res.data.returnNotifSettings);
+        setEmailVerified(res.data.userObj.emailVerified);
       });
   }, []);
 
@@ -69,9 +73,42 @@ const NotificationSetting = function NotificationSettingFunc(props) {
     setNotificationSettings(notificationSettings);
   };
 
+  const handleEmailVerify = () => {
+    Axios({
+      method: 'GET',
+      url: '/api/verify-email',
+    })
+      .then((res) => {
+        if (res.status === 200) {
+          successAlert('Email verification sent!');
+        } else {
+          errorAlert('Error sending verification email!');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log('User Email Verification Send FAILED!');
+      });
+  };
+
   if ('General' in notificationSettings) {
     return (
       <form {...props}>
+        {!isEmailVerified && (
+          <Alert
+            severity="info"
+            action={(
+              <Button color="inherit" size="small" onClick={handleEmailVerify}>
+                Send Verification Link
+              </Button>
+            )}
+          >
+            <AlertTitle>Profile Email Has Not Been Verified</AlertTitle>
+            You will not recieve email notifications until your email is verified.
+            {' '}
+          </Alert>
+        )}
+
         <Card>
           <CardHeader
             subheader="Manage email notifications per category"
@@ -150,6 +187,7 @@ const NotificationSetting = function NotificationSettingFunc(props) {
               color="primary"
               variant="contained"
               onClick={handleSave}
+              disabled={!isEmailVerified}
             >
               Save
             </Button>
