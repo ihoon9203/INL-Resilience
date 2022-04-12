@@ -1,3 +1,4 @@
+/* eslint-disable import/named */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
@@ -16,19 +17,15 @@ import TextField from '@mui/material/TextField';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDatePicker from '@mui/lab/DatePicker';
-// Snackbar
-import Stack from '@mui/material/Stack';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
-import { errorAlert } from '../resources/swal-inl';
+// Alerts
+import { successTimerAlert, errorAlert } from '../resources/swal-inl';
 
 const SystemGoal = function SystemGoalFunc(props) {
-  const [goals, setGoals] = useState([]);
+  const { task } = props;
+  const { category } = props;
   const [date, setDate] = useState(null);
-  const [newCat, setNewCat] = useState(props.category);
-  const [addable, setAddable] = useState(false);
   const [newTitle, setNewTitle] = useState(null);
-  const [newGoal, setNewGoal] = useState(props.task);
+  const [addable, setAddable] = useState(false);
   const style = {
     position: 'absolute',
     top: '50%',
@@ -37,35 +34,34 @@ const SystemGoal = function SystemGoalFunc(props) {
     width: '80%',
     maxWidth: '700px',
     bgcolor: 'background.paper',
-    border: '2px solid rgb(81, 99, 204)',
     borderRadius: '10px',
     boxShadow: 24,
     p: 4,
   };
-  // eslint-disable-next-line consistent-return
+
   const handlePost = () => {
     const newData = {
-      goal: newGoal,
+      goal: task,
       title: newTitle,
       dueDate: date,
-      survey: newCat,
+      survey: category,
       improvementPlan: null,
     };
     Axios.post('/api/create-goal', { newData })
       .then((res) => {
         if (res.status === 200) {
-          // successSnack();
+          successTimerAlert('Your task goal was created successfully! Go to Acheivements to view and manage your new goal.');
           props.handleClose();
-          // setSnack(true);
+        } else {
+          errorAlert('Unable to create task goal. Please try again.');
         }
       })
       .catch((err) => {
-        errorAlert('Something went wrong!');
+        errorAlert('Unexpected error!');
         console.log(err);
       });
-    window.location.reload(false);
   };
-  // disable add button if date or title is left null
+  // disable 'create goal' button if date or title is left null
   useEffect(() => {
     if (!(date === null || newTitle === null)) {
       setAddable(true);
@@ -73,12 +69,6 @@ const SystemGoal = function SystemGoalFunc(props) {
       setAddable(false);
     }
   }, [date, newTitle]);
-  useEffect(() => {
-    Axios.get('/api/goal', { withCredentials: true })
-      .then((res) => {
-        setGoals(res.data);
-      });
-  }, []);
 
   return (
     <Modal

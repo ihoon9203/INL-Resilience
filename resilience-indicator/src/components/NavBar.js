@@ -32,7 +32,7 @@ const NavBar = function NavBarFunc() {
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="ms-auto">
-            {user.isAdmin || !loggedInStatus ? null : <Link className="nav-tab" to="./achievements">Achievements</Link>}
+            <Link className="nav-tab" to="./achievements">Achievements</Link>
             {user.isAdmin ? <Link className="nav-tab" to="./admin">Admin</Link> : null}
             <Link className="nav-tab" to="./about">About</Link>
             <Link className="nav-tab" to={loggedInStatus ? './profile' : './login'}>{loggedInStatus ? user.email : 'Login'}</Link>

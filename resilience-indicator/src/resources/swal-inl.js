@@ -9,6 +9,15 @@ class SwalINL {
     });
   }
 
+  static successTimerAlert(message) {
+    return Swal.fire({
+      icon: 'success',
+      title: 'Success!',
+      text: message,
+      timer: 2000,
+    });
+  }
+
   static errorAlert(message) {
     return Swal.fire({
       icon: 'error',
@@ -44,6 +53,6 @@ class SwalINL {
 }
 
 export const {
-  successAlert, errorAlert, warningAlert, surveySubmitAlert,
+  successAlert, successTimerAlert, errorAlert, warningAlert, surveySubmitAlert,
 } = SwalINL;
 export default SwalINL;
