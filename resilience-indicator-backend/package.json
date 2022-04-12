@@ -1,6 +1,6 @@
 {
   "name": "inl-resilience-indicator",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "An application to help a user understand and improve their resiliency in various categories.",
   "main": "index.js",
   "scripts": {
