@@ -105,6 +105,9 @@ function AdminEmailNotifications() {
   const [updateSecondParagraph, setUpdateSecondParagraph] = useState('');
   const [updateSecondParagraphError, setUpdateSecondParagraphError] = useState(false);
 
+  const [mobileView, setMobileView] = useState({
+    title: 7, item: 1.5, dpBoxStyle: '', dpStyle: '',
+  });
   const onSelectionModelChange = (modelChange) => {
     setSelectionModel(modelChange);
   };
@@ -489,13 +492,20 @@ function AdminEmailNotifications() {
       });
   }, [triggerRefresh]);
 
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobileView({
+        title: 12, item: 2.5, dpBoxStyle: 'flex', dpStyle: 'flex-end',
+      });
+    }
+  }, []);
   return (
     <>
-      <Grid container>
-        <Grid item xs={6}>
+      <Grid container mb={2} spacing={1} display={mobileView.dpBoxStyle} justifyContent={mobileView.dpStyle}>
+        <Grid item xs={mobileView.title}>
           <Typography variant="h4">Email Notifications</Typography>
         </Grid>
-        <Grid item xs={1.5}>
+        <Grid item xs={mobileView.item} display={mobileView.dpBoxStyle} justifyContent={mobileView.dpStyle}>
           <Button
             variant="contained"
             onClick={() => setCreateOpen(true)}
@@ -507,7 +517,7 @@ function AdminEmailNotifications() {
             Create
           </Button>
         </Grid>
-        <Grid item xs={1.5}>
+        <Grid item xs={mobileView.item} display={mobileView.dpBoxStyle} justifyContent={mobileView.dpStyle}>
           <Button
             color="warning"
             variant="contained"
@@ -521,7 +531,7 @@ function AdminEmailNotifications() {
             View
           </Button>
         </Grid>
-        <Grid item xs={1.5}>
+        <Grid item xs={mobileView.item} display={mobileView.dpBoxStyle} justifyContent={mobileView.dpStyle}>
           <Button
             color="primary"
             variant="contained"
@@ -534,7 +544,7 @@ function AdminEmailNotifications() {
             Update
           </Button>
         </Grid>
-        <Grid item xs={1.5}>
+        <Grid item xs={mobileView.item} display={mobileView.dpBoxStyle} justifyContent={mobileView.dpStyle}>
           <Button
             color="error"
             variant="contained"

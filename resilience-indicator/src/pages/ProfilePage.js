@@ -31,7 +31,7 @@ const ProfilePage = function ProfilePageFunc() {
     if (window.innerWidth < 600) {
       setMobileView({ margin: '0', class: 'center-horizontal' });
     }
-  });
+  }, []);
   if (loggedIn) {
     return (
       <Box

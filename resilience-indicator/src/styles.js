@@ -119,6 +119,9 @@ const useStyles = makeStyles(() => ({
     marginRight: '20px',
     height: '40px',
   },
+  reviewScore: {
+    width: '100% !important',
+  },
 }));
 
 export default useStyles;

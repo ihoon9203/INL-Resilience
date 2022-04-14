@@ -11,7 +11,6 @@ const TimeseriesCategorical = function TimeseriesCategoricalFunc(props) {
   useEffect(() => {
     setScoreSeries(props.score);
     const chart = am4core.create('timeseries-categorical', am4charts.XYChart);
-    console.log(props.score);
     chart.data = [];
     scoreSeries.forEach((data) => {
       chart.data.push({
@@ -19,7 +18,6 @@ const TimeseriesCategorical = function TimeseriesCategoricalFunc(props) {
         score: data.score,
       });
     });
-    console.log(chart.data);
     let indicator;
     function showIndicator() {
       indicator = chart.tooltipContainer.createChild(am4core.Container);

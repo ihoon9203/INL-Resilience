@@ -11,7 +11,6 @@ const ProfileSettingNav = function ProfileSettingNavFunc({ handleSettingChange }
     setSelected(value);
     handleSettingChange(value);
   };
-
   return (
     <ToggleButtonGroup
       color="primary"

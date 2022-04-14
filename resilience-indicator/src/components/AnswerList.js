@@ -15,7 +15,7 @@ const AnswerList = function AnswerListFunc({ answers }) {
   return (
     <div>
       <Grid>
-        <List class={layoutStyle}>
+        <List class={layoutStyle} style={{ width: '200' }}>
           <ListItem>
             <ListItemIcon>
               <Chip

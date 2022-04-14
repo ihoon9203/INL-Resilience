@@ -31,6 +31,7 @@ const LoginPage = function LoginPageFunc() {
   const [forgotPasswordOpen, setForgotPasswordOpen] = React.useState(false);
   const [forgotPasswordEmail, setForgotPasswordEmail] = React.useState('');
   const [forgotPasswordEmailError, setForgotPasswordEmailError] = React.useState(false);
+  const [mobileView, setMobileView] = React.useState(false);
   const navigate = useNavigate();
 
   const handleForgotPassword = (event) => {
@@ -111,7 +112,11 @@ const LoginPage = function LoginPageFunc() {
       { state: { checkShowTutorial: true } },
     );
   };
-
+  React.useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobileView(true);
+    }
+  }, []);
   return (
     <>
       <StyledEngineProvider injectFirst>
@@ -188,13 +193,13 @@ const LoginPage = function LoginPageFunc() {
                     </Button>
                   </Link>
                   <Grid container>
-                    <Grid item xs>
-                      <Link href="#" variant="body2" onClick={handleForgotPassword}>
+                    <Grid item xs={mobileView ? 12 : 'auto'} mb={2}>
+                      <Link href="#" variant="body2" onClick={handleForgotPassword} display="flex" justifyContent="flex-end">
                         Forgot password?
                       </Link>
                     </Grid>
-                    <Grid item>
-                      <Link href="/register" variant="body2">
+                    <Grid item xs>
+                      <Link href="/register" variant="body2" display="flex" justifyContent="flex-end">
                         Do not have an account? Sign Up
                       </Link>
                     </Grid>

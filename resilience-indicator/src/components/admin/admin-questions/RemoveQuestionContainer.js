@@ -18,6 +18,7 @@ const RemoveQuestionContainer = function RemoveQuestionContainer({
 }) {
   const [questions, setQuestions] = useState({});
   const [chosenQuestion, setChosenQuestion] = useState('');
+  const [mobileView, setMobileView] = useState(false);
 
   useEffect(() => {
     if (shouldUpdate || surveyChanged) {
@@ -60,7 +61,11 @@ const RemoveQuestionContainer = function RemoveQuestionContainer({
       }
     });
   };
-
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobileView(true);
+    }
+  }, []);
   return (
     <form onSubmit={handleSubmit}>
       <Grid container alignItems="center" justifyContent="space-around" spacing={3}>
@@ -70,7 +75,7 @@ const RemoveQuestionContainer = function RemoveQuestionContainer({
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <FormControl style={{ minWidth: 400 }}>
+          <FormControl style={mobileView ? { width: '90%' } : { minWidth: 400 }}>
             <InputLabel id="question-select-label">Question</InputLabel>
             <Select
               autoWidth
@@ -80,8 +85,18 @@ const RemoveQuestionContainer = function RemoveQuestionContainer({
               value={chosenQuestion}
               label="Question"
               onChange={handleQuestionChange}
+              style={mobileView ? { width: '90%' } : { minWidth: 400 }}
             >
-              {Object.keys(questions).map((question) => <MenuItem key={question} value={question}>{question}</MenuItem>)}
+              {Object.keys(questions).map((question) => (
+                <MenuItem
+                  key={question}
+                  value={question}
+                >
+                  <Typography variant="inherit" noWrap>
+                    {question}
+                  </Typography>
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>

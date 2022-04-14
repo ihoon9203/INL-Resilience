@@ -35,6 +35,7 @@ const GoalsPage = function AchievementsPageFunc() {
   const [newTitle, setNewTitle] = useState(null);
   const [newGoal, setNewGoal] = useState(null);
   const [open, setOpen] = useState(false);
+  const [mobileView, setMobileView] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setDate(null);
@@ -48,7 +49,6 @@ const GoalsPage = function AchievementsPageFunc() {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '80%',
     bgcolor: 'background.paper',
     border: '2px solid rgb(81, 99, 204)',
     borderRadius: '10px',
@@ -89,6 +89,7 @@ const GoalsPage = function AchievementsPageFunc() {
     if (window.innerWidth < 600) {
       setNewGoalSize(4);
       setNewGoalButton('+ NEW');
+      setMobileView(true);
     }
     Axios.get('/api/goal', { withCredentials: true })
       .then((res) => {
@@ -125,7 +126,7 @@ const GoalsPage = function AchievementsPageFunc() {
         }}
       >
         <Fade in={open}>
-          <Box sx={style} className="no-animation">
+          <Box sx={style} style={mobileView ? { width: '80%' } : { width: 800 }} className="no-animation">
             <Typography id="transition-modal-title" variant="h5" component="h2" gutterBottom>
               Set a New Goal
             </Typography>
@@ -150,6 +151,8 @@ const GoalsPage = function AchievementsPageFunc() {
               onChange={(newValue) => {
                 setNewGoal(newValue.target.value);
               }}
+              multiline
+              style={mobileView ? { width: '90%' } : { minWidth: 600 }}
             />
             <Typography id="transition-modal-title" variant="h6" component="h2" mt={2}>
               Due Date:

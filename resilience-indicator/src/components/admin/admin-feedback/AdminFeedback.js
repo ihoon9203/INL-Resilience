@@ -37,6 +37,9 @@ function AdminFeedback() {
   const [feedback, setFeedback] = useState([]);
   const [selectionModel, setSelectionModel] = useState([]);
   const [triggerRefresh, setTriggerRefresh] = useState(0);
+  const [mobileView, setMobileView] = useState({
+    title: 7, item1: 3, item2: 1, dpBoxStyle: '', dpStyle: '',
+  });
 
   const onSelectionModelChange = (modelChange) => {
     setSelectionModel(modelChange);
@@ -134,14 +137,20 @@ function AdminFeedback() {
         setFeedback(res.data);
       });
   }, [triggerRefresh]);
-
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobileView({
+        title: 12, item1: 8, item2: 4, dpBoxStyle: 'flex', dpStyle: 'flex-end',
+      });
+    }
+  }, []);
   return (
     <>
-      <Grid container>
-        <Grid item xs={7}>
+      <Grid container spacing={1} mb={2}>
+        <Grid item xs={mobileView.title}>
           <Typography variant="h4">Feedback</Typography>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={mobileView.item1} display={mobileView.dpBoxStyle} justifyContent={mobileView.dpStyle}>
           <Button
             color="primary"
             variant="contained"
@@ -154,7 +163,7 @@ function AdminFeedback() {
             Toggle Resolved
           </Button>
         </Grid>
-        <Grid item xs={1}>
+        <Grid item xs={mobileView.item2} display={mobileView.dpBoxStyle} justifyContent={mobileView.dpStyle}>
           <Button
             color="error"
             variant="contained"

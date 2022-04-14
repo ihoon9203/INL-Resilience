@@ -27,7 +27,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey, handleUpdat
   const [correctAnswer, setCorrectAnswer] = useState('');
   const [subcategories, setSubcategories] = useState({});
   const [chosenSubcategory, setChosenSubcategory] = useState('');
-
+  const [mobileView, setMobileView] = useState(false);
   function findPriority(abbr) {
     if (abbr === 'H') {
       return 'High';
@@ -150,6 +150,11 @@ const AddQuestionContainer = function AddQuestionContainer({ survey, handleUpdat
         });
     }
   };
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobileView(true);
+    }
+  }, []);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -160,7 +165,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey, handleUpdat
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <FormControl style={{ minWidth: 400 }}>
+          <FormControl style={mobileView ? { width: '90%' } : { minWidth: 400 }}>
             <InputLabel id="subcategory-select-label">Subcategory</InputLabel>
             <Select
               autoWidth
@@ -191,7 +196,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey, handleUpdat
             maxRows={4}
             placeholder="Write question here."
             variant="filled"
-            style={{ width: 400 }}
+            style={mobileView ? { width: '90%' } : { width: 400 }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -220,7 +225,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey, handleUpdat
             onChange={handleInformationChange}
             helperText="Write any extra information for a tooltip here."
             variant="filled"
-            style={{ width: 400 }}
+            style={mobileView ? { width: '90%' } : { width: 400 }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -237,7 +242,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey, handleUpdat
             maxRows={4}
             variant="filled"
             onChange={handlePossibleAnswerChange}
-            style={{ width: 400 }}
+            style={mobileView ? { width: '90%' } : { width: 400 }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -254,7 +259,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey, handleUpdat
             maxRows={3}
             variant="filled"
             onChange={handleCorrectAnswerChange}
-            style={{ width: 400 }}
+            style={mobileView ? { width: '90%' } : { width: 400 }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -271,7 +276,7 @@ const AddQuestionContainer = function AddQuestionContainer({ survey, handleUpdat
             maxRows={3}
             variant="filled"
             onChange={handleImprovementPlanChange}
-            style={{ width: 400 }}
+            style={mobileView ? { width: '90%' } : { width: 400 }}
           />
         </Grid>
         <Grid item xs={12}>

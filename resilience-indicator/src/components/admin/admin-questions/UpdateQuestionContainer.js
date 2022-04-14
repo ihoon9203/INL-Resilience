@@ -30,6 +30,7 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({
   const [shouldUpdateAnswers, setShouldUpdateAnswers] = useState(false);
   const [taskValues, setTaskValues] = useState([]);
   const [correctAnswer, setCorrectAnswer] = useState('');
+  const [mobileView, setMobileView] = useState(false);
 
   useEffect(() => {
     if (shouldUpdate || surveyChanged) {
@@ -153,6 +154,12 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({
     successAlert('Question updated.');
   };
 
+  useEffect(() => {
+    if (window.innerWidth < 600) {
+      setMobileView(true);
+    }
+  }, []);
+
   return (
     <form onSubmit={handleSubmit}>
       <Grid container alignItems="center" justifyContent="space-around" spacing={3}>
@@ -165,7 +172,7 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <FormControl style={{ minWidth: 400 }}>
+          <FormControl style={mobileView ? { width: '90%' } : { minWidth: 400 }}>
             <InputLabel id="question-select-label">Question</InputLabel>
             <Select
               autoWidth
@@ -175,8 +182,15 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({
               value={formValues.currentQuestion}
               label="Question"
               onChange={handleQuestionChange}
+              style={mobileView ? { width: '90%' } : { minWidth: 400 }}
             >
-              {Object.keys(questions).map((question, index) => <MenuItem key={index} value={question}>{question}</MenuItem>)}
+              {Object.keys(questions).map((question, index) => (
+                <MenuItem key={index} value={question}>
+                  <Typography variant="inherit" noWrap>
+                    {question}
+                  </Typography>
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Grid>
@@ -193,7 +207,7 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({
             minRows={2}
             maxRows={4}
             variant="filled"
-            style={{ width: 400 }}
+            style={mobileView ? { width: '90%' } : { minWidth: 400 }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -205,6 +219,7 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({
             value={formValues.weight}
             variant="filled"
             onChange={handleWeightChange}
+            style={mobileView ? { width: '50%' } : {}}
           />
         </Grid>
         <Grid item xs={12}>
@@ -221,7 +236,7 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({
             onChange={handleInformationChange}
             helperText="Write any extra information for a tooltip here."
             variant="filled"
-            style={{ width: 400 }}
+            style={mobileView ? { width: '90%' } : { minWidth: 400 }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -249,7 +264,7 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({
             maxRows={3}
             variant="filled"
             onChange={handleCorrectAnswerChange}
-            style={{ width: 400 }}
+            style={mobileView ? { width: '90%' } : { minWidth: 400 }}
           />
         </Grid>
         <Grid item xs={12}>

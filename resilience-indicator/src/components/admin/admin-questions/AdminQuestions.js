@@ -32,7 +32,7 @@ const AdminQuestionsFunc = function AdminQuestionsFuncFunc() {
   };
 
   return (
-    <Box ml={2} sx={{ width: '100%' }}>
+    <Box ml={2} sx={{ width: '95%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={survey} onChange={handleChange} aria-label="survey tabs">
           <Tab label="Finance" value="Finance" onClick={() => setSurvey('Finance')} />

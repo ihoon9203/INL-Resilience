@@ -50,7 +50,7 @@ const AchievementsPage = function AchievementsPageFunc() {
         } else {
           setMstate('Excellent');
         }
-      });
+      }, []);
     Axios
       .get('/api/ipgoal', { withCredentials: true })
       .then((res) => {

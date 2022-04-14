@@ -24,8 +24,8 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
   const [showNotFound, setNotFound] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [score, setScore] = useState(0);
-  const [mobileView, setMobileView] = useState({ justifyContent: 'flex', margin: 'left-margin' });
-
+  const [mobileView, setMobileView] = useState({ justifyContent: 'flex', margin: 'left-margin', spacing: 0 });
+  const [mobileState, setMobileState] = useState(false);
   const getPageMargins = () => '@media print { body { -webkit-print-color-adjust: exact; } @page { size: A4; margin: 20mm !important }}';
 
   const reactToPrintTrigger = React.useCallback(() => (
@@ -35,8 +35,12 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
   const reactToPrintContent = React.useCallback(() => componentRef.current, [componentRef.current]);
 
   useEffect(() => {
-    if (window.innerWidth < 600) {
-      setMobileView({ justifyContent: 'center', margin: '' });
+    if (window.innerWidth < 821) { // ipad air width
+      setMobileView({ justifyContent: 'center', margin: '', spacing: '80' });
+      setMobileState(true);
+    }
+    if (window.innerWidth < 600) { // ipad air width
+      setMobileView({ justifyContent: 'center', margin: '', spacing: '0' });
     }
     if (state === null) {
       // logged-in user
@@ -102,29 +106,34 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
           Review Survey
         </Typography>
         <Box className={classes.divider2} />
-        <Grid container justifyContent="center" alignItems="center">
+        <Grid container className={classes.reviewScore} justifyContent="center" alignItems="center" columnSpacing={mobileView.spacing} margin="auto">
           <h3 className="text-center-review">Resilience Score:</h3>
-          <Grid item xs={4} md={2} style={{ padding: '20px', minWidth: '300px' }} />
-          <Grid item xs={4} md={2}>
-            <Link className="review-survey-button" to={`/take-survey/${survey.name}`}>
-              <Button
-                className={classes.button}
-                variant="contained"
-              >
-                Retake Survey
-              </Button>
-            </Link>
-          </Grid>
-          <Grid item xs={4} md={2}>
+          { mobileState ? <div /> : <Grid item style={{ padding: '20px', minWidth: '300px' }} /> }
+          <Grid item>
             <Gauge
               score={score}
               review
               style={{
+                margin: 'auto',
                 width: '100%',
                 height: '300px',
               }}
               size={60}
             />
+          </Grid>
+        </Grid>
+        <Grid container justifyContent="center" alignItems="center" columnSpacing={mobileView.spacing}>
+          <Grid item>
+            <Link className="review-survey-button" to={`/take-survey/${survey.name}`}>
+              <Button
+                className={classes.button}
+                variant="contained"
+                justifyContent="center"
+                alignItems="center"
+              >
+                Retake Survey
+              </Button>
+            </Link>
           </Grid>
         </Grid>
         <Box className={classes.divider2} style={{ marginBottom: '50px' }} />
