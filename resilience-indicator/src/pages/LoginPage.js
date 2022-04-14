@@ -112,10 +112,23 @@ const LoginPage = function LoginPageFunc() {
       { state: { checkShowTutorial: true } },
     );
   };
+
   React.useEffect(() => {
     if (window.innerWidth < 600) {
       setMobileView(true);
     }
+
+    Axios
+      .get('/api/logged-in', { withCredentials: true })
+      .then((res) => {
+        if (res.data.loggedIn) {
+          // if user already has active session, don't require login again
+          navigate(
+            '/home',
+            { state: { checkShowTutorial: true } },
+          );
+        }
+      });
   }, []);
   return (
     <>

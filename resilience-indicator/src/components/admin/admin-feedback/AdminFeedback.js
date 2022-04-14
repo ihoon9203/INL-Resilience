@@ -4,7 +4,7 @@ import {
 } from '@mui/material';
 import Axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
-import GridCellExpand from './GridCellExpand';
+import GridCellExpand from '../GridCellExpand';
 import { errorAlert, successAlert, warningAlert } from '../../../resources/swal-inl';
 
 function renderCellExpand(params) {

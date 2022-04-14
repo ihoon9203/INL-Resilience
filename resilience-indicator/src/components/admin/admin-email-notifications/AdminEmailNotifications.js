@@ -10,13 +10,24 @@ import PreviewIcon from '@mui/icons-material/Preview';
 import Axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import { escapeHtml } from '../../../resources/security';
+import GridCellExpand from '../GridCellExpand';
 import { successAlert, errorAlert, warningAlert } from '../../../resources/swal-inl';
 
+function renderCellExpand(params) {
+  return (
+    <GridCellExpand value={params.value || ''} width={params.colDef.computedWidth} />
+  );
+}
+
 const columns = [
-  { field: 'title', headerName: 'Title', flex: 1 },
+  {
+    field: 'title', headerName: 'Title', flex: 1, renderCell: renderCellExpand,
+  },
   { field: 'setting', headerName: 'Category', flex: 1 },
   { field: 'sent', headerName: 'Sent', flex: 0.5 },
-  { field: 'updatedAt', headerName: 'Last Updated', flex: 1 },
+  {
+    field: 'updatedAt', headerName: 'Last Updated', flex: 1, renderCell: renderCellExpand,
+  },
 ];
 
 function AdminEmailNotifications() {

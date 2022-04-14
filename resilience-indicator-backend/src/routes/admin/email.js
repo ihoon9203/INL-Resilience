@@ -333,11 +333,12 @@ function getEmailHtml(
                           </td>
                         </tr>
                         <tr style="border-collapse:collapse">
-                          <td align="center" style="padding:0;Margin:0;padding-left:10px">
+                          <td align="left" style="padding:0;Margin:0;padding-left:10px">
                             <p
                               style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:Arial, sans-serif;line-height:21px;color:#242424">
                               ${firstParagraph}<br>
                             </p>
+                            <br/>
                             <p
                               style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-size:14px;font-family:Arial, sans-serif;line-height:21px;color:#242424">
                               ${secondParagraph}<br></p>
@@ -359,36 +360,6 @@ function getEmailHtml(
                 </table>
               </td>
             </tr>
-            <tr style="border-collapse:collapse">
-              <td
-                style="Margin:0;padding-top:10px;padding-bottom:10px;padding-left:10px;padding-right:10px;background-color:#F8F8F8"
-                bgcolor="#f8f8f8" align="left">
-                <table width="100%" cellspacing="0" cellpadding="0"
-                  style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                  <tr style="border-collapse:collapse">
-                    <td valign="top" align="center" style="padding:0;Margin:0;width:580px">
-                      <table width="100%" cellspacing="0" cellpadding="0" role="presentation"
-                        style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                        <tr style="border-collapse:collapse">
-                          <td bgcolor="#f8f8f8" align="center"
-                            style="Margin:0;padding-left:10px;padding-right:10px;padding-top:20px;padding-bottom:20px;font-size:0">
-                            <table width="100%" height="100%" cellspacing="0" cellpadding="0" border="0"
-                              role="presentation"
-                              style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                              <tr style="border-collapse:collapse">
-                                <td
-                                  style="padding:0;Margin:0;border-bottom:1px solid #191919;background:#FFFFFF none repeat scroll 0% 0%;height:1px;width:100%;margin:0px">
-                                </td>
-                              </tr>
-                            </table>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
           </table>
         </td>
       </tr>
@@ -401,35 +372,6 @@ function getEmailHtml(
             style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#242424;width:600px">
             <tr style="border-collapse:collapse">
               <td align="left" style="padding:20px;Margin:0">
-                <table width="100%" cellspacing="0" cellpadding="0"
-                  style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                  <tr style="border-collapse:collapse">
-                    <td valign="top" align="center" style="padding:0;Margin:0;width:560px">
-                      <table width="100%" cellspacing="0" cellpadding="0"
-                        style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
-                        <tr style="border-collapse:collapse">
-                          <td align="center" style="padding:0;Margin:0;display:none"></td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-    <table class="es-content" cellspacing="0" cellpadding="0" align="center"
-      style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%">
-      <tr style="border-collapse:collapse">
-        <td align="center" style="padding:0;Margin:0">
-          <table class="es-content-body"
-            style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:transparent;width:600px"
-            cellspacing="0" cellpadding="0" align="center">
-            <tr style="border-collapse:collapse">
-              <td align="left"
-                style="Margin:0;padding-left:20px;padding-right:20px;padding-top:30px;padding-bottom:30px">
                 <table width="100%" cellspacing="0" cellpadding="0"
                   style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                   <tr style="border-collapse:collapse">
@@ -527,7 +469,7 @@ router.post(
     const emailListResult = await NotificationSetting.findAll({
       attributes: [],
       include: [{ model: User, attributes: ['email'] }],
-      where: { setting: emailNotification.setting, enabled: true },
+      where: { setting: emailNotification.setting, enabled: true, '$User.emailVerified$': true },
     });
 
     const toEmailList = [];
