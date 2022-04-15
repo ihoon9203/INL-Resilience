@@ -75,10 +75,9 @@ const RemoveQuestionContainer = function RemoveQuestionContainer({
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <FormControl style={mobileView ? { width: '90%' } : { minWidth: 400 }}>
+          <FormControl style={mobileView ? { width: '90%' } : { width: 400 }}>
             <InputLabel id="question-select-label">Question</InputLabel>
             <Select
-              autoWidth
               labelId="question-select-label"
               id="question-select"
               name="question"

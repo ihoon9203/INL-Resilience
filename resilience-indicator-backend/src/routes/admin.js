@@ -770,7 +770,7 @@ router.post('/update-answer', async (req, res) => {
       const newImprovementPlan = {
         surveyId,
         task: improvementPlanTask,
-        priority,
+        priority: priority === 'None' ? null : priority,
       };
       await ImprovementPlan.create(newImprovementPlan)
         .then((data) => {

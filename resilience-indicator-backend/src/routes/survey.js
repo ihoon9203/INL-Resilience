@@ -5,7 +5,7 @@ const { ensureLoggedIn } = require('connect-ensure-login');
 const sequelize = require('../models/index');
 
 const {
-  Survey, Subcategory, Question, Answer, CorrectAnswer, Score,
+  Survey, Subcategory, Question, PossibleAnswer, Answer, CorrectAnswer, Score,
 } = sequelize.models;
 const router = express.Router();
 
@@ -191,14 +191,33 @@ router.post(
       });
     }
 
+    // Make a copy of userAnswers that we can delete from
+    const userAnswersCopy = [...userAnswers];
     if (preExistingUserAnswers.length !== 0) {
       // update pre-existing answers
-      preExistingUserAnswers.forEach(async (p) => {
+      /* eslint-disable no-await-in-loop */
+      for (const p of preExistingUserAnswers) {
         const newAnswer = userAnswers.find((a) => a.questionId === p.Question.id);
         p.answer = newAnswer.answer;
         const saveNewAnswer = await p.save();
+        // remove the userAnswer that we found
+        const index = userAnswersCopy.findIndex(object => {
+          return object.questionId === newAnswer.questionId;
+        });
+        if (index !== -1) {
+          userAnswersCopy.splice(index, 1);
+        }
         if (!saveNewAnswer) res.status(500).json({ error: 'Cannot save new answer at the moment!' });
-      });
+      };
+
+      // Now add any left over answers that may not have been a pre-existing answer
+      if (userAnswersCopy.length > 0) {
+        userAnswersCopy.forEach((a) => {
+          a.userId = userId;
+        });
+        const answersSaved = Answer.bulkCreate(userAnswersCopy);
+        if (!answersSaved) return res.status(500).json({ error: 'Answer saving failed!' });
+      }
     } else {
       // Save new answers
       userAnswers.forEach((a) => {
@@ -277,5 +296,39 @@ router.post(
     return res.status(200).json({ score: userScore });
   },
 );
+
+/**
+ * @openapi
+ * /api/possible-answers/:
+ *   post:
+ *     security:
+ *       - cookieAuth: []
+ *     tags:
+ *     - Possible Answers
+ *     summary: Get possible answers for a question
+ *     requestBody:
+ *       description: question to get possible answers for
+ *       required: true
+ *     responses:
+ *       200:
+ *         description: Returns list of possible answers for a question
+ */
+router.post(
+  '/possible-answers',
+  async (req, res) => {
+    const { questionId } = req.body;
+
+    // Find all possible answers to question
+    const possibleAnswers = await PossibleAnswer.findAll({
+      where: { questionId },
+      attributes: ['possibleAnswer'],
+    });
+
+    if (!possibleAnswers) {
+      res.status(500).json({ error: `Cannot retrieve possible answers for question with id: ${questionId}.` });
+    }
+
+    return res.status(200).json({ possibleAnswers });
+  });
 
 module.exports = router;

@@ -12,7 +12,7 @@ import { errorAlert, successAlert } from '../../../resources/swal-inl';
 const defaultValues = {
   subcategoryId: 0,
   question: '',
-  weight: 0.0,
+  weight: 1.0,
   information: '',
   survey: '',
   improvementPlanValues: [],
@@ -29,13 +29,16 @@ const AddQuestionContainer = function AddQuestionContainer({ survey, handleUpdat
   const [chosenSubcategory, setChosenSubcategory] = useState('');
   const [mobileView, setMobileView] = useState(false);
   function findPriority(abbr) {
-    if (abbr === 'H') {
+    if (abbr === 'H' || abbr === 'h') {
       return 'High';
     }
-    if (abbr === 'M') {
+    if (abbr === 'M' || abbr === 'm') {
       return 'Medium';
     }
-    return 'Low';
+    if (abbr === 'L' || abbr === 'l') {
+      return 'Low';
+    }
+    return '';
   }
 
   useEffect(() => {
@@ -65,6 +68,9 @@ const AddQuestionContainer = function AddQuestionContainer({ survey, handleUpdat
   };
 
   const handleWeightChange = (e) => {
+    if (e.target.value !== '') {
+      e.target.value = Math.max(e.target.value, 1);
+    }
     const { name, value } = e.target;
     setFormValues({
       ...formValues,
@@ -94,42 +100,49 @@ const AddQuestionContainer = function AddQuestionContainer({ survey, handleUpdat
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    if (formValues.score <= 0) {
-      errorAlert('Please enter a score greater than 0.');
-    } else {
-      const improvementPlanValues = [];
-      if (improvementPlan !== '') {
-        try {
-          const improvementList = improvementPlan.split(',');
-          improvementList.forEach((item) => {
-            const improveItem = item.split(':');
-            const possibleAnswer = improveItem[0];
-            // get the task without the priority
-            const task = improveItem[1].slice(0, -4);
-            // get the priority
-            const priorityAbbr = improveItem[1].slice(-1);
-            const priority = findPriority(priorityAbbr);
-            const planItem = {
-              task,
-              possibleAnswer,
-              priority,
-            };
-            improvementPlanValues.push(planItem);
-          });
-        } catch (err) {
-          errorAlert('Please format the improvement task correctly.');
-        }
+    let isValidInput = true;
+    const improvementPlanValues = [];
+    if (improvementPlan !== '') {
+      try {
+        const improvementList = improvementPlan.split(',');
+        improvementList.forEach((item) => {
+          const improveItem = item.split(':');
+          const possibleAnswer = improveItem[0];
+          // get the task without the priority
+          const task = improveItem[1].slice(0, -4);
+          // get the priority
+          const priorityAbbr = improveItem[1].slice(-1);
+          const priority = findPriority(priorityAbbr);
+          if (priority === '') {
+            throw new Error();
+          }
+          const planItem = {
+            task,
+            possibleAnswer,
+            priority,
+          };
+          improvementPlanValues.push(planItem);
+        });
+      } catch (err) {
+        isValidInput = false;
+        errorAlert('Please format the improvement task correctly.');
       }
+    }
 
-      formValues.improvementPlanValues = improvementPlanValues;
+    formValues.improvementPlanValues = improvementPlanValues;
 
-      // change string of possible answers to an array
-      const possibleAnswersArray = possibleAnswers.split(',');
-      formValues.possibleAnswers = possibleAnswersArray;
+    // change string of possible answers to an array
+    const possibleAnswersArray = possibleAnswers.split(',');
+    formValues.possibleAnswers = possibleAnswersArray;
 
-      formValues.correctAnswer = correctAnswer;
+    formValues.correctAnswer = correctAnswer;
 
+    if (!possibleAnswers.includes(correctAnswer)) {
+      isValidInput = false;
+      errorAlert('Please ensure the correct answer is one of the possible answers.');
+    }
+
+    if (isValidInput) {
       Axios({
         method: 'POST',
         data: formValues,

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import Axios from 'axios';
 import {
   Card, CardContent, Grid, Typography,
 } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import InfoIcon from '@mui/icons-material/Info';
 import RadioButtonSet from './RadioButtonSet';
+import { errorAlert } from '../resources/swal-inl';
 
 // Couldn't use the useStyles() method as before so I had to use this in file styling.
 const cardStyle = {
@@ -15,11 +17,28 @@ const cardStyle = {
 
 const Question = function QuestionFunc({ question, answer }) {
   const [answerVal, setAnswerVal] = useState(answer);
+  const [answerBank, setAnswerBank] = useState([]);
 
   useEffect(() => {
     setAnswerVal(answer);
     question.answer = answer; // eslint-disable-line no-param-reassign
   }, [answer]);
+
+  useEffect(() => {
+    Axios({
+      method: 'POST',
+      data: { questionId: question.id },
+      withCredentials: true,
+      url: '/api/possible-answers',
+    })
+      .then((res) => {
+        setAnswerBank(res.data.possibleAnswers);
+      })
+      .catch((err) => {
+        console.log(err);
+        errorAlert('Unexpected error.');
+      });
+  }, [question]);
 
   const myChangeHandler = (event) => {
     setAnswerVal(event.target.value);
@@ -34,6 +53,7 @@ const Question = function QuestionFunc({ question, answer }) {
             <Typography>{question.question}</Typography>
             <RadioButtonSet
               myChangeHandler={myChangeHandler}
+              answerBank={answerBank}
               answerVal={answerVal}
             />
           </Grid>

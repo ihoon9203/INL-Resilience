@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -7,6 +7,21 @@ import { Box, Grid, TextField } from '@mui/material';
 
 const PossibleAnswerInputWrapper = function PossibleAnswerInputWrapper({ index, taskValues, handleInputChange }) {
   const priorities = [{ priority: 'High' }, { priority: 'Medium' }, { priority: 'Low' }];
+  const [isTaskRequired, setIsTaskRequired] = useState(false);
+  const [isPriorityRequired, setIsPriorityRequired] = useState(false);
+
+  useEffect(() => {
+    if (taskValues.priority && taskValues.priority !== 'None') {
+      setIsTaskRequired(true);
+    } else {
+      setIsTaskRequired(false);
+    }
+    if (taskValues.improvementPlanTask && taskValues.improvementPlanTask !== '') {
+      setIsPriorityRequired(true);
+    } else {
+      setIsPriorityRequired(false);
+    }
+  }, [taskValues]);
 
   return (
     <Grid
@@ -36,10 +51,11 @@ const PossibleAnswerInputWrapper = function PossibleAnswerInputWrapper({ index, 
         <Box m={2}>
           <TextField
             id="improvement-plan-input"
+            required={isTaskRequired}
             name="improvementPlanTask"
             label="Improvement Plan Task"
             type="text"
-            value={taskValues.improvementPlanTask}
+            value={taskValues.improvementPlanTask || ''}
             variant="filled"
             onChange={(e) => handleInputChange(index, e)}
           />
@@ -50,11 +66,13 @@ const PossibleAnswerInputWrapper = function PossibleAnswerInputWrapper({ index, 
             <Select
               labelId="priority-select-label"
               id="priority-select"
+              required={isPriorityRequired}
               name="priority"
-              value={taskValues.priority}
+              value={taskValues.priority || ''}
               label="Priority"
               onChange={(e) => handleInputChange(index, e)}
             >
+              <MenuItem value="None">None</MenuItem>
               {priorities.map((priority, idx) => <MenuItem key={idx} value={priority.priority}>{priority.priority}</MenuItem>)}
             </Select>
           </FormControl>

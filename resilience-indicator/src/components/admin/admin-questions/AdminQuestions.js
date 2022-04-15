@@ -5,6 +5,8 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AddQuestionContainer from './AddQuestionContainer';
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
 import RemoveQuestionContainer from './RemoveQuestionContainer';
 import UpdateQuestionContainer from './UpdateQuestionContainer';
 

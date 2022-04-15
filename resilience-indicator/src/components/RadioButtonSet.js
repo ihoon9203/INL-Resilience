@@ -5,7 +5,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 
-const RadioButtonSet = function RadioButtonSetFunc({ answerVal, myChangeHandler }) {
+const RadioButtonSet = function RadioButtonSetFunc({ answerBank, answerVal, myChangeHandler }) {
   return (
     <div className="App">
       <FormControl component="fieldset">
@@ -16,24 +16,15 @@ const RadioButtonSet = function RadioButtonSetFunc({ answerVal, myChangeHandler 
           value={answerVal}
           onChange={myChangeHandler}
         >
-          <FormControlLabel
-            value="Yes"
-            name="answer"
-            control={<Radio size="small" />}
-            label="Yes"
-          />
-          <FormControlLabel
-            value="No"
-            name="answer"
-            control={<Radio size="small" />}
-            label="No"
-          />
-          <FormControlLabel
-            value="Not applicable"
-            name="answer"
-            control={<Radio size="small" />}
-            label="N/A"
-          />
+          {answerBank.map((answer, key) => (
+            <FormControlLabel
+              key={key}
+              value={answer.possibleAnswer}
+              name="answer"
+              control={<Radio size="small" />}
+              label={answer.possibleAnswer}
+            />
+          ))}
         </RadioGroup>
       </FormControl>
     </div>

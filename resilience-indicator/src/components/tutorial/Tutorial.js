@@ -36,9 +36,9 @@ const content = [
     caption: 'In the \'About\' tab, you will have access to the survey\'s page once you\'ve taken the survey by clicking on View Category Details. This is only available if you have an account.',
   },
   {
-    heading: 'Survey Description Page',
+    heading: 'Survey Page',
     image: descriptionImg,
-    caption: 'The survey page displays your score for the survey, as well as access to other features, like retaking/updating the survey, downloading your results, or viewing your personal improvement plan.',
+    caption: 'The survey page displays your score for the survey, as well as access to other features, like retaking/updating the survey, seeing your progress, or viewing your personal improvement plan.',
   },
   {
     heading: 'How to find a Survey:',

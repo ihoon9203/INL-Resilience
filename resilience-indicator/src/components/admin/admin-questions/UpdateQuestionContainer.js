@@ -106,52 +106,82 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    taskValues.improvementPlanTask = taskValues.improvementPlanTask === '' ? null : taskValues.improvementPlanTask;
     const answersData = { taskValues, survey };
-    Axios({
-      method: 'POST',
-      data: formValues,
-      withCredentials: true,
-      url: '/api/update-question',
-    })
-      .then((res) => {
-        handleUpdate(true);
-        // update correct answer if user specified
-        if (res.status === 200 && correctAnswer !== '') {
-          const correctAnswerValues = {
-            questionId: res.data.id,
-            correctAnswer,
-          };
+    let isValidInput = true;
+    // validate
+    if (correctAnswer.length > 0) {
+      const currentPossibleAnswers = [];
+      taskValues.forEach((task) => {
+        currentPossibleAnswers.push(task.possibleAnswer);
+      });
+      if (!currentPossibleAnswers.includes(correctAnswer)) {
+        isValidInput = false;
+        errorAlert('Please ensure the correct answer is one of the possible answers.');
+      }
+    }
+
+    if (isValidInput) {
+      Axios({
+        method: 'POST',
+        data: formValues,
+        withCredentials: true,
+        url: '/api/update-question',
+      })
+        .then((res) => {
+          handleUpdate(true);
+          // update correct answer if user specified
+          if (res.status === 200 && correctAnswer !== '') {
+            const correctAnswerValues = {
+              questionId: res.data.id,
+              correctAnswer,
+            };
+            Axios({
+              method: 'POST',
+              data: correctAnswerValues,
+              withCredentials: true,
+              url: '/api/update-correct-answer',
+            })
+              // eslint-disable-next-line no-shadow
+              .catch((err) => {
+                console.log(err);
+                errorAlert('Unexpected error.');
+              });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          errorAlert('Unexpected error.');
+        });
+
+      if (shouldUpdateAnswers) {
+        // validate
+        /* eslint-disable no-restricted-syntax */
+        for (const item of answersData.taskValues) {
+          console.log(item);
+          if ((item.improvementPlanTask || item.improvementPlanTask !== '') && item.priority === 'None') {
+            isValidInput = false;
+            errorAlert('You must choose a priority if an answer has an improvement plan task.');
+            break;
+          }
+        }
+        if (isValidInput) {
           Axios({
             method: 'POST',
-            data: correctAnswerValues,
+            data: answersData,
             withCredentials: true,
-            url: '/api/update-correct-answer',
+            url: '/api/update-answer',
           })
-            // eslint-disable-next-line no-shadow
             .catch((err) => {
               console.log(err);
               errorAlert('Unexpected error.');
             });
         }
-      })
-      .catch((err) => {
-        console.log(err);
-        errorAlert('Unexpected error.');
-      });
-
-    if (shouldUpdateAnswers) {
-      Axios({
-        method: 'POST',
-        data: answersData,
-        withCredentials: true,
-        url: '/api/update-answer',
-      })
-        .catch((err) => {
-          console.log(err);
-          errorAlert('Unexpected error.');
-        });
+      }
+      if (isValidInput) {
+        successAlert('Question updated.');
+      }
     }
-    successAlert('Question updated.');
   };
 
   useEffect(() => {
@@ -172,10 +202,9 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({
           </Typography>
         </Grid>
         <Grid item xs={12}>
-          <FormControl style={mobileView ? { width: '90%' } : { minWidth: 400 }}>
+          <FormControl style={mobileView ? { width: '90%' } : { width: 400 }}>
             <InputLabel id="question-select-label">Question</InputLabel>
             <Select
-              autoWidth
               labelId="question-select-label"
               id="question-select"
               name="currentQuestion"
@@ -215,6 +244,7 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({
             id="weight-input"
             name="weight"
             label="Updated Score"
+            helperText="Leave as 0 if you do not wish to update the score."
             type="number"
             value={formValues.weight}
             variant="filled"
@@ -245,6 +275,7 @@ const UpdateQuestionContainer = function UpdateQuestionContainer({
           </Typography>
           {taskValues.map((value, index) => (
             <PossibleAnswerInputWrapper
+              key={index}
               index={index}
               taskValues={value}
               handleInputChange={handleInputChange}

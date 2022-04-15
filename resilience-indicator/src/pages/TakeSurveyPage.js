@@ -216,7 +216,6 @@ const TakeSurveyPage = function TakeSurveyPageFunc() {
               if (subcategoryAnswers.length > 0) {
                 /* eslint-disable no-restricted-syntax */
                 for (const item of subcategoryAnswers) {
-                  console.log(item);
                   if (item.subcategory === subcatObj.subcategory) {
                     surveyAnswers = item.answers;
                     break;
