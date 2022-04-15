@@ -163,12 +163,16 @@ router.post('/create-goal', async (req, res) => {
   }
 
   // Find survey Id
-  let surveyId = 0;
+  let surveyId = null;
   if (survey) {
     const surveyObj = await Survey.findOne({
       where: { category: survey },
     });
-    surveyId = surveyObj.id;
+    try {
+      surveyId = surveyObj.id;
+    } catch {
+      console.log('general goal');
+    }
   }
 
   let improvementPlanId = 0;
@@ -337,7 +341,11 @@ router.post('/update-goal', async (req, res) => {
     const surveyObj = await Survey.findOne({
       where: { category: newSurvey },
     });
-    newSurveyId = surveyObj.id;
+    try {
+      newSurveyId = surveyObj.id;
+    } catch {
+      newSurveyId = null;
+    }
   }
 
   await Goal.findOne({
