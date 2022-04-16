@@ -16,7 +16,7 @@ const INLCarousel = function INLCarouselFunc() {
         stopAutoPlayOnHover
         cycleNavigation
         duration="1000"
-        interval="70000"
+        interval="7000"
         navButtonsProps={{
           style: {
             backgroundColor: '#808080',

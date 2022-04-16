@@ -50,9 +50,21 @@ class SwalINL {
       confirmButtonText,
     });
   }
+
+  static guestUserAlert(cancelButtonText, confirmButtonText) {
+    return Swal.fire({
+      title: 'Are you sure?',
+      text: 'Guest  users have limited access. Consider creating an account to receive an improvement plan, set goals, track acheivements and more!',
+      showCancelButton: true,
+      cancelButtonColor: '#3085d6',
+      confirmButtonColor: 'green',
+      cancelButtonText,
+      confirmButtonText,
+    });
+  }
 }
 
 export const {
-  successAlert, successTimerAlert, errorAlert, warningAlert, surveySubmitAlert,
+  successAlert, successTimerAlert, errorAlert, warningAlert, surveySubmitAlert, guestUserAlert,
 } = SwalINL;
 export default SwalINL;

@@ -151,7 +151,9 @@ const ReviewSurveyPage = function ReviewSurveyPageFunc() {
         </Grid>
         {loggedIn && (
           <Grid item xs={5} md={2}>
-            <button type="button" className="update-survey">UPDATE SURVEY</button>
+            <Link className="review-survey-button" to={`/take-survey/${survey.name}`} state={{ shouldUpdate: true }}>
+              <button type="button" className="update-survey">UPDATE SURVEY</button>
+            </Link>
           </Grid>
         )}
         <Grid item xs={10} md={3} lg={2}>

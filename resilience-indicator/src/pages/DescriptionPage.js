@@ -85,13 +85,15 @@ const DescriptionPage = function DescriptionPageFunc() {
               </Link>
             </Grid>
             <Grid item xs={5}>
-              <button
-                type="button"
-                className={`improvment-plan ${mobileButton}`}
-                disabled={!hasTakenSurvey}
-              >
-                GOALS
-              </button>
+              <Link className="review-survey-button" to="/goals">
+                <button
+                  type="button"
+                  className={`improvment-plan ${mobileButton}`}
+                  disabled={!hasTakenSurvey}
+                >
+                  GOALS
+                </button>
+              </Link>
             </Grid>
             <Grid item xs={5}>
               <Link className="review-survey-button" to={`/take-survey/${survey.name}`} state={{ shouldUpdate: true }}>

@@ -5,7 +5,7 @@ import {
 import Axios from 'axios';
 import { DataGrid } from '@mui/x-data-grid';
 import { escapeHtml } from '../../../resources/security';
-import { successAlert, errorAlert, warningAlert } from '../../../resources/swal-inl';
+import { successTimerAlert, errorAlert, warningAlert } from '../../../resources/swal-inl';
 import GridCellExpand from '../GridCellExpand';
 
 function renderCellExpand(params) {
@@ -68,7 +68,7 @@ function AdminFeedbackCategories() {
       })
         .then((res) => {
           if (res.status === 201) {
-            successAlert('Feedback Category Created!');
+            successTimerAlert('Feedback Category Created!');
           } else {
             errorAlert('Something went wrong!');
           }
@@ -122,7 +122,7 @@ function AdminFeedbackCategories() {
       })
         .then((res) => {
           if (res.status === 200) {
-            successAlert('Feedback Category Updated!');
+            successTimerAlert('Feedback Category Updated!');
           } else if (res.status === 409) {
             errorAlert('That Feedback Category Already Exists');
           } else {
@@ -153,7 +153,7 @@ function AdminFeedbackCategories() {
           })
             .then((res) => {
               if (res.status === 200) {
-                successAlert('Feedback category deleted.');
+                successTimerAlert('Feedback category deleted.');
               } else {
                 errorAlert('Something went wrong!');
               }
@@ -179,7 +179,7 @@ function AdminFeedbackCategories() {
           })
             .then((res) => {
               if (res.status === 200) {
-                successAlert('Feedback categories deleted.');
+                successTimerAlert('Feedback categories deleted.');
               } else {
                 errorAlert('Something went wrong!');
               }

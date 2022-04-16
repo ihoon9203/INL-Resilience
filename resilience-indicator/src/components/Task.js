@@ -8,7 +8,7 @@ import SystemGoal from './SystemGoal';
 import '../styles/improvementPlan.css';
 
 const Task = function TaskFunc({
-  taskPriority, text, priority, completed, category,
+  taskPriority, text, priority, completed, category, enableGoal,
 }) {
   // Setup for System Goals
   const [open, setOpen] = useState(false);
@@ -33,7 +33,7 @@ const Task = function TaskFunc({
           >
             <CardContent className="task-card">
               <Grid container justifyalign="flex-start">
-                {completed === 'true' && (
+                {completed && (
                   <Grid container direction="row" item xs={8} md={4}>
                     <Typography variant="h5"> Level Completed. </Typography>
                     <CheckCircleIcon fontSize="medium" color="success" />
@@ -53,7 +53,7 @@ const Task = function TaskFunc({
                       width: '100%', marginTop: '10px', justifyContent: 'center',
                     } : { marginLeft: '90px' }}
                   >
-                    {completed === 'false' && (
+                    {enableGoal && (
                       <Button
                         className="button"
                         variant="contained"

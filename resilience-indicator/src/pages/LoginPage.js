@@ -9,7 +9,7 @@ import {
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import Axios from 'axios';
-import { errorAlert, successAlert } from '../resources/swal-inl';
+import { errorAlert, successAlert, guestUserAlert } from '../resources/swal-inl';
 
 const Copyright = function CopyrightFunc(props) {
   return (
@@ -107,10 +107,19 @@ const LoginPage = function LoginPageFunc() {
   };
 
   const handleGuestSubmit = () => {
-    navigate(
-      '/home',
-      { state: { checkShowTutorial: true } },
-    );
+    guestUserAlert('Cancel', 'Continue as Guest')
+      .then((result) => {
+        if (result.isConfirmed) {
+          navigate(
+            '/home',
+            { state: { checkShowTutorial: true } },
+          );
+        } else {
+          navigate(
+            '/login',
+          );
+        }
+      });
   };
 
   React.useEffect(() => {
@@ -195,16 +204,15 @@ const LoginPage = function LoginPageFunc() {
                   >
                     Sign In
                   </Button>
-                  <Link href="/home" onClick={handleGuestSubmit}>
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      sx={{ mt: 3, mb: 2 }}
-                      style={{ marginTop: 2, backgroundColor: 'green' }}
-                    >
-                      Continue As Guest
-                    </Button>
-                  </Link>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    onClick={handleGuestSubmit}
+                    style={{ marginTop: 2, backgroundColor: 'green' }}
+                  >
+                    Continue As Guest
+                  </Button>
                   <Grid container>
                     <Grid item xs={mobileView ? 12 : 'auto'} mb={2}>
                       <Link href="#" variant="body2" onClick={handleForgotPassword} display="flex" justifyContent="flex-end">

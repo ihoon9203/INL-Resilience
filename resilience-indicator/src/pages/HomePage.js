@@ -107,7 +107,7 @@ const HomePage = function HomePageFunc() {
               cardcatid="cyber"
               category="Cyber Security"
               cardscore={cyberScore}
-              icon="https://img.icons8.com/nolan/128/keepass.png"
+              icon="../assets/keep_pass.png"
               login={login}
               description="The protection of computer systems and networks from information disclosure, theft, damage, and disruption of services."
             />

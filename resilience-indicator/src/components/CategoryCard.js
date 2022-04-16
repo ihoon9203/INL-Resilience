@@ -94,8 +94,9 @@ const CategoryCard = function CategoryCardFunc({
               // If survey not taken or guest user
               if (cardscore === 0 || !login) {
                 return (
-                  <>
-                  </>
+                  <Link className="review-survey-button" to={`/take-survey/${cardCat}`}>
+                    <button type="button" className="improvment-plan">TAKE SURVEY</button>
+                  </Link>
                 );
               }
               return (
@@ -118,7 +119,7 @@ const CategoryCard = function CategoryCardFunc({
                       <img src={icon} alt="category icon" />
                     </div>
                     <div className="card-incomplete">
-                      <img src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/50/000000/external-alert-warehouse-xnimrodx-lineal-gradient-xnimrodx.png" alt="alert icon" />
+                      <img src=".../../assets/alert.png" alt="alert icon" />
                       SURVEY INCOMPLETE.
                     </div>
                     <p className="card-incomplete-txt">
@@ -146,7 +147,7 @@ const CategoryCard = function CategoryCardFunc({
                       <Link className="review-survey-button" to={`/review-survey/${cardCat}`}>
                         <button type="button" className="review-survey">REVIEW SURVEY</button>
                       </Link>
-                      <div className="card-subtitle" style={{ paddingTop: '40px' }}>IMPROVEMENT PLAN</div>
+                      <div className="card-subtitle" style={{ paddingTop: '48px', paddingBottom: '20px' }}>IMPROVEMENT PLAN</div>
                       <Link className="review-survey-button" to={`/improvement-plan/${cardCat}`}>
                         <button type="button" className="improvment-plan">VIEW IMPROVEMENT PLAN</button>
                       </Link>
@@ -168,14 +169,16 @@ const CategoryCard = function CategoryCardFunc({
                     <div className="card-subtitle">GOALS</div>
                     <div>
                       {Object.keys(goals).slice(0, 3).map((goal) => (
-                        <div className="card-goals">
-                          <img src="https://img.icons8.com/nolan/64/benzene-ring.png" alt="hexagon icon" />
+                        <div className="card-goals" style={{ marginTop: '20px' }}>
+                          <img src=".../../assets/benzene.png" alt="hexagon icon" />
                           {goal}
                         </div>
                       ))}
-                      <Link className="review-survey-button" to="/goals">
-                        <button type="button" className="improvment-plan">VIEW GOALS</button>
-                      </Link>
+                      <div style={{ marginTop: '30px' }}>
+                        <Link className="review-survey-button" to="/goals">
+                          <button type="button" className="improvment-plan">VIEW GOALS</button>
+                        </Link>
+                      </div>
                     </div>
                   </>
                 );
@@ -204,7 +207,7 @@ const CategoryCard = function CategoryCardFunc({
                 <>
                   <h1 className="card-score-sm" style={{ paddingLeft: '40px' }}>{cardscore}</h1>
                   <div className="card-incomplete">
-                    <img src="https://img.icons8.com/external-xnimrodx-lineal-gradient-xnimrodx/50/000000/external-alert-warehouse-xnimrodx-lineal-gradient-xnimrodx.png" alt="alert icon" />
+                    <img src=".../../assets/alert.png" alt="alert icon" />
                     NO GOALS EXIST YET.
                   </div>
                   <p className="card-incomplete-txt">
