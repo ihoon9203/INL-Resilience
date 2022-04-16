@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useLocation } from 'react-router-dom';
-// eslint-disable-next-line import/no-unresolved
 import ReactToPrint from 'react-to-print';
 import {
   Button, Box, CssBaseline, Grid, Typography,

@@ -117,7 +117,7 @@ function AdminEmailNotifications() {
   const [updateSecondParagraphError, setUpdateSecondParagraphError] = useState(false);
 
   const [mobileView, setMobileView] = useState({
-    title: 7, item: 1.5, dpBoxStyle: '', dpStyle: '',
+    title: 6, item: 1.5, dpBoxStyle: '', dpStyle: '',
   });
   const onSelectionModelChange = (modelChange) => {
     setSelectionModel(modelChange);

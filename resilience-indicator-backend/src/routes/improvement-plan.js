@@ -2,10 +2,11 @@ const express = require('express');
 const { ensureLoggedIn } = require('connect-ensure-login');
 const { Sequelize } = require('sequelize');
 const sequelize = require('../models/index');
+
 const { Op } = Sequelize;
 
 const {
-  Survey, Answer, Question, Subcategory, CorrectAnswer, PossibleAnswer, ImprovementPlan,
+  Survey, Answer, Question, Subcategory, PossibleAnswer, ImprovementPlan,
 } = sequelize.models;
 const router = express.Router();
 
@@ -71,8 +72,8 @@ router.get(
       where: {
         '$Question->Subcategory->Survey.category$': req.params.survey,
         improvementPlanId: {
-          [Op.ne]: null
-        }
+          [Op.ne]: null,
+        },
       },
     });
 

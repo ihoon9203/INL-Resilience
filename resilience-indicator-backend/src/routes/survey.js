@@ -195,20 +195,17 @@ router.post(
     const userAnswersCopy = [...userAnswers];
     if (preExistingUserAnswers.length !== 0) {
       // update pre-existing answers
-      /* eslint-disable no-await-in-loop */
-      for (const p of preExistingUserAnswers) {
+      preExistingUserAnswers.forEach(async (p) => {
         const newAnswer = userAnswers.find((a) => a.questionId === p.Question.id);
         p.answer = newAnswer.answer;
         const saveNewAnswer = await p.save();
         // remove the userAnswer that we found
-        const index = userAnswersCopy.findIndex(object => {
-          return object.questionId === newAnswer.questionId;
-        });
+        const index = userAnswersCopy.findIndex((object) => object.questionId === newAnswer.questionId);
         if (index !== -1) {
           userAnswersCopy.splice(index, 1);
         }
         if (!saveNewAnswer) res.status(500).json({ error: 'Cannot save new answer at the moment!' });
-      };
+      });
 
       // Now add any left over answers that may not have been a pre-existing answer
       if (userAnswersCopy.length > 0) {
@@ -329,6 +326,7 @@ router.post(
     }
 
     return res.status(200).json({ possibleAnswers });
-  });
+  },
+);
 
 module.exports = router;
