@@ -88,7 +88,16 @@ const CategoryCard = function CategoryCardFunc({
       <div className="card-main">
         <div className="card-section is-active" cardid={cardCat} id="about">
           <div className="card-content">
-            <div className="card-subtitle">ABOUT</div>
+            {(() => {
+              if (!login) {
+                return (
+                  <div className="card-subtitle">CATEGORY DETAILS</div>
+                );
+              }
+              return (
+                <div className="card-subtitle">ABOUT</div>
+              );
+            })()}
             <p className="card-desc">{description}</p>
             {(() => {
               // If survey not taken or guest user
@@ -226,11 +235,20 @@ const CategoryCard = function CategoryCardFunc({
           </div>
         </div>
 
-        <div className="card-buttons">
-          <button type="button" id={cardCat} data-section="#about" className="is-active" onClick={(e) => toggleClass(e, cardCat)}>ABOUT</button>
-          <button type="button" id={cardCat} data-section="#experience" onClick={(e) => toggleClass(e, cardCat)}>EXPERIENCE</button>
-          <button type="button" id={cardCat} data-section="#goals" onClick={(e) => toggleClass(e, cardCat)}>GOALS</button>
-        </div>
+        {(() => {
+          if (!login) {
+            return null;
+          }
+          // only show other buttons for logged in users
+          return (
+            <div className="card-buttons">
+              <button type="button" id={cardCat} data-section="#about" className="is-active" onClick={(e) => toggleClass(e, cardCat)}>ABOUT</button>
+              <button type="button" id={cardCat} data-section="#experience" onClick={(e) => toggleClass(e, cardCat)}>EXPERIENCE</button>
+              <button type="button" id={cardCat} data-section="#goals" onClick={(e) => toggleClass(e, cardCat)}>GOALS</button>
+            </div>
+          );
+        })()}
+
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ module.exports = {
     const password = 'password';
     const hashedPassword = await bcrypt.hash(password, 10);
     const users = [
-      ['john@mail.com', hashedPassword, 1, 1],
+      ['resilience@inl.gov', hashedPassword, 1, 1],
       ['peter@mail.com', hashedPassword, 0, 2],
       ['amy@mail.com', hashedPassword, 0, 3],
       ['hannah@mail.com', hashedPassword, 0, 4],
