@@ -126,7 +126,8 @@ const AchievementCard = function AchievementCardFunc(props) {
         break;
       default:
         setImg('./assets/nocat_badge.png');
-        setCategory('N/A');
+        setCategory('General');
+        setNewCat('General');
         break;
       }
     }
